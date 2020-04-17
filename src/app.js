@@ -31,7 +31,8 @@ var app = new Vue({
     methods: {
         init () {
             let path = window.location.pathname;
-            path = "oss.achirou.workers.dev/Movies/";
+            path = "/api/"+path;
+            // path = "oss.achirou.workers.dev/Movies/";
             this.$refs.navbar.siteName = document.getElementsByTagName('title')[0].innerText
             this.render(path);
         },

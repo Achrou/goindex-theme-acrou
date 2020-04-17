@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import axios from 'axios'
+import qs from 'qs';
 
 var list = Vue.component("list", {
   data: function () {
     return {
       files: [],
+      loading: true,
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -20,129 +22,9 @@ var list = Vue.component("list", {
   },
   methods: {
     render (path) {
+      this.loading = true
       var password = localStorage.getItem('password' + path);
-      axios.post(path, { password: password }).then(res => {
-        res.data = [
-          {
-            id: "1A9IFKx3m40VSlFejm1KCJ5w51JxjqzUy",
-            name: "Bad.Boys.for.Life.2020.1080p.HDRip.x264.AAC2.0-STUTTERSHIT",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-01T20:10:29.875Z",
-          },
-          {
-            id: "1UvBiMgXL2Lb15LHzJ_sK8a3VNLVynv6_",
-            name: "Chung.King.Express.1994.CHINESE.1080p.BluRay.H264.AAC-VXT",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-13T19:46:26.447Z",
-          },
-          {
-            id: "1yE1K_iP3qepikTGZSPJbHh1xt0E699z9",
-            name: "Just.Mercy.2019.1080p.WEBRip.x264-RARBG",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-01T19:37:16.045Z",
-          },
-          {
-            id: "1fy40Z_P7ZdPpqMJp8ddfLl0cIDcdeqQB",
-            name: "The Avengers (2012) [1080p]",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-10T20:12:43.899Z",
-          },
-          {
-            id: "10bcSdNU9oH-XK5UElI--apAzeiKIERtB",
-            name: "一树梨花压海棠.Lolita.1997.1080p.BluRay.x264.YIFY",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-10T02:41:02.206Z",
-          },
-          {
-            id: "1O3t9DUvYGeolHYXITtQh0z15m7Do34vi",
-            name: "乔乔的异想世界",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-01T07:41:50.884Z",
-          },
-          {
-            id: "14HGUpv2N3idF0Zju4lvUdPG7d34b4sn-",
-            name: "咒怨2020.The.Grudge.2020.720p.BRRip.XviD.AC3-XVID",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-02T14:15:35.852Z",
-          },
-          {
-            id: "1dicbCgG1iYnj6aUNWdbuAaTkH8wNW9an",
-            name: "小丑",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-01T10:35:51.349Z",
-          },
-          {
-            id: "1e3K0tB5bt-3RFocTaYb26IJ5X8PFiuM1",
-            name: "梨泰院Class",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-03-14T14:41:04.173Z",
-          },
-          {
-            id: "13sciJs9Zm8fKLk8_wkSHfT1sbKknaC7I",
-            name: "汉尼拔",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-02T14:14:42.063Z",
-          },
-          {
-            id: "1cR5rueFLK0KnKlTf76AQqCU5i-OKUvVU",
-            name: "沉默的羔羊",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-01T00:41:17.477Z",
-          },
-          {
-            id: "1kFBePc6OrTKR0FcYpMrK9B62SblJ4YqD",
-            name:
-              "波西米亚狂想曲.Bohemian.Rhapsody.2018.1080p.WEB-DL.x264.[1.9GB].[MP4]",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-02T14:15:12.582Z",
-          },
-          {
-            id: "15NsNhohRjjL6a6LdVFE-03Jlay6-QWV3",
-            name: "王国2",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-03-18T02:20:11.308Z",
-          },
-          {
-            id: "18Luznm_h7GisB2UajcyyMPAQnW_FxGgS",
-            name: "西部世界 第三季",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-02T14:13:57.810Z",
-          },
-          {
-            id: "1r9tggRgDZLpLEu3juNoQ2UFtyWqALm4v",
-            name: "饥饿站台",
-            mimeType: "application/vnd.google-apps.folder",
-            modifiedTime: "2020-04-01T00:41:34.910Z",
-          },
-          {
-            id: "1cFvZDdJtXk2i-VR43FqlQg_oc6-gMf2N",
-            name: "Billie Eilish - bad guy (Donald Trump Cover).webm",
-            mimeType: "video/webm",
-            modifiedTime: "2020-04-11T15:56:59.907Z",
-            size: "19577958",
-          },
-          {
-            id: "18wm2d9d8fe5KljHCleOtBAjShhZTwyYm",
-            name: "HEAD.md",
-            mimeType: "text/plain",
-            modifiedTime: "2020-04-02T02:58:58.272Z",
-            size: "91",
-          },
-          {
-            id: "1SlojtUkokn7Qpg1hM9OT8JBzZ_reE7Tw",
-            name: "README.md",
-            mimeType: "text/markdown",
-            modifiedTime: "2020-04-04T04:49:28.988Z",
-            size: "447",
-          },
-          {
-            id: "1hr2_kE3tRGUUiVMJTGolDqDmV154M0iR",
-            name: "绅士们.The Gentlemen.2020.1080P.mp4",
-            mimeType: "video/mp4",
-            modifiedTime: "2020-03-29T06:41:16.000Z",
-            size: "1640995589",
-          },
-        ];
+      axios.post(path, qs.stringify({ password: password })).then(res => {
         var data = res.data
         if (typeof data != 'null' && data.hasOwnProperty('error') && data.error.code == '401') {
           var pass = prompt("目录加密，请输入密码", "");
@@ -168,7 +50,13 @@ var list = Vue.component("list", {
             }
           })
         }
+        this.loading = false
+      }).catch(ex=>{
+        this.loading = false
       })
+    },
+    go(path){
+      location.href = path
     },
     //时间转换
     utc2beijing (utc_datetime) {
@@ -233,6 +121,8 @@ var list = Vue.component("list", {
     },
   },
   template: `
+    <div>
+      <progress v-if="loading" class="progress is-small is-primary" style="height: .25rem;" max="100">15%</progress>
       <table class="table is-hoverable" style="width: 100%;">
           <thead>
           <tr>
@@ -242,7 +132,7 @@ var list = Vue.component("list", {
           </tr>
           </thead>
           <tbody>
-          <tr v-for="file in files">
+          <tr v-for="file in files" @click="go(file.path)">
               <td>
               <svg class="icon" aria-hidden="true">
                   <use :xlink:href="getIcon(file.mimeType)"></use>
@@ -254,6 +144,7 @@ var list = Vue.component("list", {
           </tr>
           </tbody>
       </table>
+      </div>
     `
 });
 
