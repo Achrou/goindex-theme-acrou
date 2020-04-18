@@ -4,8 +4,9 @@
   "description": "This is a goindex template",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack-dev-server"
+    "build:dev": "webpack --config webpack/dev.config.js",
+    "build:prod": "webpack --config webpack/prod.config.js",
+    "dev": "webpack-dev-server --config webpack/dev.config.js"
   },
   "repository": {
     "type": "git",
@@ -17,12 +18,12 @@
     "url": "https://github.com/Aicirou/goindex-theme-acrou/issues"
   },
   "homepage": "https://github.com/Aicirou/goindex-theme-acrou#readme",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "vue": "^2.6.11"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "axios": "^0.19.2",
     "html-webpack-plugin": "^4.2.0",
+    "vue": "^2.6.11",
+    "vue2-ace-editor": "0.0.15",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"

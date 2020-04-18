@@ -25,7 +25,7 @@ let navbar = Vue.component("navbar", {
                               <div class="navbar-item">
                                   <div class="field is-grouped">
                                       <p class="control has-icons-left has-icons-right">
-                                          <input class="input is-rounded" type="text" placeholder="输入搜索关键词">
+                                          <input class="input is-rounded has-text-grey" type="text" placeholder="输入搜索关键词">
                                           <span class="icon is-small is-left">
                                               <i class="fas fa-search"></i>
                                           </span>
