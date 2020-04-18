@@ -1,15 +1,25 @@
-import Vue from 'vue'
+import Vue from "vue";
 
 let navbar = Vue.component("navbar", {
-    data: function () {
-      return {};
+  data: function () {
+    return {
+      siteName: "",
+      param: "",
+    };
+  },
+  methods: {
+    query() {
+        if(this.param){
+            location.href = "/?q=" + this.param;
+        }
     },
-    template: `
+  },
+  template: `
               <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
                   <div class="container">
                       <div class="navbar-brand">
                           <a class="navbar-item" href="">
-                              <h3 class="title is-3 has-text-white">Achirou's Cloud</h3>
+                              <h3 class="title is-3 has-text-white">{{siteName}}</h3>
                           </a>
                           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
                               <span aria-hidden="true"></span>
@@ -25,7 +35,7 @@ let navbar = Vue.component("navbar", {
                               <div class="navbar-item">
                                   <div class="field is-grouped">
                                       <p class="control has-icons-left has-icons-right">
-                                          <input class="input is-rounded has-text-grey" type="text" placeholder="输入搜索关键词">
+                                          <input class="input is-rounded has-text-grey" @keyup.enter="query" v-model="param" type="text" placeholder="输入搜索关键词">
                                           <span class="icon is-small is-left">
                                               <i class="fas fa-search"></i>
                                           </span>
@@ -40,6 +50,6 @@ let navbar = Vue.component("navbar", {
                   </div>
               </nav>
           `,
-  });
+});
 
-export default navbar
+export default navbar;

@@ -29,7 +29,7 @@ module.exports = {
     open: true,
     proxy: {
       "/api": {
-        target: "https://ossdev.achirou.workers.dev/",
+        target: "https://oss.achirou.workers.dev/",
         ws: true,
         changeOrigin: true,
         pathRewrite: {
@@ -39,6 +39,7 @@ module.exports = {
       "/**": {
         target: "http://127.0.0.1:4000/",
         pathRewrite: function (path, req) {
+          console.log(path)
           if (path.indexOf("/app.js") > 0) {
             return "/app.js";
           }

@@ -1,6 +1,9 @@
 import axios from "axios";
 
 export const getQueryString = (path, param) => {
+  if (!path) {
+    return "";
+  }
   var args = getURLParameters(path);
   return args[param] ? args[param] : "";
 };

@@ -9,9 +9,21 @@ var list = Vue.component("list", {
       loading: false,
       columns: [
         { name: "文件", style: "" },
-        { name: "修改时间", style: "width:20%", class: "is-hidden-mobile is-hidden-touch" },
-        { name: "大小", style: "width:10%", class: "is-hidden-mobile is-hidden-touch" },
-        { name: "下载", style: "width:6%", class: "is-hidden-mobile is-hidden-touch" },
+        {
+          name: "修改时间",
+          style: "width:20%",
+          class: "is-hidden-mobile is-hidden-touch",
+        },
+        {
+          name: "大小",
+          style: "width:10%",
+          class: "is-hidden-mobile is-hidden-touch",
+        },
+        {
+          name: "下载",
+          style: "width:6%",
+          class: "is-hidden-mobile is-hidden-touch",
+        },
       ],
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
@@ -27,15 +39,12 @@ var list = Vue.component("list", {
     };
   },
   methods: {
-    render(path) {
-      if (path.substr(path.length - 1, 1) !== "/") {
-        path += "/";
-      }
+    render(path, param) {
       this.loading = true;
       var password = localStorage.getItem("password" + path);
 
       axios
-        .post(path, { password: password })
+        .post(path, { password: password, q: decodeURIComponent(param) })
         .then((res) => {
           var data = res.data;
           if (
@@ -71,41 +80,45 @@ var list = Vue.component("list", {
               "png",
               "gif",
             ];
-            this.files = data.files.map((item) => {
-              var p = path + item.name;
-              // REDEME.md
-              if (item.name === "README.md") {
-                this.$emit("head", {
-                  display: true,
-                  file: item,
-                  path: p,
-                });
-              }
+            try {
+              this.files = data.files.map((item) => {
+                var p = path + item.name;
+                // REDEME.md
+                // if (item.name === "README.md") {
+                //   this.$emit("head", {
+                //     display: true,
+                //     file: item,
+                //     path: p,
+                //   });
+                // }
 
-              // HEAD.md
-              // if (item.name === "HEAD.md") {
-              //   this.$emit("footer", {
-              //     display: true,
-              //     file: item,
-              //     path: p
-              //   });
-              // }
+                // HEAD.md
+                // if (item.name === "HEAD.md") {
+                //   this.$emit("footer", {
+                //     display: true,
+                //     file: item,
+                //     path: p
+                //   });
+                // }
 
-              var ext = p.split(".").pop();
-              if (exts.indexOf(`${ext}`) >= 0) {
-                p += "?a=view";
-              } else {
-                if (item.mimeType === "application/vnd.google-apps.folder") {
-                  p += "/";
+                var ext = p.split(".").pop();
+                if (exts.indexOf(`${ext}`) >= 0) {
+                  p += "?a=view";
+                } else {
+                  if (item.mimeType === "application/vnd.google-apps.folder") {
+                    p += "/";
+                  }
                 }
-              }
-              return {
-                path: p,
-                ...item,
-                modifiedTime: utc2beijing(item.modifiedTime),
-                size: formatFileSize(item.size),
-              };
-            });
+                return {
+                  path: p,
+                  ...item,
+                  modifiedTime: utc2beijing(item.modifiedTime),
+                  size: formatFileSize(item.size),
+                };
+              });
+            } catch (e) {
+              console.log(e);
+            }
           }
           this.loading = false;
         })

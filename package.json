@@ -4,6 +4,7 @@
   "description": "This is a goindex template",
   "main": "index.js",
   "scripts": {
+    "build": "npm run build:dev & npm run build:prod",
     "build:dev": "webpack --config webpack/dev.config.js",
     "build:prod": "webpack --config webpack/prod.config.js",
     "dev": "webpack-dev-server --config webpack/dev.config.js"

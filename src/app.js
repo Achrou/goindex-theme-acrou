@@ -1,5 +1,3 @@
-import navbar from "./common/navbar";
-import breadcrumb from "./common/breadcrumb";
 import layout from "./page/layout";
 import Vue from "vue";
 
@@ -26,58 +24,34 @@ document.write(`
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
-`)
+`);
 document.write('<div id="app"></div>');
 
 var app = new Vue({
   el: "#app",
   data: {
-    siteName: "",
-    _title: "",
+    config: {
+      siteName: "",
+      title: "",
+      path: "",
+    },
   },
   template: `
-        <div>
-            <navbar ref="navbar"></navbar>
-            <div class="container">
-                <breadcrumb ref="breadcrumb"></breadcrumb>
-                <layout ref="layout"></layout>
-            </div>
-        </div>
+        <layout ref="layout"></layout>
     `,
   components: {
-    navbar: navbar,
-    breadcrumb: breadcrumb,
     layout: layout,
   },
   methods: {
     init() {
       let path = window.location.pathname;
-      // path = "/api/"+path;
-      // path = "oss.achirou.workers.dev/Movies/";
-      this.$refs.navbar.siteName = document.getElementsByTagName(
+      this.config.path = path;
+      this.config.siteName = document.getElementsByTagName(
         "title"
       )[0].innerText;
-      this.render(path);
-    },
-    render(path) {
-      if (path.indexOf("?") > 0) {
-        path = path.substr(0, path.indexOf("?"));
-      }
-      this.title(path);
-      this.$refs.breadcrumb.render(path);
-      this.$refs.layout.render(path);
-      /* if (path.substr(-1) == "/") {
-                this.$refs.layout.path = path
-                this.$refs.layout.show = 'list'
-                // this.$refs.list.render(path);
-            } else {
-                // this.file(path);
-            } */
-    },
-    title(path) {
-      path = decodeURI(path);
-      this._title = this.siteName + "-" + path;
-    },
+      this.config.title = this.siteName + "-" + decodeURI(path);
+      this.$refs.layout.render(this.config);
+    }
   },
   created() {
     let favicon = document.createElement("link");
