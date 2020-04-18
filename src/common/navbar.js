@@ -18,7 +18,7 @@ let navbar = Vue.component("navbar", {
               <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
                   <div class="container">
                       <div class="navbar-brand">
-                          <a class="navbar-item" href="">
+                          <a class="navbar-item" href="/">
                               <h3 class="title is-3 has-text-white">{{siteName}}</h3>
                           </a>
                           <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
