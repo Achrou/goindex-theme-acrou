@@ -32,6 +32,9 @@ let navbar = Vue.component("navbar", {
                                       </p>
                                   </div>
                               </div>
+                              <a class="navbar-item" target="_blank" rel="noopener" title="Download on GitHub" href="https://github.com/Aicirou/goindex-theme-acrou">
+                                <i class="fab fa-github"></i> 
+                              </a>
                           </div>
                       </div>
                   </div>
