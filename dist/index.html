@@ -1,1 +1,10 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Achirou's Cloud</title><script src="app.mini.js"></script></head><body></body></html>
+<!doctype html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Achirou's Cloud</title><script>var authConfig = {
+        roots: [
+          {
+            id: "root",
+            name: "个人盘",
+            pass: "",
+          }
+        ],
+      };
+      window.gds = JSON.parse(JSON.stringify(authConfig.roots.map(it => it.name)));</script><script src="app.mini.js"></script></head><body></body></html>

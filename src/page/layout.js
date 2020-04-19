@@ -3,6 +3,7 @@ import navbar from "../common/navbar";
 import breadcrumb from "../common/breadcrumb";
 import govideo from "./video";
 import gohead from "../common/head";
+import gomarkdown from "../common/markdown";
 import list from "./list";
 import gotext from "./text";
 import { getQueryString, get_filex } from "../utils/AcrouUtil";
@@ -13,14 +14,16 @@ var layout = Vue.component("layout", {
       path: "",
       show: "list",
       text: { file: {}, path: "" },
-      head: { display: false, file: {}, path: "" },
-      footer: { display: false, file: {}, path: "" },
+      headmd: { display: false, file: {}, path: "" },
+      readmemd: { display: false, file: {}, path: "" },
     };
   },
   components: {
     navbar: navbar,
     breadcrumb: breadcrumb,
     gohead: gohead,
+    goheadmd: gomarkdown,
+    goreadmemd: gomarkdown,
     list: list,
     govideo: govideo,
     gotext: gotext,
@@ -58,17 +61,22 @@ var layout = Vue.component("layout", {
         }
       }
     },
-    setHead(val) {
-      this.head = val;
+    setHeadmd(val) {
+      this.headmd = val;
     },
+    setReadmemd(val){
+      this.readmemd = val;
+    }
   },
   template: `
     <div>
       <navbar ref="navbar"></navbar>
       <div class="container">
+        <goheadmd :option="headmd" v-show="headmd.display" style="padding-top: 10px;"></goheadmd>
         <breadcrumb ref="breadcrumb"></breadcrumb>
-        <gohead :option="head" v-show="head.display"></gohead>
-        <list ref="list" v-on:head="setHead" v-show="show=='list'"></list>
+        <list ref="list" v-on:headmd="setHeadmd" v-on:readmemd="setReadmemd" v-show="show=='list'"></list>
+        <hr/>
+        <goreadmemd :option="readmemd" v-show="readmemd.display"></goreadmemd>
         <govideo ref="govideo" v-show="show=='video'"></govideo>
         <gotext :option="text" v-show="show=='text'"></gotext>
       </div>

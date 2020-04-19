@@ -39,7 +39,6 @@ module.exports = {
       "/**": {
         target: "http://127.0.0.1:4000/",
         pathRewrite: function (path, req) {
-          console.log(path)
           if (path.indexOf("/app.js") > 0) {
             return "/app.js";
           }

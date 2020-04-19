@@ -1,17 +1,40 @@
 import Vue from "vue";
 
 let navbar = Vue.component("navbar", {
+  created() {
+    if (window.gds) {
+      this.gds = window.gds.map((item, index) => {
+        return {
+          name: item,
+          id: ":" + index + "/",
+        };
+      });
+    }
+  },
   data: function () {
     return {
       siteName: "",
       param: "",
+      currgd: {
+        name: "个人盘",
+        id: ":0/",
+      },
+      gds: [],
     };
   },
   methods: {
+    changeItem(item) {
+      this.currgd = item;
+    },
     query() {
-        if(this.param){
-            location.href = "/?q=" + this.param;
-        }
+      if (this.param) {
+        location.href = "/?q=" + this.param;
+      }
+    },
+  },
+  computed: {
+    getCurrGD() {
+      return this.gds.filter((item) => item.name !== this.currgd.name);
     },
   },
   template: `
@@ -29,6 +52,16 @@ let navbar = Vue.component("navbar", {
                       </div>
                       <div class="navbar-menu">
                           <div class="navbar-start">
+                            <div class="navbar-item has-dropdown is-hoverable" v-if="gds.length>0">
+                                <a class="navbar-link">
+                                    {{this.currgd.name}}
+                                </a>
+                                <div class="navbar-dropdown is-boxed">
+                                    <a class="navbar-item" @click="changeItem(item)" v-for="item in getCurrGD">
+                                        {{item.name}}
+                                    </a>
+                                </div>
+                            </div>
                           </div>
   
                           <div class="navbar-end">

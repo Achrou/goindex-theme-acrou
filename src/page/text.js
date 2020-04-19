@@ -10,7 +10,6 @@ var gotext = Vue.component("gotext", {
   },
   watch: {
     option(val) {
-      // this.$refs.myEditor.editor.
       this.content = "加载中...";
       get_file(this.option, (data) => {
         this.content = data;

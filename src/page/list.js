@@ -83,23 +83,22 @@ var list = Vue.component("list", {
             try {
               this.files = data.files.map((item) => {
                 var p = path + item.name;
-                // REDEME.md
-                // if (item.name === "README.md") {
-                //   this.$emit("head", {
-                //     display: true,
-                //     file: item,
-                //     path: p,
-                //   });
-                // }
-
                 // HEAD.md
-                // if (item.name === "HEAD.md") {
-                //   this.$emit("footer", {
-                //     display: true,
-                //     file: item,
-                //     path: p
-                //   });
-                // }
+                if (item.name === "HEAD.md") {
+                  this.$emit("headmd", {
+                    display: true,
+                    file: item,
+                    path: p
+                  });
+                }
+                // REDEME.md
+                if (item.name === "README.md") {
+                  this.$emit("readmemd", {
+                    display: true,
+                    file: item,
+                    path: p,
+                  });
+                }
 
                 var ext = p.split(".").pop();
                 if (exts.indexOf(`${ext}`) >= 0) {
