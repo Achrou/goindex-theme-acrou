@@ -2,23 +2,21 @@ import Vue from "vue";
 
 let navbar = Vue.component("navbar", {
   created() {
-    if (window.gds) {
+    if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {
         return {
           name: item,
           id: ":" + index + "/",
         };
       });
+      this.currgd = this.gds[0];
     }
   },
   data: function () {
     return {
       siteName: "",
       param: "",
-      currgd: {
-        name: "个人盘",
-        id: ":0/",
-      },
+      currgd: {},
       gds: [],
     };
   },
@@ -52,7 +50,7 @@ let navbar = Vue.component("navbar", {
                       </div>
                       <div class="navbar-menu">
                           <div class="navbar-start">
-                            <div class="navbar-item has-dropdown is-hoverable" v-if="gds.length>0">
+                            <div class="navbar-item has-dropdown is-hoverable" v-if="gds.length>0 && getCurrGD.length>0">
                                 <a class="navbar-link">
                                     {{this.currgd.name}}
                                 </a>
