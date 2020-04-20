@@ -6,6 +6,8 @@ import gohead from "../common/head";
 import gomarkdown from "../common/markdown";
 import list from "./list";
 import gotext from "./text";
+import goimg from "./img";
+import gofooter from "../common/footer";
 import { getQueryString, get_filex } from "../utils/AcrouUtil";
 
 var layout = Vue.component("layout", {
@@ -27,6 +29,8 @@ var layout = Vue.component("layout", {
     list: list,
     govideo: govideo,
     gotext: gotext,
+    goimg: goimg,
+    gofooter: gofooter,
   },
   methods: {
     render(config) {
@@ -56,8 +60,8 @@ var layout = Vue.component("layout", {
         }
 
         if ("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0) {
-          console.log("file_image");
-          // return file_image(path);
+          this.show = "img";
+          this.$refs.goimg.render(path);
         }
       }
     },
@@ -79,6 +83,8 @@ var layout = Vue.component("layout", {
         <goreadmemd :option="readmemd" v-show="readmemd.display"></goreadmemd>
         <govideo ref="govideo" v-show="show=='video'"></govideo>
         <gotext :option="text" v-show="show=='text'"></gotext>
+        <goimg ref="goimg" v-show="show=='img'"></goimg>
+        <gofooter></gofooter>
       </div>
     </div>
   `,
