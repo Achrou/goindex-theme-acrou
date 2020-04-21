@@ -11,7 +11,8 @@ Combining the power of [Cloudflare Workers](https://workers.cloudflare.com/) and
 acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/) 
 
 ## 使用
-主题文件在dist目录可以下载下来上传到自己cdn或者使用下面的链接也可
+
+主题文件在dist目录可以下载下来上传到自己cdn或者使用下面的链接也可以
 修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
 
 ## Deployment  
