@@ -16,7 +16,7 @@ acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
 
-goindex作者的`index.js`不支持搜索，需要搜索功能请使用[index.js](https://oss.achirou.workers.dev/go2index/index.js)
+goindex作者的`index.js`不支持搜索，需要搜索功能请使用[index.js](https://oss.achirou.workers.dev/go2index/index.js?a=view)
 
 ## Deployment  
 1.Install `rclone` software locally  
