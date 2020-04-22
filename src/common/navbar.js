@@ -18,6 +18,7 @@ let navbar = Vue.component("navbar", {
       param: "",
       currgd: {},
       gds: [],
+      isActive: false
     };
   },
   methods: {
@@ -29,6 +30,9 @@ let navbar = Vue.component("navbar", {
         location.href = "/?q=" + this.param;
       }
     },
+    burgerClick(){
+      this.isActive = !this.isActive
+    }
   },
   computed: {
     getCurrGD() {
@@ -42,13 +46,14 @@ let navbar = Vue.component("navbar", {
                           <a class="navbar-item" href="/">
                               <h3 class="title is-3 has-text-white">{{siteName}}</h3>
                           </a>
-                          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+                          <a role="button" :class="'navbar-burger burger '+(isActive?'is-active':'')" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample"
+                          @click="burgerClick">
                               <span aria-hidden="true"></span>
                               <span aria-hidden="true"></span>
                               <span aria-hidden="true"></span>
                           </a>
                       </div>
-                      <div class="navbar-menu">
+                      <div id="navbarBasicExample" :class="'navbar-menu '+(isActive?'is-active':'')">
                           <div class="navbar-start">
                             <div class="navbar-item has-dropdown is-hoverable" v-if="gds.length>0 && getCurrGD.length>0">
                                 <a class="navbar-link">
@@ -65,7 +70,7 @@ let navbar = Vue.component("navbar", {
                           <div class="navbar-end">
                               <div class="navbar-item">
                                   <div class="field is-grouped">
-                                      <p class="control has-icons-left">
+                                      <p class="control has-icons-left" style="width:100%;">
                                           <input class="input is-rounded has-text-grey" @keyup.enter="query" v-model="param" type="search" placeholder="Search or jump to…">
                                           <span class="icon is-small is-left">
                                               <i class="fas fa-search"></i>

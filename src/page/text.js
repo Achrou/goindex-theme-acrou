@@ -38,8 +38,8 @@ var gotext = Vue.component("gotext", {
     },
   },
   template: `
-  <div>
-    <editor ref="myEditor" v-model="content" @init="editorInit" lang="html" theme="chrome" width="100%" height="600"></editor>
+    <div class="content">
+      <editor ref="myEditor" v-model="content" @init="editorInit" lang="html" theme="chrome" width="100%" height="600"></editor>
     </div>
   `,
 });

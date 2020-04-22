@@ -21,7 +21,7 @@ var govideo = Vue.component("govideo", {
     },
   },
   template: `
-    <div>
+    <div class="content">
         <iframe width="100%" height="600px;" :src="apiurl" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
         <div class="card">
             <header class="card-header">

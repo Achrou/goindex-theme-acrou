@@ -138,7 +138,7 @@ var list = Vue.component("list", {
   template: `
     <div>
       <progress v-if="loading" class="progress is-small is-primary" style="height: .25rem;" max="100">15%</progress>
-      <table class="table is-hoverable" style="width:100%;">
+      <table class="table is-hoverable">
           <thead>
           <tr>
               <th v-for="column in columns" :class="column.class" :style="column.style">{{column.name}}</th>

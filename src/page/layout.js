@@ -75,17 +75,19 @@ var layout = Vue.component("layout", {
   template: `
     <div>
       <navbar ref="navbar"></navbar>
-      <div class="container">
-        <goheadmd :option="headmd" v-show="headmd.display" style="padding-top: 10px;"></goheadmd>
-        <breadcrumb ref="breadcrumb"></breadcrumb>
-        <list ref="list" v-on:headmd="setHeadmd" v-on:readmemd="setReadmemd" v-show="show=='list'"></list>
-        <hr/>
-        <goreadmemd :option="readmemd" v-show="readmemd.display"></goreadmemd>
-        <govideo ref="govideo" v-show="show=='video'"></govideo>
-        <gotext :option="text" v-show="show=='text'"></gotext>
-        <goimg ref="goimg" v-show="show=='img'"></goimg>
-        <gofooter></gofooter>
-      </div>
+      <section class="section">
+        <div class="container">
+          <goheadmd :option="headmd" v-show="headmd.display"></goheadmd>
+          <breadcrumb ref="breadcrumb"></breadcrumb>
+          <list ref="list" v-on:headmd="setHeadmd" v-on:readmemd="setReadmemd" v-show="show=='list'"></list>
+          <hr/>
+          <goreadmemd :option="readmemd" v-show="readmemd.display"></goreadmemd>
+          <govideo ref="govideo" v-show="show=='video'"></govideo>
+          <gotext :option="text" v-show="show=='text'"></gotext>
+          <goimg ref="goimg" v-show="show=='img'"></goimg>
+          <gofooter></gofooter>
+        </div>
+      </section>
     </div>
   `,
 });
