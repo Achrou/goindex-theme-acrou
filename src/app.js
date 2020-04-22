@@ -1,5 +1,5 @@
-import layout from "./page/layout";
 import Vue from "vue";
+import layout from "./page/layout";
 
 var styles = [
   'https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css',

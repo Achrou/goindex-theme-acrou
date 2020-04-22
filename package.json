@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "build": "npm run build:dev & npm run build:prod",
-    "build:dev": "webpack --config webpack/dev.config.js",
+    "build:dev": "cross-env GOINEX_APP_API=/api webpack --config webpack/dev.config.js",
     "build:prod": "webpack --config webpack/prod.config.js",
-    "dev": "webpack-dev-server --config webpack/dev.config.js"
+    "dev": "cross-env GOINEX_APP_API=/api webpack-dev-server --config webpack/dev.config.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,7 @@
   "dependencies": {},
   "devDependencies": {
     "axios": "^0.19.2",
+    "cross-env": "^7.0.2",
     "html-webpack-plugin": "^4.2.0",
     "vue": "^2.6.11",
     "vue2-ace-editor": "0.0.15",

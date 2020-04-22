@@ -20,6 +20,11 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({ template: "./src/index.html", inject: "head" }),
+    new webpack.DefinePlugin({
+      "process.env": {
+        GOINEX_APP_API: JSON.stringify(process.env.GOINEX_APP_API),
+      },
+    }),
   ],
   mode: "development",
   devServer: {

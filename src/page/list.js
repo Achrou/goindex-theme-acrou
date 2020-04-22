@@ -1,5 +1,5 @@
 import Vue from "vue";
-import axios from "axios";
+import axios from "../utils/axios";
 import { utc2beijing, formatFileSize } from "../utils/AcrouUtil";
 
 var list = Vue.component("list", {
