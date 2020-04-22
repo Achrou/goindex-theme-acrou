@@ -5,20 +5,41 @@ var govideo = Vue.component("govideo", {
     return {
       apiurl: "",
       videourl: "",
-      thunder: "",
+      players: [
+        {
+          name: 'IINA',
+          icon: 'https://www.iina.io/images/iina-icon-60.png',
+          scheme: 'iina://weblink?url='
+        },
+        {
+          name: 'PotPlayer',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/potplayer.png',
+          scheme: 'potplayer://'
+        },
+        {
+          name: 'VLC',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/vlc.png',
+          scheme: 'vlc://'
+        },
+        {
+          name: 'Thunder',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/thunder.png',
+          scheme: 'thunder://'
+        }
+      ]
     };
   },
   methods: {
     render(path) {
       this.videourl = window.location.origin + path;
-    //   this.videourl =
-    //     "https://oss.achirou.workers.dev/Movies/梨泰院Class/梨泰院Class.Itaewon.Class.EP01.2020.1080P.X264.AAC.CHS.mp4";
       this.apiurl =
         "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
-      this.thunder =
-        "thunder://" +
-        Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
     },
+  },
+  computed: {
+    getThunder() {
+      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64")
+    }
   },
   template: `
     <div class="content">
@@ -34,14 +55,18 @@ var govideo = Vue.component("govideo", {
             </header>
             <div class="card-content">
                 <div class="content">
-                    <a :href="'iina://weblink?url='+videourl">
-                        <img class="icon" src="https://www.iina.io/images/iina-icon-60.png" />
-                    </a>
-                    <a :href="thunder">
-                        <svg class="icon" aria-hidden="true">
-                            <use xlink:href="#icon-xunlei"></use>
-                        </svg>
-                    </a>  
+                  <div class="columns is-mobile is-multiline has-text-centered">
+                    <div class="column" v-for="item in players">
+                      <p class="heading">
+                        <a :href="item.scheme+(item.name==='Thunder'?getThunder:videourl)">
+                          <figure class="image is-48x48" style="margin: 0 auto;">
+                            <img class="icon" :src="item.icon" />
+                          </figure>
+                        </a>
+                      </p>
+                      <p class="">{{item.name}}</p>
+                    </div>
+                  </div>
                 </div>
             </div>  
         </div>
