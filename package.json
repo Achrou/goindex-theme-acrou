@@ -8,8 +8,15 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.19.2",
+    "bulma": "^0.8.2",
     "core-js": "^3.6.4",
-    "vue": "^2.6.11"
+    "markdown-it": "^10.0.0",
+    "node-sass": "^4.14.0",
+    "sass-loader": "^8.0.2",
+    "vue": "^2.6.11",
+    "vue-axios": "^2.1.5",
+    "vue2-ace-editor": "0.0.15"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

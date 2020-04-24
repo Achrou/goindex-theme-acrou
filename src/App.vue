@@ -1,28 +1,50 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Layout ref="layout" />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Layout from './view/Layout'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Layout
+  },
+  data: function () {
+    return {
+      config: {
+        siteName: "",
+        title: "",
+        path: "",
+      }
+    }
+  },
+  mounted () {
+    let favicon = document.createElement("link");
+    favicon.rel = "icon";
+    favicon.href =
+      "https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/favicon.ico";
+    document.getElementsByTagName("head")[0].appendChild(favicon);
+
+    let scripts = [
+      "https://at.alicdn.com/t/font_1760192_ud2z97y6kba.js"
+    ];
+    scripts.map((item) => {
+      let script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = item;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    });
+
+    let path = window.location.pathname;
+    this.config.path = path;
+    this.config.siteName = document.getElementsByTagName(
+      "title"
+    )[0].innerText;
+    this.config.title = this.siteName + "-" + decodeURI(path);
+    this.$refs.layout.render(this.config);
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
