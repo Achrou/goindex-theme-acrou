@@ -4,24 +4,24 @@
 
 [README](README.md) | [中文文档](README_zh.md)
 
-## Demo  
+## 预览  
 
 Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/) 
 
-## Use
+## 使用
 
-The theme files can be downloaded from the dist directory and uploaded to your own CDN or you can use the link below.
+主题文件在dist目录可以下载下来上传到自己cdn或者使用下面的链接也可以
 
-Modify the app.js used in index.js of goindex to (https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js).
+修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
 
-The goindex author's `index.js` does not support search. Use this [index.js](https://oss.achirou.workers.dev/go2index/index.js?a=view) if you need a search function.
+goindex作者的`index.js`不支持搜索，需要搜索功能请使用[index.js](https://oss.achirou.workers.dev/go2index/index.js?a=view)
 
-## TODO
+## 即将支持
 
-- [x] Drive switch
-- [ ] Pagination display
-- [ ] Picture list display
-- [ ] More file format preview
+- [x] 多盘切换
+- [ ] 分页显示
+- [ ] 图片列表显示
+- [ ] 更多文件格式预览
 
 GoIndex  
 ====
@@ -32,6 +32,7 @@ Combining the power of [Cloudflare Workers](https://workers.cloudflare.com/) and
 [index.js](https://github.com/donwa/goindex/) is the content of the Workers script.  
 
 ## Deployment  
+
 1.Install `rclone` software locally  
 2.Follow [https://rclone.org/drive/]( https://rclone.org/drive/) bind a drive  
 3.Execute the command`rclone config file` to find the file `rclone.conf` path  
@@ -40,6 +41,7 @@ Combining the power of [Cloudflare Workers](https://workers.cloudflare.com/) and
 6.Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)
 
 ## Quick Deployment  
+
 1.Open https://installen.gd.workers.dev/  
 2.Auth and get the code  
 3.Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)  
@@ -47,4 +49,5 @@ Combining the power of [Cloudflare Workers](https://workers.cloudflare.com/) and
 
 
 ## About  
+
 Cloudflare Workers allow you to write JavaScript which runs on all of Cloudflare's 150+ global data centers.  

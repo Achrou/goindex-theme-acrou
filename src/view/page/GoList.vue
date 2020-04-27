@@ -31,50 +31,29 @@
             class="is-hidden-mobile is-hidden-touch"
             v-if="file.mimeType!=='application/vnd.google-apps.folder'"
           >
+            <!-- <span class="icon" @click="copy(file.path)">
+              <i class="fa fa-copy" title="copy link" aria-hidden="true"></i>
+            </span> -->
             <span class="icon">
-              <i class="fa fa-download" @click="go(file.path,'down')"></i>
+              <i class="fa fa-download" title="Download" @click="go(file.path,'down')"></i>
             </span>
           </td>
         </tr>
       </tbody>
     </table>
     <div v-show="files.length==0" class="has-text-centered no-content"></div>
-    <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
-      <a class="pagination-previous">Previous</a>
-      <a class="pagination-next">Next page</a>
-      <ul class="pagination-list">
-        <li>
-          <a class="pagination-link" aria-label="Goto page 1">1</a>
-        </li>
-        <li>
-          <span class="pagination-ellipsis">&hellip;</span>
-        </li>
-        <li>
-          <a class="pagination-link" aria-label="Goto page 45">45</a>
-        </li>
-        <li>
-          <a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a>
-        </li>
-        <li>
-          <a class="pagination-link" aria-label="Goto page 47">47</a>
-        </li>
-        <li>
-          <span class="pagination-ellipsis">&hellip;</span>
-        </li>
-        <li>
-          <a class="pagination-link" aria-label="Goto page 86">86</a>
-        </li>
-      </ul>
-    </nav>
   </div>
 </template>
 
 <script>
 import { utc2beijing, formatFileSize } from "@utils/AcrouUtil";
 export default {
-  data: function () {
+  data: function() {
     return {
-      page: {},
+      page: {
+        page_token: null,
+        page_index: 0
+      },
       files: [],
       loading: false,
       columns: [
@@ -82,18 +61,18 @@ export default {
         {
           name: "修改时间",
           style: "width:20%",
-          class: "is-hidden-mobile is-hidden-touch",
+          class: "is-hidden-mobile is-hidden-touch"
         },
         {
           name: "大小",
-          style: "width:10%",
-          class: "is-hidden-mobile is-hidden-touch",
+          style: "width:10.5%",
+          class: "is-hidden-mobile is-hidden-touch"
         },
         {
           name: "下载",
           style: "width:6%",
-          class: "is-hidden-mobile is-hidden-touch",
-        },
+          class: "is-hidden-mobile is-hidden-touch"
+        }
       ],
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
@@ -104,36 +83,48 @@ export default {
         "text/plain": "icon-txt",
         "text/markdown": "icon-markdown",
         "text/x-ssa": "icon-ASS",
+        "text/html": "icon-html",
+        "text/x-python-script": "icon-python",
+        "text/x-java": "icon-java1",
+        "text/x-sh": "icon-SH",
         "application/x-subrip": "icon-srt",
-      },
+        "application/zip": "icon-zip",
+        "application/rar": "icon-rar",
+        "application/pdf": "icon-pdf",
+        "application/json": "icon-JSON1",
+        "application/x-yaml": "icon-YML",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "icon-word",
+        "image/bmp": "icon-img",
+        "image/jpeg": "icon-img",
+        "image/png": "icon-img"
+      }
     };
   },
   methods: {
-    render (path, param) {
+    render(path, param) {
       this.loading = true;
       var password = localStorage.getItem("password" + path);
       var p = {
+        q: param,
         password: password || null,
-        page_token: null,
-        page_index: 0
+        ...this.page
       };
       this.axios
         .post(path, p)
-        .then((res) => {
-          var data = res.data.data;
-          if (
-            typeof data != "null" &&
-            data.hasOwnProperty("error") &&
-            data.error.code == "401"
-          ) {
-            var pass = prompt("目录加密，请输入密码", "");
-            localStorage.setItem("password" + path, pass);
-            if (pass != null && pass != "") {
-              this.render(path);
-            } else {
-              history.go(-1);
+        .then(res => {
+          var body = res.data;
+          if (body) {
+            // 判断响应状态
+            if (body.error && body.error.code == "401") {
+              this.checkPassword(path);
+              return;
             }
-          } else if (typeof data != "null") {
+            let data = body.data;
+            if (!data) return;
+            this.page = {
+              page_token: body.nextPageToken,
+              page_index: body.curPageIndex
+            };
             var exts = [
               "html",
               "php",
@@ -142,6 +133,7 @@ export default {
               "java",
               "js",
               "json",
+              "py",
               "txt",
               "sh",
               "md",
@@ -152,17 +144,17 @@ export default {
               "jpg",
               "jpeg",
               "png",
-              "gif",
+              "gif"
             ];
             try {
-              this.files = data.files.map((item) => {
+              this.files = data.files.map(item => {
                 var p = path + item.name;
                 // HEAD.md
                 if (item.name === "HEAD.md") {
                   this.$emit("headmd", {
                     display: true,
                     file: item,
-                    path: p,
+                    path: p
                   });
                 }
                 // REDEME.md
@@ -170,7 +162,7 @@ export default {
                   this.$emit("readmemd", {
                     display: true,
                     file: item,
-                    path: p,
+                    path: p
                   });
                 }
 
@@ -186,7 +178,7 @@ export default {
                   path: p,
                   ...item,
                   modifiedTime: utc2beijing(item.modifiedTime),
-                  size: formatFileSize(item.size),
+                  size: formatFileSize(item.size)
                 };
               });
             } catch (e) {
@@ -195,19 +187,32 @@ export default {
           }
           this.loading = false;
         })
-        .catch((ex) => {
+        .catch(err => {
           this.loading = false;
         });
     },
-    go (path, type = "view") {
+    checkPassword(path) {
+      var pass = prompt("目录加密，请输入密码", "");
+      localStorage.setItem("password" + path, pass);
+      if (pass != null && pass != "") {
+        this.render(path);
+      } else {
+        history.go(-1);
+      }
+    },
+    copy(path) {
+      path = path.replace("?a=view", "");
+      // TODO
+    },
+    go(path, type = "view") {
       if (type === "down") {
         path = path.replace("?a=view", "");
       }
       location.href = path;
     },
-    getIcon (type) {
+    getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
-    },
+    }
   }
-}
+};
 </script>

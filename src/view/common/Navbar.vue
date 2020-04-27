@@ -2,7 +2,7 @@
   <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="container">
       <div class="navbar-brand">
-        <a class="navbar-item" href="/">
+        <a class="navbar-item" :href="currgd.id">
           <h3 class="title is-3 has-text-white">{{siteName}}</h3>
         </a>
         <a
@@ -70,18 +70,23 @@
 
 <script>
 export default {
-  created () {
+  created() {
     if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {
         return {
           name: item,
-          id: ":" + index + "/",
+          id: "/" + index + ":/"
         };
       });
-      this.currgd = this.gds[0];
+      this.currgd = localStorage.getItem("currgd")
+        ? JSON.parse(localStorage.getItem("currgd"))
+        : this.gds[0];
+    }
+    if (window.MODEL) {
+      this.param = window.MODEL.q ? window.MODEL.q : "";
     }
   },
-  data: function () {
+  data: function() {
     return {
       siteName: "",
       param: "",
@@ -91,22 +96,25 @@ export default {
     };
   },
   methods: {
-    changeItem (item) {
+    changeItem(item) {
       this.currgd = item;
+      localStorage.setItem("currgd", JSON.stringify(item));
+      location.href = item.id;
     },
-    query () {
+    query() {
       if (this.param) {
-        location.href = "/?q=" + this.param;
+        location.href =
+          this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param;
       }
     },
-    burgerClick () {
-      this.isActive = !this.isActive
+    burgerClick() {
+      this.isActive = !this.isActive;
     }
   },
   computed: {
-    getCurrGD () {
-      return this.gds.filter((item) => item.name !== this.currgd.name);
-    },
+    getCurrGD() {
+      return this.gds.filter(item => item.name !== this.currgd.name);
+    }
   }
-}
+};
 </script>

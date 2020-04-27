@@ -1,33 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <script>
+      var authConfig = {
+        roots: [
+          {
+            id: "0AEofxddwF4bAUk9PVA",
+            name: "TeamDrive",
+            pass: "",
+          },
+          {
+            id: "root",
+            name: "PriveDrive",
+            pass: "",
+          },
+        ],
+      };
+      window.gds = JSON.parse(
+        JSON.stringify(authConfig.roots.map((it) => it.name))
+      );
+      // window.MODEL = { q: "the" };
+    </script>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-  <title><%= htmlWebpackPlugin.options.title %></title>
-  <script>
-    var authConfig = {
-      roots: [
-        {
-          id: "team",
-          name: "TeamDrive",
-          pass: "",
-        },
-        {
-          id: "root",
-          name: "PriveDrive",
-          pass: "",
-        }
-      ],
-    };
-    window.gds = JSON.parse(JSON.stringify(authConfig.roots.map(it => it.name)));
-  </script>
-</head>
-
-<body>
-  <div id="app"></div>
-</body>
-
+  <body>
+    <div id="app"></div>
+  </body>
 </html>
