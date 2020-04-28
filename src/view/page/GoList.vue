@@ -187,7 +187,7 @@ export default {
           }
           this.loading = false;
         })
-        .catch(err => {
+        .catch(() => {
           this.loading = false;
         });
     },
@@ -200,10 +200,10 @@ export default {
         history.go(-1);
       }
     },
-    copy(path) {
-      path = path.replace("?a=view", "");
-      // TODO
-    },
+    // copy(path) {
+    //   path = path.replace("?a=view", "");
+    //   // TODO
+    // },
     go(path, type = "view") {
       if (type === "down") {
         path = path.replace("?a=view", "");

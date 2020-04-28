@@ -10,7 +10,7 @@ export default {
     option: {},
   },
   watch: {
-    option (val) {
+    option () {
       this.render()
     },
   },

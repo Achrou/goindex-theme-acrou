@@ -22,7 +22,7 @@ export default {
     },
   },
   watch: {
-    option (val) {
+    option () {
       this.content = "加载中...";
       get_file(this.option, (data) => {
         this.content = data;
@@ -35,19 +35,18 @@ export default {
     };
   },
   components: {
-    editor: require("vue2-ace-editor"),
+    editor: () => import('vue2-ace-editor'),
   },
   methods: {
-    render (path) { },
     editorInit (editor) {
       editor.setFontSize(18)
       editor.session.setUseWrapMode(false);
-      require("brace/ext/language_tools"); //language extension prerequsite...
-      require("brace/mode/html");
-      require("brace/mode/javascript"); //language
-      require("brace/mode/less");
-      require("brace/theme/chrome");
-      require("brace/snippets/javascript"); //snippet
+      () => import("brace/ext/language_tools"); //language extension prerequsite...
+      () => import("brace/mode/html");
+      () => import("brace/mode/javascript"); //language
+      () => import("brace/mode/less");
+      () => import("brace/theme/chrome");
+      () => import("brace/snippets/javascript"); //snippet
     },
   }
 }
