@@ -22,7 +22,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 由于`goindex`原作者已将`donwa/goindex`仓库删除，以后将在这个版本上[yanzai/goindex](https://github.com/yanzai/goindex)进行扩展修改
 
 1. 替换`index.js`为[index.js](https://ossdev.achirou.workers.dev/0:/go2index/index.js?a=view)
-2. 修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
+2. 修改goindex的index.js中所使用的app.js为(https://cloud.jsonpop.cn/go2index/last/app.mini.js)
 
 > 主题文件在dist目录
 
