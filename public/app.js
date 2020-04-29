@@ -12,10 +12,10 @@ var scripts = [
     'https://cdn.jsdelivr.net/npm/brace@0.11.1/mode/less.js',
     'https://cdn.jsdelivr.net/npm/brace@0.11.1/theme/chrome.js',
     'https://cdn.jsdelivr.net/npm/brace@0.11.1/snippets/javascript.js',
-    'https://cdn.jsdelivr.net/npm/vue2-ace-editor@0.0.15/index.min.js',
     'https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js',
-    'https://cloud.jsonpop.cn/go2index/dist/test/chunk-vendors.3ecd550f.js',
-    'https://cloud.jsonpop.cn/go2index/dist/test/app.066f1c02.js'
+    'https://cloud.jsonpop.cn/go2index/dist/test/chunk-vendors.fefb89d7.js',
+    'https://cloud.jsonpop.cn/go2index/dist/test/chunk-1de57003.56998a8f.js',
+    'https://cloud.jsonpop.cn/go2index/dist/test/app.7e7fe63d.js'
 ]
 
 styles.forEach(item => {

@@ -35,18 +35,18 @@ export default {
     };
   },
   components: {
-    editor: () => import('vue2-ace-editor'),
+    editor: import('@/components/ace-editor'),
   },
   methods: {
     editorInit (editor) {
       editor.setFontSize(18)
       editor.session.setUseWrapMode(false);
-      () => import("brace/ext/language_tools"); //language extension prerequsite...
-      () => import("brace/mode/html");
-      () => import("brace/mode/javascript"); //language
-      () => import("brace/mode/less");
-      () => import("brace/theme/chrome");
-      () => import("brace/snippets/javascript"); //snippet
+      import("brace/ext/language_tools"); //language extension prerequsite...
+      import("brace/mode/html");
+      import("brace/mode/javascript"); //language
+      import("brace/mode/less");
+      import("brace/theme/chrome");
+      import("brace/snippets/javascript"); //snippet
     },
   }
 }
