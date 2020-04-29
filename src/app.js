@@ -1,5 +1,8 @@
 import Vue from "vue";
 import layout from "./page/layout";
+import VueClipboard from 'vue-clipboard2'
+
+Vue.use(VueClipboard)
 
 var styles = [
   'https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css',
@@ -63,7 +66,7 @@ document.write(
       white-space: nowrap;
       vertical-align: middle;
     }
-    
+
     .no-content {
       background: url(https://s1.hdslb.com/bfs/static/jinkela/search/asserts/no-data.png) no-repeat 50% 50%;
       height: 240px;

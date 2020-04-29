@@ -1,6 +1,6 @@
 {
   "name": "goindex-theme-acrou",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is a goindex template",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,9 @@
     "url": "https://github.com/Aicirou/goindex-theme-acrou/issues"
   },
   "homepage": "https://github.com/Aicirou/goindex-theme-acrou#readme",
-  "dependencies": {},
+  "dependencies": {
+    "vue-clipboard2": "^0.3.1"
+  },
   "devDependencies": {
     "axios": "^0.19.2",
     "cross-env": "^7.0.2",
