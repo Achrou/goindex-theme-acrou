@@ -21,7 +21,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 Since the original author of `goindex` has deleted the `donwa/goindex` warehouse, the extension and modification will be made on this version [yanzai/goindex](https://github.com/yanzai/goindex) in the future
 
-1. Replace `index. js` with [index.js](https://ossdev.achirou.workers.dev/0:/go2index/index.js?a=view)
+1. Replace `index.js` with [index.js](https://ossdev.achirou.workers.dev/0:/go2index/index.js?a=view)
 2. Modify the app.js used in index.js of goindex to `https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js`
 
 > The theme file is in the dist directory
