@@ -6,10 +6,32 @@ let navbar = Vue.component("navbar", {
       this.gds = window.gds.map((item, index) => {
         return {
           name: item,
-          id: ":" + index + "/",
+          id: "/" + index + ":/"
         };
       });
-      this.currgd = this.gds[0];
+      
+      // 当前所在盘
+      this.currgd = localStorage.getItem("currgd") ?
+          JSON.parse(localStorage.getItem("currgd")) :
+          this.gds[0];
+
+      let path = window.location.pathname;
+      let id = path.match("/[0-9]+:")
+      if (id) {
+        id = id[0] + '/'
+        let currgd = this.gds.filter(item => {
+          return item.id === id
+        })
+        if(currgd){
+          this.currgd = currgd[0]
+          localStorage.setItem("currgd", JSON.stringify(currgd[0]));
+        }
+      }
+
+      // 回显搜索参数
+      if (window.MODEL) {
+        this.param = window.MODEL.q ? window.MODEL.q : "";
+      }
     }
   },
   data: function () {
@@ -24,13 +46,16 @@ let navbar = Vue.component("navbar", {
   methods: {
     changeItem(item) {
       this.currgd = item;
+      localStorage.setItem("currgd", JSON.stringify(item));
+      location.href = item.id;
     },
     query() {
       if (this.param) {
-        location.href = "/?q=" + this.param;
+        location.href =
+          this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param;
       }
     },
-    burgerClick(){
+    burgerClick() {
       this.isActive = !this.isActive
     }
   },
@@ -43,7 +68,7 @@ let navbar = Vue.component("navbar", {
               <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
                   <div class="container">
                       <div class="navbar-brand">
-                          <a class="navbar-item" href="/">
+                          <a class="navbar-item" :href="currgd.id">
                               <h3 class="title is-3 has-text-white">{{siteName}}</h3>
                           </a>
                           <a role="button" :class="'navbar-burger burger '+(isActive?'is-active':'')" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample"

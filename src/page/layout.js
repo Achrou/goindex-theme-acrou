@@ -8,6 +8,7 @@ import list from "./list";
 import gotext from "./text";
 import goimg from "./img";
 import gofooter from "../common/footer";
+import gocheck from "../common/check";
 import { getQueryString, get_filex } from "../utils/AcrouUtil";
 
 var layout = Vue.component("layout", {
@@ -31,6 +32,7 @@ var layout = Vue.component("layout", {
     gotext: gotext,
     goimg: goimg,
     gofooter: gofooter,
+    gocheck
   },
   methods: {
     render(config) {
@@ -88,6 +90,7 @@ var layout = Vue.component("layout", {
           <gofooter></gofooter>
         </div>
       </section>
+      <gocheck></gocheck>
     </div>
   `,
 });

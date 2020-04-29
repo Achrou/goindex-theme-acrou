@@ -6,6 +6,7 @@
     <title>Achirou's Cloud</title>
     <script>
       var authConfig = {
+        "version" : "1.0.0", 
         roots: [
           {
             id: "team",
@@ -19,7 +20,9 @@
           }
         ],
       };
+      // window.gdconfig = JSON.parse(JSON.stringify({version: authConfig.version}));
       window.gds = JSON.parse(JSON.stringify(authConfig.roots.map(it => it.name)));
+      window.current_drive_order = 0;
     </script>
   </head>
   <body></body>

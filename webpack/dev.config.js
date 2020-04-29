@@ -2,6 +2,8 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const resolve = dir => path.resolve(__dirname, "..", dir);
+
 module.exports = {
   entry: {
     app: "./src/app.js",
@@ -16,6 +18,7 @@ module.exports = {
   resolve: {
     alias: {
       vue: "vue/dist/vue.esm.js",
+      '@': resolve('src')
     },
   },
   plugins: [
@@ -34,7 +37,7 @@ module.exports = {
     open: true,
     proxy: {
       "/api": {
-        target: "https://oss.achirou.workers.dev/",
+        target: "https://ossdev.achirou.workers.dev/",
         ws: true,
         changeOrigin: true,
         pathRewrite: {

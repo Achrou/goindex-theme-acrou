@@ -1,10 +1,15 @@
 import Vue from "vue";
-import axios from "../utils/axios";
-import { utc2beijing, formatFileSize } from "../utils/AcrouUtil";
+import axios from "@/utils/axios";
+import SearchModel from "./components/SearchModel";
+import { checkoutPath, utc2beijing, formatFileSize } from "@/utils/AcrouUtil";
 
 var list = Vue.component("list", {
   data: function () {
     return {
+      page: {
+        page_token: null,
+        page_index: 0
+      },
       files: [],
       loading: false,
       columns: [
@@ -16,12 +21,12 @@ var list = Vue.component("list", {
         },
         {
           name: "大小",
-          style: "width:10%",
+          style: "width:10.5%",
           class: "is-hidden-mobile is-hidden-touch",
         },
         {
-          name: "下载",
-          style: "width:6%",
+          name: "操作",
+          style: "width:10%",
           class: "is-hidden-mobile is-hidden-touch",
         },
       ],
@@ -34,85 +39,74 @@ var list = Vue.component("list", {
         "text/plain": "icon-txt",
         "text/markdown": "icon-markdown",
         "text/x-ssa": "icon-ASS",
+        "text/html": "icon-html",
+        "text/x-python-script": "icon-python",
+        "text/x-java": "icon-java1",
+        "text/x-sh": "icon-SH",
         "application/x-subrip": "icon-srt",
+        "application/zip": "icon-zip",
+        "application/rar": "icon-rar",
+        "application/pdf": "icon-pdf",
+        "application/json": "icon-JSON1",
+        "application/x-yaml": "icon-YML",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "icon-word",
+        "image/bmp": "icon-img",
+        "image/jpeg": "icon-img",
+        "image/png": "icon-img"
       },
     };
   },
   methods: {
-    render(path, param) {
+    render (path, param) {
       this.loading = true;
       var password = localStorage.getItem("password" + path);
-
+      var p = {
+        q: param,
+        password: password || null,
+        ...this.page
+      };
       axios
-        .post(path, { password: password, q: decodeURIComponent(param) })
+        .post(path, p)
         .then((res) => {
-          var data = res.data;
-          if (
-            typeof data != "null" &&
-            data.hasOwnProperty("error") &&
-            data.error.code == "401"
-          ) {
-            var pass = prompt("目录加密，请输入密码", "");
-            localStorage.setItem("password" + path, pass);
-            if (pass != null && pass != "") {
-              this.render(path);
-            } else {
-              history.go(-1);
+          let body = res.data;
+          if (body) {
+            // 判断响应状态
+            if (body.error && body.error.code == "401") {
+              this.checkPassword(path);
+              return;
             }
-          } else if (typeof data != "null") {
-            var exts = [
-              "html",
-              "php",
-              "css",
-              "go",
-              "java",
-              "js",
-              "json",
-              "txt",
-              "sh",
-              "md",
-              "mp4",
-              "webm",
-              "mkv",
-              "bmp",
-              "jpg",
-              "jpeg",
-              "png",
-              "gif",
-            ];
+            let data = body.data;
+            if (!data) return;
+            this.page = {
+              page_token: body.nextPageToken,
+              page_index: body.curPageIndex
+            };
             try {
-              this.files = data.files.map((item) => {
-                var p = path + item.name;
-                // HEAD.md
-                if (item.name === "HEAD.md") {
-                  this.$emit("headmd", {
-                    display: true,
-                    file: item,
-                    path: p
-                  });
-                }
-                // REDEME.md
-                if (item.name === "README.md") {
-                  this.$emit("readmemd", {
-                    display: true,
-                    file: item,
-                    path: p,
-                  });
-                }
-
-                var ext = p.split(".").pop();
-                if (exts.indexOf(`${ext}`) >= 0) {
-                  p += "?a=view";
-                } else {
-                  if (item.mimeType === "application/vnd.google-apps.folder") {
-                    p += "/";
+              this.files = data.files.map(item => {
+                var p = path.replace('search', 'search/') + checkoutPath(item.name,item);
+                if(!path.match("/[0-9]+:search")){
+                  // HEAD.md
+                  if (item.name === "HEAD.md") {
+                    this.$emit("headmd", {
+                      display: true,
+                      file: item,
+                      path: path + item.name
+                    });
+                  }
+                  // REDEME.md
+                  if (item.name === "README.md") {
+                    this.$emit("readmemd", {
+                      display: true,
+                      file: item,
+                      path: path + item.name
+                    });
                   }
                 }
                 return {
                   path: p,
                   ...item,
                   modifiedTime: utc2beijing(item.modifiedTime),
-                  size: formatFileSize(item.size),
+                  size: formatFileSize(item.size)
                 };
               });
             } catch (e) {
@@ -121,19 +115,40 @@ var list = Vue.component("list", {
           }
           this.loading = false;
         })
-        .catch((ex) => {
+        .catch(() => {
           this.loading = false;
         });
     },
-    go(path, type = "view") {
-      if (type === "down") {
+    checkPassword (path) {
+      var pass = prompt("目录加密，请输入密码", "");
+      localStorage.setItem("password" + path, pass);
+      if (pass != null && pass != "") {
+        this.render(path);
+      } else {
+        history.go(-1);
+      }
+    },
+    go (file, target = "view") {
+      let path = file.path
+      if(path.match("/[0-9]+:search/")){
+        this.$refs.goSearchResult.go(file, target)
+        return
+      }
+      if (target === "down") {
         path = path.replace("?a=view", "");
       }
-      location.href = path;
+      if(target === '_blank'){
+        window.open(path)
+      }else{
+        location.href = path;
+      }
     },
-    getIcon(type) {
+    getIcon (type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     },
+  },
+  components: {
+    SearchModel
   },
   template: `
     <div>
@@ -146,8 +161,8 @@ var list = Vue.component("list", {
           </thead>
           <tbody>
           <tr v-for="file in files">
-              <td @click="go(file.path)">
-                <svg class="icon" aria-hidden="true">
+              <td @click="go(file)">
+                <svg class="iconfont" aria-hidden="true">
                     <use :xlink:href="getIcon(file.mimeType)"></use>
                 </svg>
                 {{file.name}}
@@ -155,8 +170,11 @@ var list = Vue.component("list", {
               <td class="is-hidden-mobile is-hidden-touch">{{file.modifiedTime}}</td>
               <td class="is-hidden-mobile is-hidden-touch">{{file.size}}</td>
               <td class="is-hidden-mobile is-hidden-touch" v-if="file.mimeType!=='application/vnd.google-apps.folder'">
-                <span class="icon">
-                  <i class="fa fa-download" @click="go(file.path,'down')"></i>
+                <span class="icon" @click.stop="go(file,'_blank')">
+                  <i class="fa fa-external-link" title="Open a new tab" aria-hidden="true"></i> 
+                </span>
+                <span class="icon" @click.stop="go(file,'down')">
+                  <i class="fa fa-download" title="Download"></i>
                 </span>
               </td>
           </tr>
@@ -164,19 +182,7 @@ var list = Vue.component("list", {
       </table>
       <div v-show="files.length==0" class="has-text-centered no-content">
       </div>
-      <nav class="pagination is-centered is-small" role="navigation" aria-label="pagination">
-        <a class="pagination-previous">Previous</a>
-        <a class="pagination-next">Next page</a>
-        <ul class="pagination-list">
-          <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-          <li><span class="pagination-ellipsis">&hellip;</span></li>
-          <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-          <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-          <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-          <li><span class="pagination-ellipsis">&hellip;</span></li>
-          <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
-        </ul>
-      </nav>
+      <search-model ref="goSearchResult"></search-model>
     </div>
     `,
 });
