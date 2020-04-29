@@ -8,17 +8,27 @@
 
 Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/) 
 
+## Log
+
+### 2020-4-29
+
+- Support multi disk switching
+- Add version detection
+- Optimize search results
+- Optimize page display
+
 ## Use
 
-The theme files can be downloaded from the dist directory and uploaded to your own CDN or you can use the link below.
+Since the original author of `goindex` has deleted the `donwa/goindex` warehouse, the extension and modification will be made on this version [yanzai/goindex](https://github.com/yanzai/goindex) in the future
 
-Modify the app.js used in index.js of goindex to (https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js).
+1. Replace `index. js` with [index.js](https://ossdev.achirou.workers.dev/0:/go2index/index.js?a=view)
+2. Modify the app.js used in index.js of goindex to `https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js`
 
-The goindex author's `index.js` does not support search. Use this [index.js](https://oss.achirou.workers.dev/go2index/index.js?a=view) if you need a search function.
+> The theme file is in the dist directory
 
 ## TODO
 
-- [ ] Drive switch
+- [x] Drive switch
 - [ ] Pagination display
 - [ ] Picture list display
 - [ ] More file format preview

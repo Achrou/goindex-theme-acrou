@@ -8,17 +8,27 @@
 
 Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/) 
 
+## 更新日志
+
+### 2020-4-29
+
+- 支持多盘切换
+- 添加版本检测
+- 优化搜索结果
+- 优化页面显示
+
 ## 使用
 
-主题文件在dist目录可以下载下来上传到自己cdn或者使用下面的链接也可以
+由于`goindex`原作者已将`donwa/goindex`仓库删除，以后将在这个版本上[yanzai/goindex](https://github.com/yanzai/goindex)进行扩展修改
 
-修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
+1. 替换`index.js`为[index.js](https://ossdev.achirou.workers.dev/0:/go2index/index.js?a=view)
+2. 修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
 
-goindex作者的`index.js`不支持搜索，需要搜索功能请使用[index.js](https://oss.achirou.workers.dev/go2index/index.js?a=view)
+> 主题文件在dist目录
 
 ## 即将支持
 
-- [ ] 多盘切换
+- [x] 多盘切换
 - [ ] 分页显示
 - [ ] 图片列表显示
 - [ ] 更多文件格式预览
