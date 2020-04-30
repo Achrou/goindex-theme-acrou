@@ -75,7 +75,6 @@ document.write(
     .modal-background {
       background-color: rgba(0,0,0,.4);
     }
-
     .check-notification {
       position: fixed;
       top: 4rem;
@@ -84,6 +83,20 @@ document.write(
       border: 1px solid rgb(235, 238, 245);
       box-shadow: rgba(0, 0, 0, 0.1) 0px 2px 12px 0px;
       transition: opacity 0.3s ease 0s, transform 0.3s ease 0s, left 0.3s ease 0s, right 0.3s ease 0s, top 0.4s ease 0s, bottom 0.3s ease 0s;
+    }
+    .video-content{
+      width: 100%;
+      background: #000;
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    .video-content iframe{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
     }
   </style>`
 );

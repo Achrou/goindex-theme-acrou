@@ -82,9 +82,9 @@ var layout = Vue.component("layout", {
           <goheadmd :option="headmd" v-show="headmd.display"></goheadmd>
           <breadcrumb ref="breadcrumb"></breadcrumb>
           <list ref="list" v-on:headmd="setHeadmd" v-on:readmemd="setReadmemd" v-show="show=='list'"></list>
+          <govideo ref="govideo" v-show="show=='video'"></govideo>
           <hr/>
           <goreadmemd :option="readmemd" v-show="readmemd.display"></goreadmemd>
-          <govideo ref="govideo" v-show="show=='video'"></govideo>
           <gotext :option="text" v-show="show=='text'"></gotext>
           <goimg ref="goimg" v-show="show=='img'"></goimg>
           <gofooter></gofooter>
