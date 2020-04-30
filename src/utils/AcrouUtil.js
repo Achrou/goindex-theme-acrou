@@ -9,7 +9,9 @@ export const checkoutPath = (path, file) => {
     path += "?a=view";
   } else {
     if (file.mimeType === "application/vnd.google-apps.folder") {
-      path += "/";
+      if(path.substr(-1) !== '/'){
+        path += "/";
+      }
     }
   }
   return path
