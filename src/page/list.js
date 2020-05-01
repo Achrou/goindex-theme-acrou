@@ -171,10 +171,10 @@ var list = Vue.component("list", {
               <td class="is-hidden-mobile is-hidden-touch">{{file.size}}</td>
               <td class="is-hidden-mobile is-hidden-touch" v-if="file.mimeType!=='application/vnd.google-apps.folder'">
                 <span class="icon" @click.stop="go(file,'_blank')">
-                  <i class="fa fa-external-link" title="Open a new tab" aria-hidden="true"></i> 
+                  <i class="fa fa-external-link faa-shake animated-hover" title="Open a new tab" aria-hidden="true"></i> 
                 </span>
                 <span class="icon" @click.stop="go(file,'down')">
-                  <i class="fa fa-download" title="Download"></i>
+                  <i class="fa fa-download faa-shake animated-hover" title="Download"></i>
                 </span>
               </td>
           </tr>
