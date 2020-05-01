@@ -1,52 +1,62 @@
 <template>
   <div>
-    <progress
-      v-if="loading"
-      class="progress is-small is-primary"
-      style="height: .25rem;"
-      max="100"
-    >15%</progress>
-    <table class="table is-hoverable">
-      <thead>
-        <tr>
-          <th
-            v-for="(column,index) in columns"
-            v-bind:key="index"
-            :class="column.class"
-            :style="column.style"
-          >{{column.name}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(file,index) in files" v-bind:key="index">
-          <td @click="go(file.path)">
-            <svg class="icon" aria-hidden="true">
-              <use :xlink:href="getIcon(file.mimeType)" />
-            </svg>
-            {{file.name}}
-          </td>
-          <td class="is-hidden-mobile is-hidden-touch">{{file.modifiedTime}}</td>
-          <td class="is-hidden-mobile is-hidden-touch">{{file.size}}</td>
-          <td
-            class="is-hidden-mobile is-hidden-touch"
-            v-if="file.mimeType!=='application/vnd.google-apps.folder'"
-          >
-            <!-- <span class="icon" @click="copy(file.path)">
-              <i class="fa fa-copy" title="copy link" aria-hidden="true"></i>
-            </span> -->
-            <span class="icon">
-              <i class="fa fa-download" title="Download" @click="go(file.path,'down')"></i>
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div v-show="files.length==0" class="has-text-centered no-content"></div>
+    <headmd :option="headmd" v-show="headmd.display"></headmd>
+    <div class="golist">
+      <table class="table is-hoverable">
+        <thead>
+          <tr>
+            <th
+              v-for="(column,index) in columns"
+              v-bind:key="index"
+              :class="column.class"
+              :style="column.style"
+            >{{column.name}}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(file,index) in files" v-bind:key="index">
+            <td @click="go(file)">
+              <svg class="iconfont" aria-hidden="true">
+                <use :xlink:href="getIcon(file.mimeType)" />
+              </svg>
+              {{file.name}}
+            </td>
+            <td class="is-hidden-mobile is-hidden-touch">{{file.modifiedTime}}</td>
+            <td class="is-hidden-mobile is-hidden-touch">{{file.size}}</td>
+            <td
+              class="is-hidden-mobile is-hidden-touch"
+              v-if="file.mimeType!=='application/vnd.google-apps.folder'"
+            >
+              <!-- <span class="icon" @click="copy(file.path)">
+                <i class="fa fa-copy" title="copy link" aria-hidden="true"></i>
+              </span>-->
+              <span class="icon" @click.stop="go(file,'_blank')">
+                <i class="fa fa-external-link" title="Open a new tab" aria-hidden="true"></i>
+              </span>
+              <span class="icon">
+                <i
+                  class="fa fa-download faa-shake animated-hover"
+                  title="Download"
+                  @click="go(file,'down')"
+                ></i>
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-show="files.length==0" class="has-text-centered no-content"></div>
+      <div v-show="loading" class="pageloader is-active">
+        <span class="title">Loading...</span>
+      </div>
+    </div>
+    <hr />
+    <readmemd :option="readmemd" v-show="readmemd.display"></readmemd>
   </div>
 </template>
 
 <script>
 import { utc2beijing, formatFileSize } from "@utils/AcrouUtil";
+import Markdown from "../common/Markdown";
 export default {
   data: function() {
     return {
@@ -55,7 +65,7 @@ export default {
         page_index: 0
       },
       files: [],
-      loading: false,
+      loading: true,
       columns: [
         { name: "文件", style: "" },
         {
@@ -70,7 +80,7 @@ export default {
         },
         {
           name: "下载",
-          style: "width:6%",
+          style: "width:10%",
           class: "is-hidden-mobile is-hidden-touch"
         }
       ],
@@ -93,19 +103,32 @@ export default {
         "application/pdf": "icon-pdf",
         "application/json": "icon-JSON1",
         "application/x-yaml": "icon-YML",
-        "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "icon-word",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+          "icon-word",
         "image/bmp": "icon-img",
         "image/jpeg": "icon-img",
         "image/png": "icon-img"
-      }
+      },
+      headmd: { display: false, file: {}, path: "" },
+      readmemd: { display: false, file: {}, path: "" }
     };
   },
+  components: {
+    Headmd: Markdown,
+    Readmemd: Markdown
+  },
+  mounted() {
+    this.render();
+  },
   methods: {
-    render(path, param) {
+    render() {
+      let path = window.location.pathname;
       this.loading = true;
       var password = localStorage.getItem("password" + path);
+      // var param = window.location.search;
+      let q = this.$route.query.q;
       var p = {
-        q: param,
+        q: q ? decodeURIComponent(q) : "",
         password: password || null,
         ...this.page
       };
@@ -151,19 +174,19 @@ export default {
                 var p = path + item.name;
                 // HEAD.md
                 if (item.name === "HEAD.md") {
-                  this.$emit("headmd", {
+                  this.headmd = {
                     display: true,
                     file: item,
                     path: p
-                  });
+                  };
                 }
                 // REDEME.md
                 if (item.name === "README.md") {
-                  this.$emit("readmemd", {
+                  this.readmemd = {
                     display: true,
                     file: item,
                     path: p
-                  });
+                  };
                 }
 
                 var ext = p.split(".").pop();
@@ -204,14 +227,37 @@ export default {
     //   path = path.replace("?a=view", "");
     //   // TODO
     // },
-    go(path, type = "view") {
-      if (type === "down") {
-        path = path.replace("?a=view", "");
+    go(file, target) {
+      let path = file.path;
+      let cmd = this.$route.params.cmd || "";
+      if (cmd === "search") {
+        this.$refs.goSearchResult.go(file, target);
+        return;
       }
-      location.href = path;
+      if (target === "down") {
+        path = path.replace("?a=view", "");
+        window.open(path)
+        return;
+      }
+      if(target === '_blank'){
+        window.open(path)
+      }else{
+        this.$router.push({
+          path: path
+        });
+      }
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
+    }
+  },
+  watch: {
+    $route(to, from) {
+      // 后退设置page_token为空
+      if (to.path.length < from.path.length) {
+        this.page.page_token = null;
+      }
+      this.render();
     }
   }
 };

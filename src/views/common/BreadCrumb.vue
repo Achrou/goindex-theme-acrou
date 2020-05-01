@@ -7,7 +7,7 @@
         v-bind:key="index"
       >
         <a v-if="(index+1)==navs.length" aria-current="page" href="#">{{item.title}}</a>
-        <a v-else :href="item.path">{{item.title}}</a>
+        <a v-else @click="go(item.path)">{{item.title}}</a>
       </li>
     </ul>
   </nav>
@@ -21,8 +21,22 @@ export default {
       index: "/"
     };
   },
+  mounted() {
+    this.render();
+  },
+  watch: {
+    $route(to, from) {
+      this.render();
+    }
+  },
   methods: {
-    render(path) {
+    go(path) {
+      this.$router.push({
+        path: path
+      });
+    },
+    render() {
+      let path = window.location.pathname;
       // 如果是搜索不进行渲染
       if (path.match("/[0-9]+:search")) {
         return;

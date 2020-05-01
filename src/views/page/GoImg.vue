@@ -18,13 +18,19 @@ export default {
       display: false
     };
   },
+  mounted() {
+    let path = window.location.pathname;
+    // 便于开发环境调试
+    path = process.env.NODE_ENV === "development" ? "/api" + path : "";
+    this.imgurl = path;
+  },
   methods: {
-    render(path) {
-      this.imgurl = path;
-    },
+    // render(path) {
+    //   this.imgurl = path;
+    // },
     loading(event) {
       if (event.target.complete == true) {
-        this.display = true
+        this.display = true;
       }
     }
   }

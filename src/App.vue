@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Layout from "./view/Layout";
+import Layout from "./views/Layout";
 
 export default {
   name: "App",
@@ -34,7 +34,7 @@ export default {
     this.config.path = path;
     this.config.siteName = document.getElementsByTagName("title")[0].innerText;
     this.config.title = this.siteName + "-" + decodeURI(path);
-    this.$refs.layout.render(this.config);
+    // this.$refs.layout.render(this.config);
   }
 };
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div class="content has-text-centered is-fixed-bottom">
+  <footer class="footer">
     <div class="columns is-mobile is-centered">
       <div class="field is-grouped is-grouped-multiline">
         <div class="control">
@@ -16,23 +16,19 @@
         </div>
       </div>
     </div>
-  </div>
+  </footer>
 </template>
 
 <script>
 export default {
-  props: {
-  },
-  watch: {
-  },
-  data: function () {
+  props: {},
+  watch: {},
+  data: function() {
     return {
-      content: "",
+      content: ""
     };
   },
-  components: {
-  },
-  methods: {
-  }
-}
+  components: {},
+  methods: {}
+};
 </script>

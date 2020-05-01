@@ -86,6 +86,9 @@ export default {
       this.param = window.MODEL.q ? window.MODEL.q : "";
     }
   },
+  mounted() {
+    this.siteName = document.getElementsByTagName("title")[0].innerText;
+  },
   data: function() {
     return {
       siteName: "",
@@ -103,8 +106,11 @@ export default {
     },
     query() {
       if (this.param) {
-        location.href =
-          this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param;
+        this.$router.push({
+          path: this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param
+        });
+        // location.href =
+        //   this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param;
       }
     },
     burgerClick() {

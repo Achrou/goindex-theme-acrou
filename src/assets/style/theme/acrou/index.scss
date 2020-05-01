@@ -10,10 +10,10 @@ body {
 	max-width: 980px;
 }
 
-.icon {
+.iconfont {
 	width: 2em;
 	height: 2em;
-	vertical-align: middle;
+	vertical-align: -0.5em;
 	fill: currentColor;
 	overflow: hidden;
 }
@@ -45,7 +45,14 @@ body {
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		vertical-align: middle;
+		&:hover,& .icon{
+			cursor: pointer;
+		}
 	}
+}
+
+.footer {
+	background-color: transparent;
 }
 
 .no-content {
@@ -54,4 +61,27 @@ body {
 	line-height: 240px;
 	text-align: center;
 	margin-top: 20px;
+}
+
+.golist {
+	min-height: 240px;
+	position: relative;
+
+	.pageloader:not(.is-bottom-to-top) {
+		-webkit-transform: initial;
+		transform: initial;
+	}
+	.pageloader{
+		position: absolute;
+		padding-top: 0;
+		background: hsla(0,0%,100%,.6);
+		will-change: initial;
+	
+		.title {
+			color: hsl(0, 0%, 4%);
+		}
+	}
+	.pageloader::after {
+		border: 0 solid black;
+	}
 }
