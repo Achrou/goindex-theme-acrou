@@ -49,14 +49,14 @@ var layout = Vue.component("layout", {
       } else {
         var name = path.split("/").pop();
         var ext = name.split(".").pop().toLowerCase();
-        if("|html|htm|".indexOf(`|${ext}|`) >= 0){
-          this.show = "html"
-          this.html = {
-            path: path,
-            file: {},
-          };
-          return
-        }
+        // if("|html|htm|".indexOf(`|${ext}|`) >= 0){
+        //   this.show = "html"
+        //   this.html = {
+        //     path: path,
+        //     file: {},
+        //   };
+        //   return
+        // }
         if (
           "|html|php|css|go|java|js|json|txt|sh|md|".indexOf(`|${ext}|`) >= 0
         ) {
