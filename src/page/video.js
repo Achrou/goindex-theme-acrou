@@ -25,6 +25,16 @@ var govideo = Vue.component("govideo", {
           name: 'Thunder',
           icon: 'https://cloud.jsonpop.cn/go2index/player/thunder.png',
           scheme: 'thunder://'
+        },
+        {
+          name: 'MXPlayer',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/mxplayer.png',
+          scheme: 'intent:'
+        },
+        {
+          name: 'nPlayer',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/nplayer.png',
+          scheme: 'nplayer-'
         }
       ]
     };
@@ -43,7 +53,9 @@ var govideo = Vue.component("govideo", {
   },
   template: `
     <div class="content">
-        <iframe width="100%" height="600px;" :src="apiurl" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+        <div class="video-content">
+          <iframe width="100%" height="100%" :src="apiurl" frameborder="0" border="0" marginwidth="0" marginheight="0" scrolling="no" allowtransparency="true" allowfullscreen="true"></iframe>
+        </div>
         <div class="card">
             <header class="card-header">
                 <p class="card-header-title">
@@ -55,10 +67,16 @@ var govideo = Vue.component("govideo", {
             </header>
             <div class="card-content">
                 <div class="content">
+                  <div class="field">
+                    <label class="label">下载地址</label>
+                    <div class="control">
+                      <input class="input" type="text" :value="decodeURIComponent(videourl)">
+                    </div>
+                  </div>
                   <div class="columns is-mobile is-multiline has-text-centered">
                     <div class="column" v-for="item in players">
                       <p class="heading">
-                        <a :href="item.scheme+(item.name==='Thunder'?getThunder:videourl)">
+                        <a :href="item.scheme+(item.name==='Thunder'?getThunder:videourl)+(item.name==='MXPlayer'?';end':'')">
                           <figure class="image is-48x48" style="margin: 0 auto;">
                             <img class="icon" :src="item.icon" />
                           </figure>

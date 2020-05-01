@@ -61,7 +61,7 @@ var list = Vue.component("list", {
       this.loading = true;
       var password = localStorage.getItem("password" + path);
       var p = {
-        q: param,
+        q: decodeURIComponent(param),
         password: password || null,
         ...this.page
       };
