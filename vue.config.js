@@ -20,6 +20,7 @@ const cdn = {
 module.exports = {
   publicPath,
   lintOnSave: true,
+
   configureWebpack: config => {
     const configNew = {}
     if (process.env.NODE_ENV === 'production') {
@@ -27,6 +28,7 @@ module.exports = {
     }
     return configNew
   },
+
   chainWebpack: (config) => {
     /**
      * 添加 CDN 参数到 htmlWebpackPlugin 配置中
@@ -52,8 +54,10 @@ module.exports = {
         .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
     }
   },
+
   // 不输出 map 文件
   productionSourceMap: false,
+
   devServer: {
     publicPath,
     proxy: {
@@ -67,4 +71,13 @@ module.exports = {
       },
     },
   },
+
+  pluginOptions: {
+    i18n: {
+      locale: 'zh-chs',
+      fallbackLocale: 'en',
+      localeDir: 'locales',
+      enableInSFC: true
+    }
+  }
 };

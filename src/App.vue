@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import util from '@/libs/util'
 import Layout from "./views/Layout";
 
 export default {
@@ -20,6 +21,18 @@ export default {
         path: ""
       }
     };
+  },
+  watch: {
+    '$i18n.locale': 'i18nHandle'
+  },
+  created () {
+    this.i18nHandle(this.$i18n.locale)
+  },
+  methods: {
+    i18nHandle (val, oldVal) {
+      util.cookies.set('lang', val)
+      document.querySelector('html').setAttribute('lang', val)
+    }
   },
   mounted() {
     let scripts = ["https://at.alicdn.com/t/font_1760192_zf96psu0uo.js"];

@@ -1,0 +1,25 @@
+{
+    "_name": "简体中文",
+    "languages": "选择语言",
+    "list": {
+        "title": {
+            "file": "文件",
+            "moditime": "修改时间",
+            "size": "大小",
+            "operation": "操作"
+        },
+        "loading": "加载中...",
+        "opt": {
+            "newTab": "打开新的标签页",
+            "download": "下载"
+        }
+    },
+    "search": {
+        "placeholder": "搜索..."
+    },
+    "page": {
+        "text": {
+            "loading": "加载中..."
+        }
+    }
+}

@@ -52,7 +52,7 @@ export default {
   methods: {
     render() {
       let path = window.location.pathname
-      this.content = "加载中...";
+      this.content = this.$t('page.text.loading');
       get_file({path: path.replace('?a=view','/'),file: {}}, (data) => {
         this.content = data;
       });

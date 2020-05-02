@@ -45,7 +45,7 @@
                   @keyup.enter="query"
                   v-model="param"
                   type="search"
-                  placeholder="Search or jump to…"
+                  :placeholder="$t('search.placeholder')"
                 />
                 <span class="icon is-small is-left">
                   <i class="fas fa-search"></i>
@@ -53,16 +53,7 @@
               </p>
             </div>
           </div>
-          <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">
-              <i class="fa fa-language"></i>
-            </a>
-            <div class="navbar-dropdown is-boxed">
-              <a class="navbar-item">中文简体</a>
-              <a class="navbar-item">中文繁体</a>
-              <a class="navbar-item">English</a>
-            </div>
-          </div>
+          <header-locales/>
           <a
             class="navbar-item"
             target="_blank"
@@ -79,7 +70,11 @@
 </template>
 
 <script>
+import headerLocales from '@/layout/header-aside/components/header-locales'
 export default {
+  components: {
+    headerLocales
+  },
   created() {
     if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {

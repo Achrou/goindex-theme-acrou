@@ -1,0 +1,25 @@
+{
+  "_name": "English",
+  "languages": "Languages",
+  "list": {
+    "title": {
+        "file": "File",
+        "moditime": "Modified Time",
+        "size": "Size",
+        "operation": "Operation"
+    },
+    "loading": "Loading...",
+    "opt": {
+        "newTab": "Open a new tab",
+        "download": "Download"
+    }
+  },
+  "search": {
+      "placeholder": "Search or jump to…"
+  },
+  "page": {
+      "text": {
+          "loading": "Loading..."
+      }
+  }
+}

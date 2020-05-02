@@ -34,12 +34,12 @@
               <span class="icon" @click.stop="go(file,'_blank')">
                 <i
                   class="fa fa-external-link faa-shake animated-hover"
-                  title="Open a new tab"
+                  :title="$t('list.opt.newTab')"
                   aria-hidden="true"
                 ></i>
               </span>
               <span class="icon" @click="go(file,'down')">
-                <i class="fa fa-download faa-shake animated-hover" title="Download"></i>
+                <i class="fa fa-download faa-shake animated-hover" :title="$t('list.opt.download')"></i>
               </span>
             </td>
           </tr>
@@ -47,7 +47,7 @@
       </table>
       <div v-show="files.length==0" class="has-text-centered no-content"></div>
       <div v-show="loading" class="pageloader is-active">
-        <span class="title">Loading...</span>
+        <span class="title">{{$t('list.loading')}}</span>
       </div>
     </div>
     <hr />
@@ -60,6 +60,10 @@ import { utc2beijing, formatFileSize, checkoutPath } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import Markdown from "../common/Markdown";
 export default {
+  components: {
+    Headmd: Markdown,
+    Readmemd: Markdown
+  },
   data: function() {
     return {
       page: {
@@ -68,24 +72,6 @@ export default {
       },
       files: [],
       loading: true,
-      columns: [
-        { name: "文件", style: "" },
-        {
-          name: "修改时间",
-          style: "width:20%",
-          class: "is-hidden-mobile is-hidden-touch"
-        },
-        {
-          name: "大小",
-          style: "width:10.5%",
-          class: "is-hidden-mobile is-hidden-touch"
-        },
-        {
-          name: "下载",
-          style: "width:10%",
-          class: "is-hidden-mobile is-hidden-touch"
-        }
-      ],
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -115,9 +101,27 @@ export default {
       readmemd: { display: false, file: {}, path: "" }
     };
   },
-  components: {
-    Headmd: Markdown,
-    Readmemd: Markdown
+  computed: {
+    columns() {
+      return [
+        { name: this.$t('list.title.file'), style: "" },
+        {
+          name: this.$t('list.title.moditime'),
+          style: "width:20%",
+          class: "is-hidden-mobile is-hidden-touch"
+        },
+        {
+          name: this.$t('list.title.size'),
+          style: "width:10.5%",
+          class: "is-hidden-mobile is-hidden-touch"
+        },
+        {
+          name: this.$t('list.title.operation'),
+          style: "width:10%",
+          class: "is-hidden-mobile is-hidden-touch"
+        }
+      ]
+    }
   },
   mounted() {
     this.render();

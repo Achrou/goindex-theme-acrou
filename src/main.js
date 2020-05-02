@@ -3,6 +3,7 @@ import App from './App.vue'
 import axios from '@utils/axios'
 import VueAxios from 'vue-axios'
 import router from './router'
+import i18n from './i18n'
 
 var styles = [
   // 'https://cdn.jsdelivr.net/npm/bulma@0.8.1/css/bulma.min.css',
@@ -23,5 +24,6 @@ Vue.use(VueAxios,axios)
 
 new Vue({
   router,
-  render: h => h(App),
+  i18n,
+  render: h => h(App)
 }).$mount('#app')

@@ -33,11 +33,13 @@ const router = new VueRouter({
  * 权限验证
  */
 router.beforeEach(async (to, from, next) => {
+  console.log("before:")
   console.log(to)
   next()
 })
 
 router.afterEach(to => {
+  console.log("after:")
   console.log(to)
 })
 
