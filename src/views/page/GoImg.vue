@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <hr/>
     <figure class="image">
       <img :src="imgurl" :class="!display?'is-hidden':''" @load="loading" />
       <center :class="display?'is-hidden':''">
@@ -7,6 +8,7 @@
         <span class="sr-only">Loading...</span>
       </center>
     </figure>
+    <hr/>
   </div>
 </template>
 

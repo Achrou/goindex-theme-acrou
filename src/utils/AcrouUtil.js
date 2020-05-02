@@ -1,5 +1,42 @@
 import axios from "@utils/axios";
 
+const exts = [
+  "html",
+  "php",
+  "css",
+  "go",
+  "java",
+  "js",
+  "json",
+  "py",
+  "txt",
+  "sh",
+  "md",
+  "mp4",
+  "webm",
+  "mkv",
+  "bmp",
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+];
+
+export const checkoutPath = (path, file) => {
+  // 解决/css这种也会匹配的问题
+  var ext = path.split(".").length > 1 ? path.split(".").pop() : "";
+  if (exts.indexOf(`${ext}`) >= 0) {
+    path += "?a=view";
+  } else {
+    if (file.mimeType === "application/vnd.google-apps.folder") {
+      if (path.substr(-1) !== "/") {
+        path += "/";
+      }
+    }
+  }
+  return path;
+};
+
 export const getQueryString = (path, param) => {
   if (!path) {
     return "";

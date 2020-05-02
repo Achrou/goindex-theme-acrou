@@ -39,6 +39,7 @@ export default {
       let path = window.location.pathname;
       // 如果是搜索不进行渲染
       if (path.match("/[0-9]+:search")) {
+        this.navs = [];
         return;
       }
       var arr = path.trim("/").split("/");

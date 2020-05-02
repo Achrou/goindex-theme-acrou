@@ -53,6 +53,16 @@
               </p>
             </div>
           </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">
+              <i class="fa fa-language"></i>
+            </a>
+            <div class="navbar-dropdown is-boxed">
+              <a class="navbar-item">中文简体</a>
+              <a class="navbar-item">中文繁体</a>
+              <a class="navbar-item">English</a>
+            </div>
+          </div>
           <a
             class="navbar-item"
             target="_blank"
@@ -109,8 +119,6 @@ export default {
         this.$router.push({
           path: this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param
         });
-        // location.href =
-        //   this.currgd.id.match("/[0-9]+:") + "search?q=" + this.param;
       }
     },
     burgerClick() {

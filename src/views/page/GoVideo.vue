@@ -1,17 +1,19 @@
 <template>
   <div class="content">
-    <iframe
-      width="100%"
-      height="600px;"
-      :src="apiurl"
-      frameborder="0"
-      border="0"
-      marginwidth="0"
-      marginheight="0"
-      scrolling="no"
-      allowtransparency="true"
-      allowfullscreen="true"
-    ></iframe>
+    <div class="video-content">
+      <iframe
+        width="100%"
+        height="100%"
+        :src="apiurl"
+        frameborder="0"
+        border="0"
+        marginwidth="0"
+        marginheight="0"
+        scrolling="no"
+        allowtransparency="true"
+        allowfullscreen="true"
+      ></iframe>
+    </div>
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -27,6 +29,12 @@
       </header>
       <div class="card-content">
         <div class="content">
+          <div class="field">
+            <label class="label">下载地址</label>
+            <div class="control">
+              <input class="input" type="text" :value="decodeURIComponent(videourl)" />
+            </div>
+          </div>
           <div class="columns is-mobile is-multiline has-text-centered">
             <div class="column" v-for="(item,index) in players" v-bind:key="index">
               <p class="heading">
@@ -47,30 +55,40 @@
 
 <script>
 export default {
-  data: function () {
+  data: function() {
     return {
       apiurl: "",
       videourl: "",
       players: [
         {
-          name: 'IINA',
-          icon: 'https://www.iina.io/images/iina-icon-60.png',
-          scheme: 'iina://weblink?url='
+          name: "IINA",
+          icon: "https://www.iina.io/images/iina-icon-60.png",
+          scheme: "iina://weblink?url="
         },
         {
-          name: 'PotPlayer',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/potplayer.png',
-          scheme: 'potplayer://'
+          name: "PotPlayer",
+          icon: "https://cloud.jsonpop.cn/go2index/player/potplayer.png",
+          scheme: "potplayer://"
         },
         {
-          name: 'VLC',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/vlc.png',
-          scheme: 'vlc://'
+          name: "VLC",
+          icon: "https://cloud.jsonpop.cn/go2index/player/vlc.png",
+          scheme: "vlc://"
         },
         {
-          name: 'Thunder',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/thunder.png',
-          scheme: 'thunder://'
+          name: "Thunder",
+          icon: "https://cloud.jsonpop.cn/go2index/player/thunder.png",
+          scheme: "thunder://"
+        },
+        {
+          name: "MXPlayer",
+          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          scheme: "intent:"
+        },
+        {
+          name: "nPlayer",
+          icon: "https://cloud.jsonpop.cn/go2index/player/nplayer.png",
+          scheme: "nplayer-"
         }
       ]
     };
@@ -88,9 +106,9 @@ export default {
     this.apiurl = "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
   },
   computed: {
-    getThunder () {
-      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64")
+    getThunder() {
+      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
     }
   }
-}
+};
 </script>
