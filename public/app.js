@@ -1,5 +1,9 @@
 var styles = [
-  "https://cloud.jsonpop.cn/go2index/vue/dist/css/app.15d37280.css",
+  'https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css',
+  'https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css',
+  'https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/css/app.15d37280.css',
 ];
 var scripts = [
   "https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js",
@@ -14,15 +18,14 @@ var scripts = [
   // 'https://cdn.jsdelivr.net/npm/brace@0.11.1/theme/chrome.js',
   // 'https://cdn.jsdelivr.net/npm/brace@0.11.1/snippets/javascript.js',
   "https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-1ed22f12.04581a30.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-vendors.1a3ef683.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-4850b756.26fb9f5b.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/app.f79caaca.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-56b11c46.aabf7f7a.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-6a24b24e.b6c1758e.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/app.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-2d0aed92.4702bce7.js",
-  "https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-2d2137a3.e34d1790.js",
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-1ed22f12.64aeb3d6.js',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-vendors.1a3ef683.js',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-4850b756.160c2c8c.js',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/app.f314926a.js',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-56b11c46.cc8e90e1.js',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-6a24b24e.b8a4da9e.js',   
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-2d0aed92.7e4c9d1b.js',
+  'https://cloud.jsonpop.cn/go2index/vue/dist/js/chunk-2d2137a3.5bc616b8.js',
 ];
 
 styles.forEach((item) => {

@@ -1,6 +1,9 @@
 <template>
   <div>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-pageloader@0.3.0/dist/css/bulma-pageloader.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma-pageloader@0.3.0/dist/css/bulma-pageloader.min.css"
+    />
     <headmd :option="headmd" v-show="headmd.display"></headmd>
     <div class="golist">
       <table class="table is-hoverable">
@@ -11,7 +14,13 @@
               v-bind:key="index"
               :class="column.class"
               :style="column.style"
-            >{{column.name}}</th>
+            >
+              {{column.name}}
+              <span class="caret-wrapper">
+                <i class="sort-caret ascending"></i>
+                <i class="sort-caret descending"></i>
+              </span>
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +54,42 @@
           </tr>
         </tbody>
       </table>
+      <!-- <el-table
+        :data="files"
+        :cell-class-name="cellClass"
+        :header-row-class-name="cellClass"
+        @cell-click="go"
+      >
+        <el-table-column prop="name" :label="$t('list.title.file')" min-width="10" sortable>
+          <template slot-scope="scope">
+            <svg class="iconfont" aria-hidden="true">
+              <use :xlink:href="getIcon(scope.row.mimeType)" />
+            </svg>
+            {{scope.row.name}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="modifiedTime"
+          :label="$t('list.title.moditime')"
+          sortable
+          min-width="3"
+        ></el-table-column>
+        <el-table-column prop="size" :label="$t('list.title.size')" sortable min-width="2"></el-table-column>
+        <el-table-column :label="$t('list.title.operation')" sortable min-width="2">
+          <template slot-scope="scope">
+            <span class="icon" @click.stop="go(file,'_blank')">
+              <i
+                class="fa fa-external-link faa-shake animated-hover"
+                :title="$t('list.opt.newTab')"
+                aria-hidden="true"
+              ></i>
+            </span>
+            <span class="icon" @click="go(file,'down')">
+              <i class="fa fa-download faa-shake animated-hover" :title="$t('list.opt.download')"></i>
+            </span>
+          </template>
+        </el-table-column>
+      </el-table> -->
       <div v-show="files.length==0" class="has-text-centered no-content"></div>
       <div v-show="loading" class="pageloader is-active">
         <span class="title">{{$t('list.loading')}}</span>
@@ -104,29 +149,34 @@ export default {
   computed: {
     columns() {
       return [
-        { name: this.$t('list.title.file'), style: "" },
+        { name: this.$t("list.title.file"), style: "" },
         {
-          name: this.$t('list.title.moditime'),
+          name: this.$t("list.title.moditime"),
           style: "width:20%",
           class: "is-hidden-mobile is-hidden-touch"
         },
         {
-          name: this.$t('list.title.size'),
+          name: this.$t("list.title.size"),
           style: "width:10.5%",
           class: "is-hidden-mobile is-hidden-touch"
         },
         {
-          name: this.$t('list.title.operation'),
+          name: this.$t("list.title.operation"),
           style: "width:10%",
           class: "is-hidden-mobile is-hidden-touch"
         }
-      ]
+      ];
     }
   },
   mounted() {
     this.render();
   },
   methods: {
+    cellClass(row) {
+      if (row.columnIndex != 0) {
+        return "is-hidden-mobile is-hidden-touch has-text-drak";
+      }
+    },
     render() {
       let path = window.location.pathname;
       this.loading = true;
@@ -162,19 +212,19 @@ export default {
                 if (!path.match("/[0-9]+:search")) {
                   // HEAD.md
                   if (item.name === "HEAD.md") {
-                    this.$emit("headmd", {
+                    this.headmd = {
                       display: true,
                       file: item,
                       path: path + item.name
-                    });
+                    };
                   }
                   // REDEME.md
                   if (item.name === "README.md") {
-                    this.$emit("readmemd", {
+                    this.readmemd = {
                       display: true,
                       file: item,
                       path: path + item.name
-                    });
+                    };
                   }
                 }
                 return {

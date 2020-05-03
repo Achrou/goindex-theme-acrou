@@ -37,7 +37,7 @@
         </div>
 
         <div class="navbar-end">
-          <div class="navbar-item">
+          <!-- <div class="navbar-item is-hidden-desktop">
             <div class="field is-grouped">
               <p class="control has-icons-left" style="width:100%;">
                 <input
@@ -52,8 +52,9 @@
                 </span>
               </p>
             </div>
-          </div>
-          <header-locales/>
+          </div> -->
+          <header-search />
+          <header-locales />
           <a
             class="navbar-item"
             target="_blank"
@@ -70,9 +71,11 @@
 </template>
 
 <script>
-import headerLocales from '@/layout/header-aside/components/header-locales'
+import headerSearch from '@/layout/header-aside/components/header-search'
+import headerLocales from "@/layout/header-aside/components/header-locales";
 export default {
   components: {
+    headerSearch,
     headerLocales
   },
   created() {
@@ -107,7 +110,9 @@ export default {
     changeItem(item) {
       this.currgd = item;
       localStorage.setItem("currgd", JSON.stringify(item));
-      location.href = item.id;
+      this.$router.push({
+        path: item.id
+      });
     },
     query() {
       if (this.param) {

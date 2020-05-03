@@ -42,6 +42,3 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import "~@/assets/style/theme/register.scss";
-</style>
