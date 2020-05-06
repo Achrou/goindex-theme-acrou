@@ -5,48 +5,61 @@ var govideo = Vue.component("govideo", {
     return {
       apiurl: "",
       videourl: "",
-      players: [
-        {
-          name: 'IINA',
-          icon: 'https://www.iina.io/images/iina-icon-60.png',
-          scheme: 'iina://weblink?url='
-        },
-        {
-          name: 'PotPlayer',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/potplayer.png',
-          scheme: 'potplayer://'
-        },
-        {
-          name: 'VLC',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/vlc.png',
-          scheme: 'vlc://'
-        },
-        {
-          name: 'Thunder',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/thunder.png',
-          scheme: 'thunder://'
-        },
-        {
-          name: 'MXPlayer',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/mxplayer.png',
-          scheme: 'intent:'
-        },
-        {
-          name: 'nPlayer',
-          icon: 'https://cloud.jsonpop.cn/go2index/player/nplayer.png',
-          scheme: 'nplayer-'
-        }
-      ]
+      title: "",
     };
   },
   methods: {
     render(path) {
+      this.title = path.split("/").pop();
       this.videourl = window.location.origin + path;
       this.apiurl =
         "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
     },
   },
   computed: {
+    players() {
+      return [{
+          name: 'IINA',
+          icon: 'https://www.iina.io/images/iina-icon-60.png',
+          scheme: 'iina://weblink?url=' + this.videourl
+        },
+        {
+          name: 'PotPlayer',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/potplayer.png',
+          scheme: 'potplayer://' + this.videourl
+        },
+        {
+          name: 'VLC',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/vlc.png',
+          scheme: 'vlc://' + this.videourl
+        },
+        {
+          name: 'Thunder',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/thunder.png',
+          scheme: 'thunder://' + this.getThunder
+        },
+        {
+          name: 'Aria2',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/aria2.png',
+          scheme: 'javascript:alert("暂未实现")'
+        },
+        {
+          name: 'nPlayer',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/nplayer.png',
+          scheme: 'nplayer-' + this.videourl
+        },
+        {
+          name: 'MXPlayer(Free)',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/mxplayer.png',
+          scheme: 'intent:' + this.videourl + '#Intent;package=com.mxtech.videoplayer.ad;S.title=' + this.title + ';end'
+        },
+        {
+          name: 'MXPlayer(Pro)',
+          icon: 'https://cloud.jsonpop.cn/go2index/player/mxplayer.png',
+          scheme: 'intent:' + this.videourl + '#Intent;package=com.mxtech.videoplayer.pro;S.title=' + this.title + ';end'
+        }
+      ]
+    },
     getThunder() {
       return Buffer.from("AA" + this.videourl + "ZZ").toString("base64")
     }
@@ -76,7 +89,7 @@ var govideo = Vue.component("govideo", {
                   <div class="columns is-mobile is-multiline has-text-centered">
                     <div class="column" v-for="item in players">
                       <p class="heading">
-                        <a :href="item.scheme+(item.name==='Thunder'?getThunder:videourl)+(item.name==='MXPlayer'?';end':'')">
+                        <a :href="item.scheme">
                           <figure class="image is-48x48" style="margin: 0 auto;">
                             <img class="icon" :src="item.icon" />
                           </figure>
