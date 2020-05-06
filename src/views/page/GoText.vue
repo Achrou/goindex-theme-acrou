@@ -13,52 +13,35 @@
 </template>
 
 <script>
-import { get_file } from "@utils/AcrouUtil"
+import { get_file } from "@utils/AcrouUtil";
 export default {
-  // props: {
-  //   option: {
-  //     path: "",
-  //     file: {},
-  //   },
-  // },
-  // watch: {
-  //   option () {
-  //     this.content = "加载中...";
-  //     get_file(this.option, (data) => {
-  //       this.content = data;
-  //     });
-  //   },
-  // },
-  data: function () {
+  data: function() {
     return {
       path: "",
       content: ""
     };
   },
-  // watch: {
-  //   '$route' (to, from) {
-  //     this.content = "加载中...";
-  //     get_file({path: to.replace('?a=view','/'),file: {}}, (data) => {
-  //       this.content = data;
-  //     });
-  //   }
-  // },
+  watch: {
+    $route(to, from) {
+      this.render();
+    }
+  },
   created() {
-    this.render()
+    this.render();
   },
   components: {
-    editor: require('@/components/ace-editor'),
+    editor: require("@/components/ace-editor")
   },
   methods: {
     render() {
-      let path = window.location.pathname
-      this.content = this.$t('page.text.loading');
-      get_file({path: path.replace('?a=view','/'),file: {}}, (data) => {
+      let path = window.location.pathname;
+      this.content = this.$t("page.text.loading");
+      get_file({ path: path.replace("?a=view", "/"), file: {} }, data => {
         this.content = data;
       });
     },
-    editorInit (editor) {
-      editor.setFontSize(18)
+    editorInit(editor) {
+      editor.setFontSize(18);
       editor.session.setUseWrapMode(false);
       require("brace/ext/language_tools"); //language extension prerequsite...
       require("brace/mode/html");
@@ -66,7 +49,7 @@ export default {
       require("brace/mode/less");
       require("brace/theme/chrome");
       require("brace/snippets/javascript"); //snippet
-    },
+    }
   }
-}
+};
 </script>

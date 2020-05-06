@@ -1,9 +1,5 @@
 <template>
   <div>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bulma-pageloader@0.3.0/dist/css/bulma-pageloader.min.css"
-    />
     <headmd :option="headmd" v-show="headmd.display"></headmd>
     <div class="golist">
       <table class="table is-hoverable">
@@ -37,9 +33,9 @@
               class="is-hidden-mobile is-hidden-touch"
               v-if="file.mimeType!=='application/vnd.google-apps.folder'"
             >
-              <!-- <span class="icon" @click="copy(file.path)">
-                <i class="fa fa-copy" title="copy link" aria-hidden="true"></i>
-              </span>-->
+              <span class="icon" @click.stop="copy(file.path)">
+                <i class="fa fa-copy faa-shake animated-hover" :title="$t('list.opt.copy')" aria-hidden="true"></i>
+              </span>
               <span class="icon" @click.stop="go(file,'_blank')">
                 <i
                   class="fa fa-external-link faa-shake animated-hover"
@@ -47,49 +43,17 @@
                   aria-hidden="true"
                 ></i>
               </span>
-              <span class="icon" @click="go(file,'down')">
-                <i class="fa fa-download faa-shake animated-hover" :title="$t('list.opt.download')"></i>
+              <span class="icon" @click.stop="go(file,'down')">
+                <i
+                  class="fa fa-download faa-shake animated-hover"
+                  aria-hidden="true"
+                  :title="$t('list.opt.download')"
+                ></i>
               </span>
             </td>
           </tr>
         </tbody>
       </table>
-      <!-- <el-table
-        :data="files"
-        :cell-class-name="cellClass"
-        :header-row-class-name="cellClass"
-        @cell-click="go"
-      >
-        <el-table-column prop="name" :label="$t('list.title.file')" min-width="10" sortable>
-          <template slot-scope="scope">
-            <svg class="iconfont" aria-hidden="true">
-              <use :xlink:href="getIcon(scope.row.mimeType)" />
-            </svg>
-            {{scope.row.name}}
-          </template>
-        </el-table-column>
-        <el-table-column
-          prop="modifiedTime"
-          :label="$t('list.title.moditime')"
-          sortable
-          min-width="3"
-        ></el-table-column>
-        <el-table-column prop="size" :label="$t('list.title.size')" sortable min-width="2"></el-table-column>
-        <el-table-column :label="$t('list.title.operation')" sortable min-width="2">
-          <template slot-scope="scope">
-            <span class="icon" @click.stop="go(file,'_blank')">
-              <i
-                class="fa fa-external-link faa-shake animated-hover"
-                :title="$t('list.opt.newTab')"
-                aria-hidden="true"
-              ></i>
-            </span>
-            <span class="icon" @click="go(file,'down')">
-              <i class="fa fa-download faa-shake animated-hover" :title="$t('list.opt.download')"></i>
-            </span>
-          </template>
-        </el-table-column>
-      </el-table> -->
       <div v-show="files.length==0" class="has-text-centered no-content"></div>
       <div v-show="loading" class="pageloader is-active">
         <span class="title">{{$t('list.loading')}}</span>
@@ -104,7 +68,9 @@
 import { utc2beijing, formatFileSize, checkoutPath } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import Markdown from "../common/Markdown";
+import * as clipboard from "clipboard-polyfill";
 export default {
+  name: "GoList",
   components: {
     Headmd: Markdown,
     Readmemd: Markdown
@@ -117,6 +83,7 @@ export default {
       },
       files: [],
       loading: true,
+      copyTooltip: '',
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -162,7 +129,7 @@ export default {
         },
         {
           name: this.$t("list.title.operation"),
-          style: "width:10%",
+          style: "width:13%",
           class: "is-hidden-mobile is-hidden-touch"
         }
       ];
@@ -245,7 +212,7 @@ export default {
         });
     },
     checkPassword(path) {
-      var pass = prompt("目录加密，请输入密码", "");
+      var pass = prompt(this.$t("list.auth"), "");
       localStorage.setItem("password" + path, pass);
       if (pass != null && pass != "") {
         this.render(path);
@@ -253,10 +220,12 @@ export default {
         history.go(-1);
       }
     },
-    // copy(path) {
-    //   path = path.replace("?a=view", "");
-    //   // TODO
-    // },
+    copy(path) {
+      let origin = window.location.origin;
+      path = path.replace("?a=view", "");
+      path = origin + path;
+      clipboard.writeText(path);
+    },
     go(file, target) {
       let path = file.path;
       if (path.match("/[0-9]+:search/")) {
@@ -275,6 +244,14 @@ export default {
           path: path
         });
       }
+
+       /* else if (path.substr(-1) == "/" && path.indexOf("?a=view") > 0) {
+        this.$router.push({
+          path: path
+        });
+      } else {
+        location.href = path;
+      } */
     },
     goSearchResult(file, target) {
       this.loading = true;

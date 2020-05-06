@@ -37,7 +37,8 @@
         </div>
 
         <div class="navbar-end">
-          <!-- <div class="navbar-item is-hidden-desktop">
+          <!-- is-hidden-desktop -->
+          <!-- <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control has-icons-left" style="width:100%;">
                 <input

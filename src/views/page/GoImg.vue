@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <hr/>
+    <hr />
     <figure class="image">
       <img :src="imgurl" :class="!display?'is-hidden':''" @load="loading" />
       <center :class="display?'is-hidden':''">
@@ -8,7 +8,7 @@
         <span class="sr-only">Loading...</span>
       </center>
     </figure>
-    <hr/>
+    <hr />
   </div>
 </template>
 
@@ -20,16 +20,21 @@ export default {
       display: false
     };
   },
+  watch: {
+    $route(to, from) {
+      this.render();
+    }
+  },
   mounted() {
-    let path = window.location.pathname;
-    // 便于开发环境调试
-    path = process.env.NODE_ENV === "development" ? "/api" + path : "";
-    this.imgurl = path;
+    this.render();
   },
   methods: {
-    // render(path) {
-    //   this.imgurl = path;
-    // },
+    render() {
+      let path = window.location.pathname;
+      // 便于开发环境调试
+      path = process.env.NODE_ENV === "development" ? "/api" + path : "";
+      this.imgurl = path;
+    },
     loading(event) {
       if (event.target.complete == true) {
         this.display = true;

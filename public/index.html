@@ -10,10 +10,6 @@
     <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style">
     <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
     <% } %>
-    <!-- 使用 CDN 加速的 JS 文件，配置在 vue.config.js 下 -->
-    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
-    <link href="<%= htmlWebpackPlugin.options.cdn.js[i] %>" rel="preload" as="script">
-    <% } %>
     <title><%= htmlWebpackPlugin.options.title %></title>
     <script>
       var authConfig = {
@@ -36,13 +32,14 @@
       window.current_drive_order = 0;
       // window.MODEL = { q: "the" };
     </script>
+    <!-- 使用 CDN 加速的 JS 文件，配置在 vue.config.js 下 -->
+    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
+      <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+    <% } %>
+    <script src="/app.js"></script>
   </head>
 
   <body>
-    <div id="app"></div>
-    <!-- 使用 CDN 加速的 JS 文件，配置在 vue.config.js 下 -->
-    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
-    <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-    <% } %>
+   
   </body>
 </html>

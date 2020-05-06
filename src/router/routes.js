@@ -2,10 +2,10 @@
 const _import = require('@/libs/util.import.' + process.env.NODE_ENV)
 
 const frameIn = [
-  { path: '/:id:/*.(html|php|css|go|java|py|js|json|txt|sh|md)', component: _import('page/GoText') },
-  { path: '/:id:/*.(mp4|webm|mkv)', component: _import('page/GoVideo') },
-  { path: '/:id:/*.(bmp|jpg|jpeg|png|gif)', component: _import('page/GoImg') },
-  { path: '/:id::cmd?(/?/??.*)', component: _import('page/GoList') },
+  { path: '/:id:(text/.*\\.)(html|php|css|go|java|py|js|json|txt|sh|md)', component: _import('page/GoText') },
+  { path: '/:id:(video/.*\\.)(mp4|webm|mkv)', component: _import('page/GoVideo') },
+  { path: '/:id:(image/.*\\.)(bmp|jpg|jpeg|png|gif)', component: _import('page/GoImg') },
+  { path: '/:id::cmd?(/?/??.*/)', component: _import('page/GoList') },
 ]
 
 export default frameIn

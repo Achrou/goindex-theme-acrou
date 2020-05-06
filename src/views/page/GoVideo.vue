@@ -94,16 +94,20 @@ export default {
     };
   },
   methods: {
-    // render (path) {
-    //   this.videourl = window.location.origin + path;
-    //   this.apiurl =
-    //     "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
-    // },
+    render() {
+      // 便于开发环境调试
+      this.videourl = window.location.origin + window.location.pathname;
+      this.apiurl =
+        "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
+    }
   },
   mounted() {
-    // 便于开发环境调试
-    this.videourl = window.location.origin + window.location.pathname;
-    this.apiurl = "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
+    this.render();
+  },
+  watch: {
+    $route(to, from) {
+      this.render();
+    }
   },
   computed: {
     getThunder() {

@@ -1,6 +1,9 @@
 <template>
   <nav class="breadcrumb is-hidden-mobile is-hidden-touch" aria-label="breadcrumbs">
     <ul>
+      <li>
+        <a v-show="navs && navs.length>0" @click="go(index)">{{$t('index')}}</a>
+      </li>
       <li
         v-for="(item,index) in navs"
         :class="(index+1)==navs.length?'is-active':''"
@@ -37,6 +40,7 @@ export default {
     },
     render() {
       let path = window.location.pathname;
+      this.index = path.match("/\\d+:/")[0]
       // 如果是搜索不进行渲染
       if (path.match("/[0-9]+:search")) {
         this.navs = [];
@@ -53,8 +57,11 @@ export default {
           }
           n = decodeURI(n);
           p += n + "/";
-          if (p.match("/[0-9]+:/")[0] === p) {
-            n = "首页";
+          // if (p.match("/[0-9]+:/")[0] === p) {
+          //   n = this.$t('index');
+          // }
+          if (n.match("[0-9]+:")) {
+            continue;
           }
           navs.push({
             path: p,
@@ -62,9 +69,6 @@ export default {
           });
         }
         this.navs = navs;
-        if (navs.length == 1 && navs[0].title === "首页") {
-          this.navs = [];
-        }
       }
     }
   }

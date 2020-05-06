@@ -1,7 +1,9 @@
 {
   "_name": "English",
   "languages": "Languages",
+  "index": "Index",
   "list": {
+    "auth": "Directory encryption, please enter password",
     "title": {
         "file": "File",
         "moditime": "Modified Time",
@@ -10,6 +12,7 @@
     },
     "loading": "Loading...",
     "opt": {
+        "copy": "Copy link",
         "newTab": "Open a new tab",
         "download": "Download"
     }

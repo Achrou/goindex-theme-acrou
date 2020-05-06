@@ -24,16 +24,16 @@ const exts = [
 
 export const checkoutPath = (path, file) => {
   // 解决/css这种也会匹配的问题
-  var ext = path.split(".").length > 1 ? path.split(".").pop() : "";
-  if (exts.indexOf(`${ext}`) >= 0) {
-    path += "?a=view";
-  } else {
+  // var ext = path.split(".").length > 1 ? path.split(".").pop() : "";
+  // if (exts.indexOf(`${ext}`) >= 0) {
+  //   path += "?a=view";
+  // } else {
     if (file.mimeType === "application/vnd.google-apps.folder") {
       if (path.substr(-1) !== "/") {
         path += "/";
       }
     }
-  }
+  // }
   return path;
 };
 

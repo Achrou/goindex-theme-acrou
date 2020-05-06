@@ -12,9 +12,8 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
+    "clipboard-polyfill": "^2.8.6",
     "core-js": "^3.6.4",
-    "element-ui": "^2.13.1",
-    "iview": "^3.5.4",
     "js-cookie": "^2.2.1",
     "markdown-it": "^10.0.0",
     "node-sass": "^4.14.0",

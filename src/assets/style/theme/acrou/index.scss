@@ -94,6 +94,7 @@ body {
     padding-top: 0;
     background: hsla(0, 0%, 100%, 0.6);
     will-change: initial;
+    z-index: 1;
 
     .title {
       color: hsl(0, 0%, 4%);
@@ -136,28 +137,4 @@ body {
   border: 5px solid transparent;
   position: absolute;
   left: 7px;
-}
-
-.el-table table,
-tbody,
-thead {
-  width: 100% !important;
-}
-.el-table colgroup {
-//   position: absolute;
-  width: 100% !important;
-  display: flex;
-}
-.el-table col {
-  flex: 1;
-  text-align: center;
-}
-.el-table td, .el-table th.is-leaf{
-	// width: 100%;
-	border-bottom: initial;
-}
-.el-table td{
-	&:hover{
-		cursor: pointer;
-	}
 }

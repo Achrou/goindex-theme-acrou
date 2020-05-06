@@ -1,7 +1,9 @@
 {
     "_name": "简体中文",
     "languages": "选择语言",
+    "index": "首页",
     "list": {
+        "auth": "目录加密，请输入密码",
         "title": {
             "file": "文件",
             "moditime": "修改时间",
@@ -10,6 +12,7 @@
         },
         "loading": "加载中...",
         "opt": {
+            "copy": "复制链接",
             "newTab": "打开新的标签页",
             "download": "下载"
         }

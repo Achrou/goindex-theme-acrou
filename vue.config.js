@@ -1,5 +1,6 @@
 const path = require("path");
 const cdnDependencies = require("./dependencies-cdn");
+const BuildAppJSPlugin = require("./buildAppJSPlugin");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -32,6 +33,7 @@ module.exports = {
   },
 
   chainWebpack: (config) => {
+    config.plugin("BuildAppJSPlugin").use(BuildAppJSPlugin);
     /**
      * 添加 CDN 参数到 htmlWebpackPlugin 配置中
      */
@@ -40,9 +42,10 @@ module.exports = {
         args[0].cdn = cdn;
       } else {
         args[0].cdn = {
-          css: cdnDependencies.filter((e) => e.name==="").map((e) => e.css),
+          css: cdnDependencies.filter((e) => e.name === "").map((e) => e.css),
         };
       }
+      args[0].inject = false
       return args;
     });
     config.resolve.alias
