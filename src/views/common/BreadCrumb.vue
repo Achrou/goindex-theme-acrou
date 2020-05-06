@@ -2,7 +2,7 @@
   <nav class="breadcrumb is-hidden-mobile is-hidden-touch" aria-label="breadcrumbs">
     <ul>
       <li>
-        <a v-show="navs && navs.length>0" @click="go(index)">{{$t('index')}}</a>
+        <a v-show="navs && navs.length>0" @click="go('/'+index+':/')">{{$t('index')}}</a>
       </li>
       <li
         v-for="(item,index) in navs"
@@ -17,7 +17,9 @@
 </template>
 
 <script>
+import { decode64 } from "@utils/AcrouUtil";
 export default {
+  props: ["name"],
   data: function() {
     return {
       navs: [],
@@ -28,9 +30,7 @@ export default {
     this.render();
   },
   watch: {
-    $route(to, from) {
-      this.render();
-    }
+    $route: "render"
   },
   methods: {
     go(path) {
@@ -39,8 +39,10 @@ export default {
       });
     },
     render() {
-      let path = window.location.pathname;
-      this.index = path.match("/\\d+:/")[0]
+      this.index = this.$route.params.id;
+      let path = this.$route.params.path
+        ? decode64(this.$route.params.path)
+        : this.$route.path;
       // 如果是搜索不进行渲染
       if (path.match("/[0-9]+:search")) {
         this.navs = [];

@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <tr v-for="(file,index) in files" v-bind:key="index">
-            <td @click="go(file)">
+            <td @click="go(file, 'view')">
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
@@ -34,7 +34,11 @@
               v-if="file.mimeType!=='application/vnd.google-apps.folder'"
             >
               <span class="icon" @click.stop="copy(file.path)">
-                <i class="fa fa-copy faa-shake animated-hover" :title="$t('list.opt.copy')" aria-hidden="true"></i>
+                <i
+                  class="fa fa-copy faa-shake animated-hover"
+                  :title="$t('list.opt.copy')"
+                  aria-hidden="true"
+                ></i>
               </span>
               <span class="icon" @click.stop="go(file,'_blank')">
                 <i
@@ -65,7 +69,12 @@
 </template>
 
 <script>
-import { utc2beijing, formatFileSize, checkoutPath } from "@utils/AcrouUtil";
+import {
+  formatDate,
+  formatFileSize,
+  checkoutPath,
+  checkView
+} from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import Markdown from "../common/Markdown";
 import * as clipboard from "clipboard-polyfill";
@@ -83,7 +92,7 @@ export default {
       },
       files: [],
       loading: true,
-      copyTooltip: '',
+      copyTooltip: "",
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -197,7 +206,7 @@ export default {
                 return {
                   path: p,
                   ...item,
-                  modifiedTime: utc2beijing(item.modifiedTime),
+                  modifiedTime: formatDate(item.modifiedTime),
                   size: formatFileSize(item.size)
                 };
               });
@@ -222,7 +231,6 @@ export default {
     },
     copy(path) {
       let origin = window.location.origin;
-      path = path.replace("?a=view", "");
       path = origin + path;
       clipboard.writeText(path);
     },
@@ -233,25 +241,25 @@ export default {
         return;
       }
       if (target === "down") {
-        path = path.replace("?a=view", "");
-        window.open(path);
+        location.href = path;
+        return;
+      }
+      if (target === "view") {
+        this.$router.push({
+          path: checkView(path)
+        });
+        return;
+      }
+      if (file.mimeType === "application/vnd.google-apps.folder") {
+        this.$router.push({
+          path: path
+        });
         return;
       }
       if (target === "_blank") {
         window.open(path);
-      } else {
-        this.$router.push({
-          path: path
-        });
+        return;
       }
-
-       /* else if (path.substr(-1) == "/" && path.indexOf("?a=view") > 0) {
-        this.$router.push({
-          path: path
-        });
-      } else {
-        location.href = path;
-      } */
     },
     goSearchResult(file, target) {
       this.loading = true;
@@ -288,7 +296,9 @@ export default {
       if (to.path.length < from.path.length) {
         this.page.page_token = null;
       }
-      this.render();
+      if (to.path.substr(-1) === '/') {
+				this.render();
+			}
     }
   }
 };

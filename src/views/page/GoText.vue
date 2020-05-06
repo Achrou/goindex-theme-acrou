@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { get_file } from "@utils/AcrouUtil";
+import { get_file, decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
@@ -21,22 +21,22 @@ export default {
       content: ""
     };
   },
-  watch: {
-    $route(to, from) {
-      this.render();
-    }
-  },
   created() {
     this.render();
+  },
+  computed: {
+    url() {
+      return decode64(this.$route.params.path);
+    }
   },
   components: {
     editor: require("@/components/ace-editor")
   },
   methods: {
     render() {
-      let path = window.location.pathname;
+      let path = this.url;
       this.content = this.$t("page.text.loading");
-      get_file({ path: path.replace("?a=view", "/"), file: {} }, data => {
+      get_file({ path: path, file: {} }, data => {
         this.content = data;
       });
     },

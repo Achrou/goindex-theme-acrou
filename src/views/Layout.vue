@@ -4,9 +4,9 @@
     <section class="section">
       <div class="container">
         <bread-crumb ref="breadcrumb"></bread-crumb>
-        <keep-alive>
+        <!-- <keep-alive> -->
           <router-view></router-view>
-        </keep-alive>
+        <!-- </keep-alive> -->
         <Footer></Footer>
       </div>
     </section>

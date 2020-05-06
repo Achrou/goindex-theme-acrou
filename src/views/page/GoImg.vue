@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
@@ -20,17 +21,17 @@ export default {
       display: false
     };
   },
-  watch: {
-    $route(to, from) {
-      this.render();
+  computed: {
+    url() {
+      return decode64(this.$route.params.path);
     }
   },
-  mounted() {
+  created() {
     this.render();
   },
   methods: {
     render() {
-      let path = window.location.pathname;
+      let path = this.url;
       // 便于开发环境调试
       path = process.env.NODE_ENV === "development" ? "/api" + path : "";
       this.imgurl = path;

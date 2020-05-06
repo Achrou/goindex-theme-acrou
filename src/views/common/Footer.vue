@@ -7,7 +7,7 @@
             <a
               class="tag is-dark"
               href="https://github.com/Aicirou/goindex-theme-acrou"
-            >goindex-template-acrou</a>
+            >goindex-theme-acrou</a>
             <span class="tag is-light">
               MIT &nbsp;
               <i class="fab fa-github"></i>

@@ -56,6 +56,9 @@
           </div> -->
           <header-search />
           <header-locales />
+          <div class="navbar-item">
+            <header-color/>
+          </div>
           <a
             class="navbar-item"
             target="_blank"
@@ -74,10 +77,12 @@
 <script>
 import headerSearch from '@/layout/header-aside/components/header-search'
 import headerLocales from "@/layout/header-aside/components/header-locales";
+import headerColor from '@/layout/header-aside/components/header-color'
 export default {
   components: {
     headerSearch,
-    headerLocales
+    headerLocales,
+    headerColor
   },
   created() {
     if (window.gds && window.gds.length > 0) {

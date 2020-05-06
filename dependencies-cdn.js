@@ -3,7 +3,7 @@ module.exports = [
   { name: 'vue-i18n', library: 'VueI18n', js: 'https://cdn.jsdelivr.net/npm/vue-i18n@8.17.3/dist/vue-i18n.min.js', css: '' },
   { name: 'vue-router', library: 'VueRouter', js: 'https://cdn.jsdelivr.net/npm/vue-router@3.1.6/dist/vue-router.min.js', css: '' },
   { name: 'axios', library: 'axios', js: 'https://cdn.jsdelivr.net/npm/axios@0.19.2/dist/axios.min.js', css: '' },
-  // { name: 'element-ui', library: 'ELEMENT', js: 'https://cdn.jsdelivr.net/npm/element-ui@2.13.1/lib/index.js', css: 'https://cdn.jsdelivr.net/npm/element-ui@2.13.1/lib/theme-chalk/index.css' },
+  { name: 'element-ui', library: 'ELEMENT', js: 'https://cdn.jsdelivr.net/npm/element-ui@2.13.1/lib/index.js', css: 'https://cdn.jsdelivr.net/npm/element-ui@2.13.1/lib/theme-chalk/index.css' },
   { name: 'js-cookie', library: 'Cookies', js: 'https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js', css: '' },
   // { name: 'brace', library: 'ace', js: 'https://cdn.jsdelivr.net/npm/brace@0.11.1/index.min.js', css: '' },
   // { name: 'brace/ext/language_tools', library: 'language_tools', js: ' https://cdn.jsdelivr.net/npm/brace@0.11.1/ext/language_tools.js', css: '' },

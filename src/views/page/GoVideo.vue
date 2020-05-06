@@ -54,6 +54,7 @@
 </template>
 
 <script>
+import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
@@ -96,20 +97,18 @@ export default {
   methods: {
     render() {
       // 便于开发环境调试
-      this.videourl = window.location.origin + window.location.pathname;
+      this.videourl = window.location.origin + this.url;
       this.apiurl =
         "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
     }
   },
-  mounted() {
+  created() {
     this.render();
   },
-  watch: {
-    $route(to, from) {
-      this.render();
-    }
-  },
   computed: {
+    url() {
+      return decode64(this.$route.params.path);
+    },
     getThunder() {
       return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
     }
