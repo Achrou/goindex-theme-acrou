@@ -8,6 +8,7 @@ import list from "./list";
 import gotext from "./text";
 import goimg from "./img";
 import gofooter from "../common/footer";
+import gohtml from "./html";
 import gocheck from "../common/check";
 import { getQueryString, get_filex } from "../utils/AcrouUtil";
 
@@ -17,6 +18,7 @@ var layout = Vue.component("layout", {
       path: "",
       show: "list",
       text: { file: {}, path: "" },
+      html: { file: {}, path: "" },
       headmd: { display: false, file: {}, path: "" },
       readmemd: { display: false, file: {}, path: "" },
     };
@@ -32,6 +34,7 @@ var layout = Vue.component("layout", {
     gotext: gotext,
     goimg: goimg,
     gofooter: gofooter,
+    gohtml,
     gocheck
   },
   methods: {
@@ -46,6 +49,14 @@ var layout = Vue.component("layout", {
       } else {
         var name = path.split("/").pop();
         var ext = name.split(".").pop().toLowerCase();
+        // if("|html|htm|".indexOf(`|${ext}|`) >= 0){
+        //   this.show = "html"
+        //   this.html = {
+        //     path: path,
+        //     file: {},
+        //   };
+        //   return
+        // }
         if (
           "|html|php|css|go|java|js|json|txt|sh|md|".indexOf(`|${ext}|`) >= 0
         ) {
@@ -76,8 +87,8 @@ var layout = Vue.component("layout", {
   },
   template: `
     <div>
-      <navbar ref="navbar"></navbar>
-      <section class="section">
+      <navbar ref="navbar" v-if="show!=='html'"></navbar>
+      <section class="section" v-if="show!=='html'">
         <div class="container">
           <goheadmd :option="headmd" v-show="headmd.display"></goheadmd>
           <breadcrumb ref="breadcrumb"></breadcrumb>
@@ -87,9 +98,10 @@ var layout = Vue.component("layout", {
           <goreadmemd :option="readmemd" v-show="readmemd.display"></goreadmemd>
           <gotext :option="text" v-show="show=='text'"></gotext>
           <goimg ref="goimg" v-show="show=='img'"></goimg>
-          <gofooter></gofooter>
+          <gofooter v-show="show!=='html'"></gofooter>
         </div>
       </section>
+      <gohtml :option="html" v-show="show=='html'"></gohtml>
       <gocheck></gocheck>
     </div>
   `,

@@ -1,21 +1,41 @@
 import axios from "./axios";
 
-const exts = ["html", "php", "css", "go", "java", "js", "json", "py", "txt", "sh", "md", "mp4", "webm", "mkv", "bmp", "jpg", "jpeg", "png", "gif"];
-
+const exts = [
+  "html",
+  "php",
+  "css",
+  "go",
+  "java",
+  "js",
+  "json",
+  "py",
+  "txt",
+  "sh",
+  "md",
+  "mp4",
+  "webm",
+  "mkv",
+  "bmp",
+  "jpg",
+  "jpeg",
+  "png",
+  "gif",
+];
 
 export const checkoutPath = (path, file) => {
-  var ext = path.split(".").pop();
+  // 解决/css这种也会匹配的问题
+  var ext = path.split(".").length > 1 ? path.split(".").pop() : "";
   if (exts.indexOf(`${ext}`) >= 0) {
     path += "?a=view";
   } else {
     if (file.mimeType === "application/vnd.google-apps.folder") {
-      if(path.substr(-1) !== '/'){
+      if (path.substr(-1) !== "/") {
         path += "/";
       }
     }
   }
-  return path
-}
+  return path;
+};
 
 export const getQueryString = (path, param) => {
   if (!path) {
@@ -27,12 +47,13 @@ export const getQueryString = (path, param) => {
 
 export const getURLParameters = (url) =>
   url
-  .match(/([^?=&]+)(=([^&]*))/g)
-  .reduce(
-    (a, v) => (
-      (a[v.slice(0, v.indexOf("="))] = v.slice(v.indexOf("=") + 1)), a
-    ), {}
-  );
+    .match(/([^?=&]+)(=([^&]*))/g)
+    .reduce(
+      (a, v) => (
+        (a[v.slice(0, v.indexOf("="))] = v.slice(v.indexOf("=") + 1)), a
+      ),
+      {}
+    );
 
 // console.log(getURLParameters("/Movies/xx.mp4?a=view&y=123"));
 
