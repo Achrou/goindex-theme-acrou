@@ -25,6 +25,11 @@
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
+              <!-- <span class="icon">
+                <figure class="image is-24x24">
+                  <img :src="file.thumbnailLink" />
+                </figure>
+              </span>-->
               {{file.name}}
             </td>
             <td class="is-hidden-mobile is-hidden-touch">{{file.modifiedTime}}</td>
@@ -84,7 +89,7 @@ export default {
     Headmd: Markdown,
     Readmemd: Markdown
   },
-  data: function() {
+  data: function () {
     return {
       page: {
         page_token: null,
@@ -123,7 +128,7 @@ export default {
     };
   },
   computed: {
-    columns() {
+    columns () {
       return [
         { name: this.$t("list.title.file"), style: "" },
         {
@@ -138,22 +143,22 @@ export default {
         },
         {
           name: this.$t("list.title.operation"),
-          style: "width:13%",
+          style: "width:13.5%",
           class: "is-hidden-mobile is-hidden-touch"
         }
       ];
     }
   },
-  mounted() {
+  mounted () {
     this.render();
   },
   methods: {
-    cellClass(row) {
+    cellClass (row) {
       if (row.columnIndex != 0) {
         return "is-hidden-mobile is-hidden-touch has-text-drak";
       }
     },
-    render() {
+    render () {
       let path = window.location.pathname;
       this.loading = true;
       var password = localStorage.getItem("password" + path);
@@ -220,7 +225,7 @@ export default {
           this.loading = false;
         });
     },
-    checkPassword(path) {
+    checkPassword (path) {
       var pass = prompt(this.$t("list.auth"), "");
       localStorage.setItem("password" + path, pass);
       if (pass != null && pass != "") {
@@ -229,12 +234,12 @@ export default {
         history.go(-1);
       }
     },
-    copy(path) {
+    copy (path) {
       let origin = window.location.origin;
       path = origin + path;
       clipboard.writeText(path);
     },
-    go(file, target) {
+    go (file, target) {
       let path = file.path;
       if (path.match("/[0-9]+:search/")) {
         this.goSearchResult(file, target);
@@ -261,7 +266,7 @@ export default {
         return;
       }
     },
-    goSearchResult(file, target) {
+    goSearchResult (file, target) {
       this.loading = true;
       let cur = window.current_drive_order;
       axios
@@ -286,19 +291,25 @@ export default {
           console.log(e);
         });
     },
-    getIcon(type) {
+    getIcon (type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     }
   },
   watch: {
-    $route(to, from) {
-      // 后退设置page_token为空
-      if (to.path.length < from.path.length) {
-        this.page.page_token = null;
+    $route (to, from) {
+      if (!to.path.indexOf(':search')) {
+        // 后退设置page_token为空
+        if (to.path.length < from.path.length) {
+          this.page.page_token = null;
+        }
+        if (to.path.substr(-1) !== '/' && from.meta.view !== "list") {
+          return
+        }
       }
-      if (to.path.substr(-1) === '/') {
-				this.render();
-			}
+
+      this.headmd = { display: false, file: {}, path: "" },
+      this.readmemd = { display: false, file: {}, path: "" }
+      this.render();
     }
   }
 };

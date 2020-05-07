@@ -1,45 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
-    <!-- 使用 CDN 加速的 CSS 文件，配置在 vue.config.js 下 -->
-    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.css) { %>
-    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style">
-    <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
-    <% } %>
-    <title><%= htmlWebpackPlugin.options.title %></title>
-    <script>
-      var authConfig = {
-        roots: [
-          {
-            id: "0AEofxddwF4bAUk9PVA",
-            name: "TeamDrive",
-            pass: "",
-          },
-          {
-            id: "root",
-            name: "PriveDrive",
-            pass: "",
-          },
-        ],
-      };
-      window.gds = JSON.parse(
-        JSON.stringify(authConfig.roots.map((it) => it.name))
-      );
-      window.current_drive_order = 0;
-      // window.MODEL = { q: "the" };
-    </script>
-    <!-- 使用 CDN 加速的 JS 文件，配置在 vue.config.js 下 -->
-    <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
-      <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
-    <% } %>
-    <script src="/app.js"></script>
-  </head>
 
-  <body>
-   
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico" />
+  <!-- 使用 CDN 加速的 CSS 文件，配置在 vue.config.js 下 -->
+  <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.css) { %>
+  <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="preload" as="style">
+  <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
+  <% } %>
+  <title><%= htmlWebpackPlugin.options.title %></title>
+  <script>
+    var authConfig = {
+      version: '1.1.0',
+      roots: [
+        {
+          id: "0AEofxddwF4bAUk9PVA",
+          name: "TeamDrive",
+          pass: "",
+        },
+        {
+          id: "root",
+          name: "PriveDrive",
+          pass: "",
+        },
+      ],
+    };
+    var themeOptions = {
+      // en/zh-chs/zh-cht
+      languages: 'en'
+    }
+    window.gdconfig = JSON.parse(JSON.stringify({ version: authConfig.version, themeOptions: themeOptions }));
+    window.gds = JSON.parse(
+      JSON.stringify(authConfig.roots.map((it) => it.name))
+    );
+    window.current_drive_order = 0;
+      // window.MODEL = { q: "the" };
+  </script>
+  <!-- 使用 CDN 加速的 JS 文件，配置在 vue.config.js 下 -->
+  <% for (var i in htmlWebpackPlugin.options.cdn&&htmlWebpackPlugin.options.cdn.js) { %>
+  <script src="<%= htmlWebpackPlugin.options.cdn.js[i] %>"></script>
+  <% } %>
+  <script src="/app.js"></script>
+</head>
+
+<body>
+
+</body>
+
 </html>

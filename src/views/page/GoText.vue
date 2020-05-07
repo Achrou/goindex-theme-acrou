@@ -15,32 +15,40 @@
 <script>
 import { get_file, decode64 } from "@utils/AcrouUtil";
 export default {
-  data: function() {
+  data: function () {
     return {
       path: "",
       content: ""
     };
   },
-  created() {
+  watch: {
+    $route (to, from) {
+      this.render();
+    }
+  },
+  created () {
     this.render();
   },
   computed: {
-    url() {
-      return decode64(this.$route.params.path);
+    url () {
+      if (this.$route.params.path) {
+        return decode64(this.$route.params.path);
+      }
+      return ''
     }
   },
   components: {
     editor: require("@/components/ace-editor")
   },
   methods: {
-    render() {
+    render () {
       let path = this.url;
       this.content = this.$t("page.text.loading");
       get_file({ path: path, file: {} }, data => {
         this.content = data;
       });
     },
-    editorInit(editor) {
+    editorInit (editor) {
       editor.setFontSize(18);
       editor.session.setUseWrapMode(false);
       require("brace/ext/language_tools"); //language extension prerequsite...

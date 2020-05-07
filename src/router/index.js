@@ -30,7 +30,7 @@ const router = new VueRouter({
  */
 router.beforeEach(async (to, from, next) => {
   console.log("before:");
-  console.log(to);
+  console.log(to,from);
   next();
 });
 

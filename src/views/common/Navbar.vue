@@ -38,7 +38,7 @@
 
         <div class="navbar-end">
           <!-- is-hidden-desktop -->
-          <!-- <div class="navbar-item">
+          <div class="navbar-item">
             <div class="field is-grouped">
               <p class="control has-icons-left" style="width:100%;">
                 <input
@@ -53,8 +53,8 @@
                 </span>
               </p>
             </div>
-          </div> -->
-          <header-search />
+          </div>
+          <!-- <header-search /> -->
           <header-locales />
           <div class="navbar-item">
             <header-color/>

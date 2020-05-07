@@ -14,7 +14,10 @@ export default {
   },
   computed: {
     url() {
-      return decode64(this.$route.params.path);
+      if (this.$route.params.path) {
+        return decode64(this.$route.params.path);
+      }
+      return ''
     }
   },
   methods: {}

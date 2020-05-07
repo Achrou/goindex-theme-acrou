@@ -23,7 +23,10 @@ export default {
   },
   computed: {
     url() {
-      return decode64(this.$route.params.path);
+      if (this.$route.params.path) {
+        return decode64(this.$route.params.path);
+      }
+      return ''
     }
   },
   created() {
@@ -33,7 +36,7 @@ export default {
     render() {
       let path = this.url;
       // 便于开发环境调试
-      path = process.env.NODE_ENV === "development" ? "/api" + path : "";
+      // path = process.env.NODE_ENV === "development" ? "/api" + path : "";
       this.imgurl = path;
     },
     loading(event) {
