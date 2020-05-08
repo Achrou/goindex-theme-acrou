@@ -1,6 +1,6 @@
 <template>
   <div>
-    <headmd :option="headmd" v-show="headmd.display"></headmd>
+    <headmd :option="headmd" v-if="headmd.display"></headmd>
     <div class="golist">
       <table class="table is-hoverable">
         <thead>
@@ -21,7 +21,7 @@
         </thead>
         <tbody>
           <tr v-for="(file,index) in files" v-bind:key="index">
-            <td @click="go(file, 'view')">
+            <td @click="go(file, file.mimeType!=='application/vnd.google-apps.folder'?'view':'')">
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
@@ -69,7 +69,7 @@
       </div>
     </div>
     <hr />
-    <readmemd :option="readmemd" v-show="readmemd.display"></readmemd>
+    <readmemd :option="readmemd" v-if="readmemd.display"></readmemd>
   </div>
 </template>
 
@@ -297,20 +297,19 @@ export default {
   },
   watch: {
     $route (to, from) {
-      if (!to.path.indexOf(':search')) {
-        // 后退设置page_token为空
-        if (to.path.length < from.path.length) {
-          this.page.page_token = null;
-        }
-        if (to.path.substr(-1) !== '/' && from.meta.view !== "list") {
-          return
-        }
+      // 后退设置page_token为空
+      if (to.path.length < from.path.length) {
+        this.page.page_token = null;
       }
-
-      this.headmd = { display: false, file: {}, path: "" },
-      this.readmemd = { display: false, file: {}, path: "" }
-      this.render();
+      if ((to.path.indexOf(':search') > 0) || (to.path.substr(-1) === '/' && from.meta.view === "list")) {
+        this.render();
+      }
     }
-  }
+  },
+  // beforeRouteUpdate (to, from, next) {
+  //   this.headmd = { display: false, file: {}, path: "" },
+  //   this.readmemd = { display: false, file: {}, path: "" }
+  //   next()
+  // },
 };
 </script>
