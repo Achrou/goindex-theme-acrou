@@ -29,7 +29,7 @@ export default {
       return ''
     }
   },
-  created() {
+  activated() {
     this.render();
   },
   methods: {

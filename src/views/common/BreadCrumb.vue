@@ -40,13 +40,15 @@ export default {
     },
     render() {
       this.index = this.$route.params.id;
-      let path = this.$route.params.path
-        ? decode64(this.$route.params.path)
-        : this.$route.path;
+      let cmd = this.$route.params.cmd
       // 如果是搜索不进行渲染
-      if (path.match("/[0-9]+:search")) {
+      if (cmd === 'search') {
         this.navs = [];
         return;
+      }
+      let path = this.$route.path
+      if(cmd){
+        path = decode64(this.$route.params.path)
       }
       var arr = path.trim("/").split("/");
       var p = "/";

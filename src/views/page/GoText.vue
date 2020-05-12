@@ -21,12 +21,7 @@ export default {
       content: ""
     };
   },
-  watch: {
-    $route (to, from) {
-      this.render();
-    }
-  },
-  created () {
+  activated () {
     this.render();
   },
   computed: {

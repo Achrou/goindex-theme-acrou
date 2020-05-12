@@ -2,6 +2,14 @@
     "_name": "繁体中文",
     "languages": "選擇語言",
     "index": "首頁",
+    "folder": "文件夾",
+    "notify": {
+        "title": "提示"
+    },
+    "copy": {
+        "success": "復制成功",
+        "error": "復制失敗"
+    },
     "list": {
         "auth": "目錄加密，請輸入密碼",
         "title": {
@@ -21,6 +29,11 @@
         "placeholder": "搜索..."
     },
     "page": {
+        "video": {
+            "play": "播放",
+            "download": "下載",
+            "link": "下載地址"
+        },
         "text": {
             "loading": "加載中..."
         }

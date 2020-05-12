@@ -20,17 +20,17 @@
           <span class="icon">
             <i class="fa fa-play-circle" aria-hidden="true"></i>
           </span>
-          播放 /
+          {{$t('page.video.play')}} /
           <span class="icon">
             <i class="fa fa-download" aria-hidden="true"></i>
           </span>
-          下载
+          {{$t('page.video.download')}}
         </p>
       </header>
       <div class="card-content">
         <div class="content">
           <div class="field">
-            <label class="label">下载地址</label>
+            <label class="label">{{$t('page.video.link')}}</label>
             <div class="control">
               <input class="input" type="text" :value="decodeURIComponent(videourl)" />
             </div>
@@ -102,7 +102,7 @@ export default {
         "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
     }
   },
-  created () {
+  activated () {
     this.render();
   },
   computed: {

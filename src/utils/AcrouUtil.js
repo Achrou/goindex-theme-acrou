@@ -38,7 +38,8 @@ export const checkView = (path) => {
     .split(".")
     .pop()
     .toLowerCase();
-  let base64Path = Base64.encode(path);
+    console.log(path)
+  let base64Path = encode64(path);
   if ("|html|php|css|go|java|js|json|txt|sh|md|".indexOf(`|${ext}|`) >= 0) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
       return `/${p2}text/${base64Path}`;
@@ -88,7 +89,7 @@ export const getURLParameters = (url) =>
 //console.log(getQueryString("/Movies/xx.mp4?a=view&y=123", "y"));
 
 export const encode64 = (str) => {
-  return Base64.encode(str);
+  return Base64.encodeURI(str);
 };
 
 export const decode64 = (str) => {

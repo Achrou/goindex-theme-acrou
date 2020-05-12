@@ -29,14 +29,18 @@ const router = new VueRouter({
  * 权限验证
  */
 router.beforeEach(async (to, from, next) => {
-  console.log("before:");
-  console.log(to,from);
+  if (process.env.NODE_ENV === "development") {
+    console.log("before:");
+    console.log(to, from);
+  }
   next();
 });
 
 router.afterEach((to) => {
-  console.log("after:");
-  console.log(to);
+  if (process.env.NODE_ENV === "development") {
+    console.log("after:");
+    console.log(to);
+  }
 });
 
 export default router;

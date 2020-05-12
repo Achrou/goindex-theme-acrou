@@ -2,27 +2,40 @@
   "_name": "English",
   "languages": "Languages",
   "index": "Index",
+  "folder": "Folder",
+  "notify": {
+    "title": "Notify"
+  },
+  "copy": {
+    "success": "Copy successful",
+    "error": "Copy failed"
+  },
   "list": {
     "auth": "Directory encryption, please enter password",
     "title": {
-        "file": "File",
-        "moditime": "Modified Time",
-        "size": "Size",
-        "operation": "Operation"
+      "file": "File",
+      "moditime": "Modified Time",
+      "size": "Size",
+      "operation": "Operation"
     },
     "loading": "Loading...",
     "opt": {
-        "copy": "Copy link",
-        "newTab": "Open a new tab",
-        "download": "Download"
+      "copy": "Copy link",
+      "newTab": "Open a new tab",
+      "download": "Download"
     }
   },
   "search": {
-      "placeholder": "Search or jump to…"
+    "placeholder": "Search or jump to…"
   },
   "page": {
-      "text": {
-          "loading": "Loading..."
-      }
+    "video": {
+        "play": "Play",
+        "download": "Download",
+        "link": "Download link"
+    },
+    "text": {
+      "loading": "Loading..."
+    }
   }
 }

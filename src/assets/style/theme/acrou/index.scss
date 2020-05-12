@@ -51,6 +51,12 @@ body {
       cursor: pointer;
     }
   }
+  td span {
+    vertical-align: middle;
+  }
+  td .g2-file-desc{
+    font-size:12px;
+  }
 }
 
 .footer {

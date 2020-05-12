@@ -14,6 +14,9 @@ export default {
       this.render();
     }
   },
+  mounted() {
+    this.render();
+  },
   data: function() {
     return {
       content: ''
@@ -34,9 +37,6 @@ export default {
     render() {
       this.content = this.defaultContent
       const md = new MarkdownIt();
-      // if (window.md == undefined) {
-      //   window.md = window.markdownit();
-      // }
       get_file(this.option, data => {
         this.content = md.render(data);
       });

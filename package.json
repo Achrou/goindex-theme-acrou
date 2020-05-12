@@ -12,7 +12,7 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
-    "clipboard-polyfill": "^2.8.6",
+    "bulma-pageloader": "^0.3.0",
     "core-js": "^3.6.4",
     "element-ui": "^2.13.1",
     "js-base64": "^2.5.2",
@@ -22,6 +22,7 @@
     "sass-loader": "^8.0.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-clipboard2": "^0.3.1",
     "vue-i18n": "^8.17.3",
     "vue-router": "^3.1.6",
     "vue2-ace-editor": "0.0.15"

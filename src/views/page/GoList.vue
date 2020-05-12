@@ -1,17 +1,17 @@
 <template>
   <div>
     <headmd :option="headmd" v-if="headmd.display"></headmd>
-    <div class="golist">
+    <div class="golist" v-loading="loading">
       <table class="table is-hoverable">
         <thead>
           <tr>
             <th
-              v-for="(column,index) in columns"
+              v-for="(column, index) in columns"
               v-bind:key="index"
               :class="column.class"
               :style="column.style"
             >
-              {{column.name}}
+              {{ column.name }}
               <span class="caret-wrapper">
                 <i class="sort-caret ascending"></i>
                 <i class="sort-caret descending"></i>
@@ -20,8 +20,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(file,index) in files" v-bind:key="index">
-            <td @click="go(file, file.mimeType!=='application/vnd.google-apps.folder'?'view':'')">
+          <tr v-for="(file, index) in buildFiles" v-bind:key="index">
+            <td
+              @click="
+                go(
+                  file,
+                  file.mimeType !== 'application/vnd.google-apps.folder'
+                    ? 'view'
+                    : ''
+                )
+              "
+            >
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
@@ -30,14 +39,14 @@
                   <img :src="file.thumbnailLink" />
                 </figure>
               </span>-->
-              {{file.name}}
+              {{ file.name }}
+              <span class="has-text-grey g2-file-desc">{{ file.description }}</span>
             </td>
-            <td class="is-hidden-mobile is-hidden-touch">{{file.modifiedTime}}</td>
-            <td class="is-hidden-mobile is-hidden-touch">{{file.size}}</td>
-            <td
-              class="is-hidden-mobile is-hidden-touch"
-              v-if="file.mimeType!=='application/vnd.google-apps.folder'"
-            >
+            <td class="is-hidden-mobile is-hidden-touch">
+              {{ file.modifiedTime }}
+            </td>
+            <td class="is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
+            <td class="is-hidden-mobile is-hidden-touch">
               <span class="icon" @click.stop="copy(file.path)">
                 <i
                   class="fa fa-copy faa-shake animated-hover"
@@ -45,14 +54,18 @@
                   aria-hidden="true"
                 ></i>
               </span>
-              <span class="icon" @click.stop="go(file,'_blank')">
+              <span class="icon" @click.stop="go(file, '_blank')">
                 <i
                   class="fa fa-external-link faa-shake animated-hover"
                   :title="$t('list.opt.newTab')"
                   aria-hidden="true"
                 ></i>
               </span>
-              <span class="icon" @click.stop="go(file,'down')">
+              <span
+                class="icon"
+                @click.stop="go(file, 'down')"
+                v-if="file.mimeType !== 'application/vnd.google-apps.folder'"
+              >
                 <i
                   class="fa fa-download faa-shake animated-hover"
                   aria-hidden="true"
@@ -63,10 +76,13 @@
           </tr>
         </tbody>
       </table>
-      <div v-show="files.length==0" class="has-text-centered no-content"></div>
-      <div v-show="loading" class="pageloader is-active">
-        <span class="title">{{$t('list.loading')}}</span>
-      </div>
+      <div
+        v-show="files.length == 0"
+        class="has-text-centered no-content"
+      ></div>
+      <!-- <div v-show="loading" class="pageloader is-active">
+        <span class="title">{{ $t("list.loading") }}</span>
+      </div> -->
     </div>
     <hr />
     <readmemd :option="readmemd" v-if="readmemd.display"></readmemd>
@@ -78,22 +94,21 @@ import {
   formatDate,
   formatFileSize,
   checkoutPath,
-  checkView
+  checkView,
 } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import Markdown from "../common/Markdown";
-import * as clipboard from "clipboard-polyfill";
 export default {
   name: "GoList",
   components: {
     Headmd: Markdown,
-    Readmemd: Markdown
+    Readmemd: Markdown,
   },
-  data: function () {
+  data: function() {
     return {
       page: {
         page_token: null,
-        page_index: 0
+        page_index: 0,
       },
       files: [],
       loading: true,
@@ -121,57 +136,68 @@ export default {
           "icon-word",
         "image/bmp": "icon-img",
         "image/jpeg": "icon-img",
-        "image/png": "icon-img"
+        "image/png": "icon-img",
       },
       headmd: { display: false, file: {}, path: "" },
-      readmemd: { display: false, file: {}, path: "" }
+      readmemd: { display: false, file: {}, path: "" },
     };
   },
   computed: {
-    columns () {
+    columns() {
       return [
         { name: this.$t("list.title.file"), style: "" },
         {
           name: this.$t("list.title.moditime"),
           style: "width:20%",
-          class: "is-hidden-mobile is-hidden-touch"
+          class: "is-hidden-mobile is-hidden-touch",
         },
         {
           name: this.$t("list.title.size"),
           style: "width:10.5%",
-          class: "is-hidden-mobile is-hidden-touch"
+          class: "is-hidden-mobile is-hidden-touch",
         },
         {
           name: this.$t("list.title.operation"),
           style: "width:13.5%",
-          class: "is-hidden-mobile is-hidden-touch"
-        }
+          class: "is-hidden-mobile is-hidden-touch",
+        },
       ];
-    }
+    },
+    buildFiles() {
+      var path = this.$route.path;
+      return this.files.map((item) => {
+        var p = path + checkoutPath(item.name, item);
+        let isFolder = item.mimeType === "application/vnd.google-apps.folder";
+        let size = isFolder ? this.$t("folder") : formatFileSize(item.size);
+        return {
+          path: p,
+          ...item,
+          modifiedTime: formatDate(item.modifiedTime),
+          size: size,
+          isFolder: isFolder,
+        };
+      });
+    },
   },
-  mounted () {
+  created() {
     this.render();
   },
   methods: {
-    cellClass (row) {
-      if (row.columnIndex != 0) {
-        return "is-hidden-mobile is-hidden-touch has-text-drak";
-      }
-    },
-    render () {
-      let path = window.location.pathname;
+    render() {
+      this.headmd = { display: false, file: {}, path: "" };
+      this.readmemd = { display: false, file: {}, path: "" };
+      var path = this.$route.path;
       this.loading = true;
       var password = localStorage.getItem("password" + path);
-      // var param = window.location.search;
       let q = this.$route.query.q;
       var p = {
         q: q ? decodeURIComponent(q) : "",
         password: password || null,
-        ...this.page
+        ...this.page,
       };
       this.axios
         .post(path, p)
-        .then(res => {
+        .then((res) => {
           var body = res.data;
           if (body) {
             // 判断响应状态
@@ -179,42 +205,15 @@ export default {
               this.checkPassword(path);
               return;
             }
-            let data = body.data;
+            var data = body.data;
             if (!data) return;
             this.page = {
               page_token: body.nextPageToken,
-              page_index: body.curPageIndex
+              page_index: body.curPageIndex,
             };
             try {
-              this.files = data.files.map(item => {
-                var p =
-                  path.replace("search", "search/") +
-                  checkoutPath(item.name, item);
-                if (!path.match("/[0-9]+:search")) {
-                  // HEAD.md
-                  if (item.name === "HEAD.md") {
-                    this.headmd = {
-                      display: true,
-                      file: item,
-                      path: path + item.name
-                    };
-                  }
-                  // REDEME.md
-                  if (item.name === "README.md") {
-                    this.readmemd = {
-                      display: true,
-                      file: item,
-                      path: path + item.name
-                    };
-                  }
-                }
-                return {
-                  path: p,
-                  ...item,
-                  modifiedTime: formatDate(item.modifiedTime),
-                  size: formatFileSize(item.size)
-                };
-              });
+              this.files = data.files;
+              this.renderMd(data.files, path);
             } catch (e) {
               console.log(e);
             }
@@ -223,26 +222,45 @@ export default {
         })
         .catch(() => {
           this.loading = false;
+          this.$router.go(-1);
         });
     },
-    checkPassword (path) {
+    checkPassword(path) {
       var pass = prompt(this.$t("list.auth"), "");
       localStorage.setItem("password" + path, pass);
       if (pass != null && pass != "") {
         this.render(path);
       } else {
-        history.go(-1);
+        this.$router.go(-1);
       }
     },
-    copy (path) {
+    copy(path) {
       let origin = window.location.origin;
       path = origin + path;
-      clipboard.writeText(path);
+      this.$copyText(path)
+        .then(() => {
+          this.$notify({
+            title: this.$t("notify.title"),
+            message: this.$t("copy.success"),
+            type: "success",
+          });
+        })
+        .catch(() => {
+          this.$notify.error({
+            title: this.$t("notify.title"),
+            message: this.$t("copy.error"),
+          });
+        });
     },
-    go (file, target) {
+    go(file, target) {
       let path = file.path;
-      if (path.match("/[0-9]+:search/")) {
+      let cmd = this.$route.params.cmd;
+      if (cmd && cmd === "search") {
         this.goSearchResult(file, target);
+        return;
+      }
+      if (target === "_blank") {
+        window.open(path);
         return;
       }
       if (target === "down") {
@@ -251,27 +269,47 @@ export default {
       }
       if (target === "view") {
         this.$router.push({
-          path: checkView(path)
+          path: checkView(path),
         });
         return;
       }
       if (file.mimeType === "application/vnd.google-apps.folder") {
         this.$router.push({
-          path: path
+          path: path,
         });
         return;
       }
-      if (target === "_blank") {
-        window.open(path);
+    },
+    renderMd(files, path) {
+      var cmd = this.$route.params.cmd;
+      if (cmd) {
         return;
       }
+      files.forEach((item) => {
+        // HEAD.md
+        if (item.name === "HEAD.md") {
+          this.headmd = {
+            display: true,
+            file: item,
+            path: path + item.name,
+          };
+        }
+        // REDEME.md
+        if (item.name === "README.md") {
+          this.readmemd = {
+            display: true,
+            file: item,
+            path: path + item.name,
+          };
+        }
+      });
     },
-    goSearchResult (file, target) {
+    goSearchResult(file, target) {
       this.loading = true;
       let cur = window.current_drive_order;
       axios
         .post(`/${cur}:id2path`, { id: file.id })
-        .then(res => {
+        .then((res) => {
           this.loading = false;
           let data = res.data;
           if (data) {
@@ -281,35 +319,33 @@ export default {
               window.open(href);
             } else {
               this.$router.push({
-                path: href
+                path: href,
               });
             }
           }
         })
-        .catch(e => {
+        .catch((e) => {
           this.loading = false;
           console.log(e);
         });
     },
-    getIcon (type) {
+    getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
-    }
+    },
   },
   watch: {
-    $route (to, from) {
+    $route(to, from) {
       // 后退设置page_token为空
       if (to.path.length < from.path.length) {
         this.page.page_token = null;
       }
-      if ((to.path.indexOf(':search') > 0) || (to.path.substr(-1) === '/' && from.meta.view === "list")) {
+      if (
+        to.path.indexOf(":search") > 0 ||
+        (to.path.substr(-1) === "/" && from.meta.view === "list")
+      ) {
         this.render();
       }
-    }
+    },
   },
-  // beforeRouteUpdate (to, from, next) {
-  //   this.headmd = { display: false, file: {}, path: "" },
-  //   this.readmemd = { display: false, file: {}, path: "" }
-  //   next()
-  // },
 };
 </script>
