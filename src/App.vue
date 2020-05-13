@@ -5,49 +5,28 @@
 </template>
 
 <script>
-import util from '@/libs/util'
+import util from "@/libs/util";
 import Layout from "./views/Layout";
 
 export default {
   name: "App",
   components: {
-    Layout
+    Layout,
   },
   data: function() {
-    return {
-      config: {
-        siteName: "",
-        title: "",
-        path: ""
-      }
-    };
+    return {};
   },
   watch: {
-    '$i18n.locale': 'i18nHandle'
+    "$i18n.locale": "i18nHandle",
   },
-  created () {
-    this.i18nHandle(this.$i18n.locale)
+  created() {
+    this.i18nHandle(this.$i18n.locale);
   },
   methods: {
-    i18nHandle (val, oldVal) {
-      util.cookies.set('lang', val)
-      document.querySelector('html').setAttribute('lang', val)
-    }
+    i18nHandle(val) {
+      util.cookies.set("lang", val);
+      document.querySelector("html").setAttribute("lang", val);
+    },
   },
-  mounted() {
-    let scripts = ["https://at.alicdn.com/t/font_1760192_zf96psu0uo.js"];
-    scripts.map(item => {
-      let script = document.createElement("script");
-      script.type = "text/javascript";
-      script.src = item;
-      document.getElementsByTagName("head")[0].appendChild(script);
-    });
-
-    let path = window.location.pathname;
-    this.config.path = path;
-    this.config.siteName = document.getElementsByTagName("title")[0].innerText;
-    this.config.title = this.siteName + "-" + decodeURI(path);
-    // this.$refs.layout.render(this.config);
-  }
 };
 </script>

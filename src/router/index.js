@@ -1,7 +1,11 @@
 import Vue from "vue";
+import febAlive from "feb-alive";
 import VueRouter from "vue-router";
 // 路由数据
 import routes from "./routes";
+
+// 在router实例化之前重写history
+febAlive.resetHistory();
 
 // fix vue-router NavigationDuplicated
 const VueRouterPush = VueRouter.prototype.push;
@@ -19,10 +23,19 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   mode: "history",
   scrollBehavior(to, from, savePosition) {
-    return { x: 0, y: 0 };
+    if (savePosition) {
+      return savePosition;
+    } else {
+      return {
+        x: 0,
+        y: 0,
+      };
+    }
   },
   routes,
 });
+
+Vue.use(febAlive, { router });
 
 /**
  * 路由拦截

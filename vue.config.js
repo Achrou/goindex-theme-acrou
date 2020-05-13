@@ -1,10 +1,14 @@
 const path = require("path");
 const cdnDependencies = require("./dependencies-cdn");
 const BuildAppJSPlugin = require("./buildAppJSPlugin");
+const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
+
+// 增加环境变量
+process.env.APP_VERSION = require('./package.json').version
 
 // 基础路径 注意发布之前要先修改这里
 let publicPath = process.env.VUE_APP_PUBLIC_PATH || "/";
@@ -25,11 +29,21 @@ module.exports = {
   lintOnSave: true,
 
   configureWebpack: (config) => {
-    const configNew = {};
-    if (process.env.NODE_ENV === "production") {
-      configNew.externals = externals;
+    const configNew = {}
+    if (process.env.NODE_ENV === 'production') {
+      configNew.externals = externals
+      configNew.plugins = [
+        // gzip
+        new CompressionWebpackPlugin({
+          filename: '[path].gz[query]',
+          test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
+          threshold: 10240,
+          minRatio: 0.8,
+          deleteOriginalAssets: false
+        })
+      ]
     }
-    return configNew;
+    return configNew
   },
 
   chainWebpack: (config) => {
@@ -42,12 +56,16 @@ module.exports = {
         args[0].cdn = cdn;
       } else {
         args[0].cdn = {
+          js: cdnDependencies.filter((e) => e.name === "").map((e) => e.js),
           css: cdnDependencies.filter((e) => e.name === "").map((e) => e.css),
         };
       }
       args[0].inject = false
       return args;
     });
+    // 解决 cli3 热更新失效 https://github.com/vuejs/vue-cli/issues/1559
+    config.resolve
+      .symlinks(true)
     config.resolve.alias
       .set("@", resolve("src"))
       .set("@assets", resolve("src/assets"))

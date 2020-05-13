@@ -236,7 +236,7 @@ export default {
     },
     copy(path) {
       let origin = window.location.origin;
-      path = origin + path;
+      path = origin + encodeURI(path);
       this.$copyText(path)
         .then(() => {
           this.$notify({
@@ -331,20 +331,6 @@ export default {
     },
     getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
-    },
-  },
-  watch: {
-    $route(to, from) {
-      // 后退设置page_token为空
-      if (to.path.length < from.path.length) {
-        this.page.page_token = null;
-      }
-      if (
-        to.path.indexOf(":search") > 0 ||
-        (to.path.substr(-1) === "/" && from.meta.view === "list")
-      ) {
-        this.render();
-      }
     },
   },
 };

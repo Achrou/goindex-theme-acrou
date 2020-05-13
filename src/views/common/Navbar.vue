@@ -58,11 +58,7 @@
               </p>
             </div>
           </div>
-          <!-- <header-search /> -->
           <header-locales />
-          <div class="navbar-item">
-            <header-color />
-          </div>
           <a
             class="navbar-item"
             target="_blank"
@@ -72,6 +68,7 @@
           >
             <i class="fab fa-github"></i>
           </a>
+          <header-setting />
         </div>
       </div>
     </div>
@@ -79,14 +76,12 @@
 </template>
 
 <script>
-import headerSearch from "@/layout/header-aside/components/header-search";
 import headerLocales from "@/layout/header-aside/components/header-locales";
-import headerColor from "@/layout/header-aside/components/header-color";
+import headerSetting from "@/layout/header-aside/components/header-setting";
 export default {
   components: {
-    headerSearch,
     headerLocales,
-    headerColor,
+    headerSetting,
   },
   created() {
     this.siteName = document.getElementsByTagName("title")[0].innerText;

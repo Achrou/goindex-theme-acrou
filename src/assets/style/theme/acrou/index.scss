@@ -91,6 +91,9 @@ body {
   min-height: 240px;
   position: relative;
 
+  .el-loading-mask {
+    z-index: initial;
+  }
   .pageloader:not(.is-bottom-to-top) {
     -webkit-transform: initial;
     transform: initial;

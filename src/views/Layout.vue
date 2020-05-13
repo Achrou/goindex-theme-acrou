@@ -4,9 +4,11 @@
     <section class="section">
       <div class="container">
         <bread-crumb ref="breadcrumb"></bread-crumb>
-        <keep-alive>
+        <!-- <keep-alive> -->
+        <feb-alive>
           <router-view></router-view>
-        </keep-alive>
+        </feb-alive>
+        <!-- </keep-alive> -->
         <Footer></Footer>
       </div>
     </section>
@@ -14,11 +16,11 @@
 </template>
 
 <script>
-import Head from "./common/Head"
+import Head from "./common/Head";
 import BreadCrumb from "./common/BreadCrumb";
-import Footer from "./common/Footer"
+import Footer from "./common/Footer";
 export default {
-  data: function () {
+  data: function() {
     return {
       path: "",
       show: "list",
@@ -33,12 +35,12 @@ export default {
     Footer: Footer,
   },
   methods: {
-    setHeadmd (val) {
+    setHeadmd(val) {
       this.headmd = val;
     },
-    setReadmemd (val) {
+    setReadmemd(val) {
       this.readmemd = val;
-    }
-  }
-}
+    },
+  },
+};
 </script>

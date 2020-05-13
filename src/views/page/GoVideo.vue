@@ -32,7 +32,7 @@
           <div class="field">
             <label class="label">{{$t('page.video.link')}}</label>
             <div class="control">
-              <input class="input" type="text" :value="decodeURIComponent(videourl)" />
+              <input class="input" type="text" :value="videourl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
@@ -97,7 +97,7 @@ export default {
   methods: {
     render () {
       // 便于开发环境调试
-      this.videourl = window.location.origin + this.url;
+      this.videourl = window.location.origin + encodeURI(this.url);
       this.apiurl =
         "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
     }

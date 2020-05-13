@@ -1,27 +1,27 @@
 import axios from "@utils/axios";
 let Base64 = require("js-base64").Base64;
 
-const exts = [
-  "html",
-  "php",
-  "css",
-  "go",
-  "java",
-  "js",
-  "json",
-  "py",
-  "txt",
-  "sh",
-  "md",
-  "mp4",
-  "webm",
-  "mkv",
-  "bmp",
-  "jpg",
-  "jpeg",
-  "png",
-  "gif",
-];
+// const exts = [
+//   "html",
+//   "php",
+//   "css",
+//   "go",
+//   "java",
+//   "js",
+//   "json",
+//   "py",
+//   "txt",
+//   "sh",
+//   "md",
+//   "mp4",
+//   "webm",
+//   "mkv",
+//   "bmp",
+//   "jpg",
+//   "jpeg",
+//   "png",
+//   "gif",
+// ];
 
 export const checkoutPath = (path, file) => {
   if (file.mimeType === "application/vnd.google-apps.folder") {
@@ -38,7 +38,6 @@ export const checkView = (path) => {
     .split(".")
     .pop()
     .toLowerCase();
-    console.log(path)
   let base64Path = encode64(path);
   if ("|html|php|css|go|java|js|json|txt|sh|md|".indexOf(`|${ext}|`) >= 0) {
     path = path.replace(/\/(\d+:)\/.*/, (p1, p2) => {
@@ -101,7 +100,6 @@ export function get_file(option, callback) {
   var modifiedTime = option.file.modifiedTime;
   var key = "file_path_" + path + modifiedTime;
   var data = localStorage.getItem(key);
-  data = "";
   if (data) {
     return callback(data);
   } else {

@@ -2,7 +2,8 @@
 const _import = require("@/libs/util.import." + process.env.NODE_ENV);
 
 const meta = {
-  keepAlive: true
+  // keepAlive: true
+  disableCache: false
 }
 
 const frameIn = [{

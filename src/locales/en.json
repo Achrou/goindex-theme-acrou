@@ -1,5 +1,5 @@
 {
-  "_name": "English",
+  "_name": "🇬🇧English",
   "languages": "Languages",
   "index": "Index",
   "folder": "Folder",
@@ -36,6 +36,12 @@
     },
     "text": {
       "loading": "Loading..."
+    }
+  },
+  "setting": {
+    "clear": {
+      "text": "Clean cache",
+      "success": "Cache cleanup successful"
     }
   }
 }
