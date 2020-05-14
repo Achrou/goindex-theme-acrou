@@ -65,7 +65,7 @@
             class="navbar-item"
             target="_blank"
             rel="noopener"
-            title="Download on GitHub"
+            title="View on github"
             href="https://github.com/Aicirou/goindex-theme-acrou"
           >
             <i class="fab fa-github"></i>
