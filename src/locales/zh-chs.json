@@ -23,7 +23,9 @@
       "copy": "复制链接",
       "newTab": "打开新的标签页",
       "download": "下载"
-    }
+    },
+    "total": "共",
+    "item": "项"
   },
   "search": {
     "placeholder": "搜索..."

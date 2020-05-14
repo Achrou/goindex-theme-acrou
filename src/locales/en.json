@@ -23,10 +23,12 @@
       "copy": "Copy link",
       "newTab": "Open a new tab",
       "download": "Download"
-    }
+    },
+    "total": "Total",
+    "item": "item"
   },
   "search": {
-    "placeholder": "Search or jump to…"
+    "placeholder": "Search resources..."
   },
   "page": {
     "video": {
