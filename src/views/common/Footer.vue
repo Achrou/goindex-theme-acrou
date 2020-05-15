@@ -10,7 +10,9 @@
             >goindex-theme-acrou</a>
             <span class="tag is-light">
               MIT &nbsp;
-              <i class="fab fa-github"></i>
+              <span class="icon">
+                <i class="fab fa-github"></i>
+              </span>
             </span>
           </div>
         </div>
@@ -23,7 +25,7 @@
 export default {
   props: {},
   watch: {},
-  data: function() {
+  data: function () {
     return {
       content: ""
     };
