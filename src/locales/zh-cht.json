@@ -23,7 +23,9 @@
       "copy": "復制鏈接",
       "newTab": "打開新的標簽頁",
       "download": "下載"
-    }
+    },
+    "total": "共",
+    "item": "項"
   },
   "search": {
     "placeholder": "搜索..."

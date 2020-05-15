@@ -2,7 +2,12 @@
   <div>
     <headmd :option="headmd" v-if="headmd.display"></headmd>
     <div class="golist" v-loading="loading">
-      <table class="table is-hoverable">
+      <table
+        class="table is-hoverable"
+        v-infinite-scroll="pageLoad"
+        infinite-scroll-disabled="busy"
+        infinite-scroll-distance="10"
+      >
         <thead>
           <tr>
             <th
@@ -40,7 +45,9 @@
                 </figure>
               </span>-->
               {{ file.name }}
-              <span class="has-text-grey g2-file-desc">{{ file.description }}</span>
+              <span class="has-text-grey g2-file-desc">{{
+                file.description
+              }}</span>
             </td>
             <td class="is-hidden-mobile is-hidden-touch">
               {{ file.modifiedTime }}
@@ -77,12 +84,18 @@
         </tbody>
       </table>
       <div
-        v-show="files.length == 0"
+        v-show="files.length === 0"
         class="has-text-centered no-content"
       ></div>
-      <!-- <div v-show="loading" class="pageloader is-active">
-        <span class="title">{{ $t("list.loading") }}</span>
-      </div> -->
+      <center>
+        <div :class="!busy ? 'is-hidden' : ''">
+          <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+          <span class="sr-only">Loading...</span>
+        </div>
+        <span v-if="page.page_token === null && files.length !== 0" class="tag">
+          {{ $t("list.total") }} {{ files.length }} {{ $t("list.item") }}
+        </span>
+      </center>
     </div>
     <hr />
     <readmemd :option="readmemd" v-if="readmemd.display"></readmemd>
@@ -106,13 +119,13 @@ export default {
   },
   data: function() {
     return {
+      busy: false,
       page: {
         page_token: null,
         page_index: 0,
       },
       files: [],
       loading: true,
-      copyTooltip: "",
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
         "video/mp4": "icon-mp",
@@ -168,7 +181,7 @@ export default {
       return this.files.map((item) => {
         var p = path + checkoutPath(item.name, item);
         let isFolder = item.mimeType === "application/vnd.google-apps.folder";
-        let size = isFolder ? this.$t("folder") : formatFileSize(item.size);
+        let size = isFolder ? '-' : formatFileSize(item.size);
         return {
           path: p,
           ...item,
@@ -183,11 +196,20 @@ export default {
     this.render();
   },
   methods: {
-    render() {
+    pageLoad() {
+      if (!this.page.page_token) return;
+      this.page.page_index++;
+      this.render("scroll");
+    },
+    render(scroll) {
+      if (scroll) {
+        this.busy = true;
+      } else {
+        this.loading = true;
+      }
       this.headmd = { display: false, file: {}, path: "" };
       this.readmemd = { display: false, file: {}, path: "" };
       var path = this.$route.path;
-      this.loading = true;
       var password = localStorage.getItem("password" + path);
       let q = this.$route.query.q;
       var p = {
@@ -212,16 +234,22 @@ export default {
               page_index: body.curPageIndex,
             };
             try {
-              this.files = data.files;
+              if (scroll) {
+                this.files = this.files.concat(data.files);
+              } else {
+                this.files = data.files;
+              }
               this.renderMd(data.files, path);
             } catch (e) {
               console.log(e);
             }
           }
           this.loading = false;
+          this.busy = false;
         })
         .catch(() => {
           this.loading = false;
+          this.busy = false;
           this.$router.go(-1);
         });
     },

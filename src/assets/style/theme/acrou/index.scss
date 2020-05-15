@@ -54,8 +54,8 @@ body {
   td span {
     vertical-align: middle;
   }
-  td .g2-file-desc{
-    font-size:12px;
+  td .g2-file-desc {
+    font-size: 12px;
   }
 }
 
@@ -85,6 +85,11 @@ body {
     width: 100%;
     height: 100%;
   }
+}
+
+// 搜索框
+.search-input,.search-input::-webkit-input-placeholder {
+  color: whitesmoke;
 }
 
 .golist {
