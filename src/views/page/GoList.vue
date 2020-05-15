@@ -1,13 +1,14 @@
 <template>
   <div>
     <headmd :option="headmd" v-if="headmd.display"></headmd>
-    <div class="golist" v-loading="loading">
-      <table
-        class="table is-hoverable"
-        v-infinite-scroll="pageLoad"
-        infinite-scroll-disabled="busy"
-        infinite-scroll-distance="10"
-      >
+    <div
+      class="golist"
+      v-loading="loading"
+      v-infinite-scroll="pageLoad"
+      infinite-scroll-disabled="busy"
+      infinite-scroll-distance="10"
+    >
+      <table class="table is-hoverable" v-if="mode === 'list'">
         <thead>
           <tr>
             <th
@@ -39,11 +40,6 @@
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
-              <!-- <span class="icon">
-                <figure class="image is-24x24">
-                  <img :src="file.thumbnailLink" />
-                </figure>
-              </span>-->
               {{ file.name }}
               <span class="has-text-grey g2-file-desc">{{
                 file.description
@@ -83,6 +79,13 @@
           </tr>
         </tbody>
       </table>
+      <grid-view
+        class="g2-content"
+        :data="buildFiles"
+        v-if="mode !== 'list'"
+        :getIcon="getIcon"
+        :go="go"
+      />
       <div
         v-show="files.length === 0"
         class="has-text-centered no-content"
@@ -110,10 +113,13 @@ import {
   checkView,
 } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
+import { mapState } from "vuex";
+import GridView from "./components/grid";
 import Markdown from "../common/Markdown";
 export default {
   name: "GoList",
   components: {
+    GridView,
     Headmd: Markdown,
     Readmemd: Markdown,
   },
@@ -156,6 +162,7 @@ export default {
     };
   },
   computed: {
+    ...mapState("acrou/view", ["mode"]),
     columns() {
       return [
         { name: this.$t("list.title.file"), style: "" },
@@ -181,7 +188,7 @@ export default {
       return this.files.map((item) => {
         var p = path + checkoutPath(item.name, item);
         let isFolder = item.mimeType === "application/vnd.google-apps.folder";
-        let size = isFolder ? '-' : formatFileSize(item.size);
+        let size = isFolder ? "-" : formatFileSize(item.size);
         return {
           path: p,
           ...item,

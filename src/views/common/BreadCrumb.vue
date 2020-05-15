@@ -8,15 +8,21 @@
         <div class="level-item">
           <ul>
             <li>
-              <a v-show="navs && navs.length>0" @click="go('/'+index+':/')">{{$t('index')}}</a>
+              <a
+                v-show="navs && navs.length > 0"
+                @click="go('/' + index + ':/')"
+                >{{ $t("index") }}</a
+              >
             </li>
             <li
-              v-for="(item,index) in navs"
-              :class="(index+1)==navs.length?'is-active':''"
+              v-for="(item, index) in navs"
+              :class="index + 1 == navs.length ? 'is-active' : ''"
               v-bind:key="index"
             >
-              <a v-if="(index+1)==navs.length" aria-current="page" href="#">{{item.title}}</a>
-              <a v-else @click="go(item.path)">{{item.title}}</a>
+              <a v-if="index + 1 == navs.length" aria-current="page" href="#">{{
+                item.title
+              }}</a>
+              <a v-else @click="go(item.path)">{{ item.title }}</a>
             </li>
           </ul>
         </div>
@@ -24,12 +30,19 @@
       <div class="level-right">
         <div
           class="level-item"
-          v-show="$route.meta.view==='list'"
-          :title="listMode?$t('list.view.listMode'):$t('list.view.gridMode')"
+          v-show="$route.meta.view === 'list'"
+          :title="
+            mode === 'list'
+              ? $t('list.view.gridMode')
+              : $t('list.view.listMode')
+          "
           @click="changeView"
         >
           <span class="icon">
-            <i :class="'fa'+(listMode ? ' fa-th-list': ' fa-th')" aria-hidden="true"></i>
+            <i
+              :class="'fa' + (mode === 'list' ? ' fa-th' : ' fa-th-list')"
+              aria-hidden="true"
+            ></i>
           </span>
         </div>
       </div>
@@ -38,39 +51,43 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   props: ["name"],
-  data: function () {
+  data: function() {
     return {
       navs: [],
       index: "/",
-      listMode: false
     };
   },
-  mounted () {
+  mounted() {
     this.render();
   },
   watch: {
-    $route: "render"
+    $route: "render",
+  },
+  computed: {
+    ...mapState("acrou/view", ["mode"]),
   },
   methods: {
-    go (path) {
+    ...mapActions("acrou/view", ["toggle"]),
+    go(path) {
       this.$router.push({
-        path: path
+        path: path,
       });
     },
-    render () {
+    render() {
       this.index = this.$route.params.id;
-      let cmd = this.$route.params.cmd
+      let cmd = this.$route.params.cmd;
       // 如果是搜索不进行渲染
-      if (cmd === 'search') {
+      if (cmd === "search") {
         this.navs = [];
         return;
       }
-      let path = this.$route.path
+      let path = this.$route.path;
       if (cmd) {
-        path = decode64(this.$route.params.path)
+        path = decode64(this.$route.params.path);
       }
       var arr = path.trim("/").split("/");
       var p = "/";
@@ -91,16 +108,16 @@ export default {
           }
           navs.push({
             path: p,
-            title: n
+            title: n,
           });
         }
         this.navs = navs;
       }
     },
-    changeView () {
-      this.listMode = !this.listMode;
-    }
-  }
+    changeView() {
+      this.toggle(this.mode === "list" ? "grid" : "list");
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

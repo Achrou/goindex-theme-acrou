@@ -24,5 +24,8 @@ new Vue({
   router,
   store,
   i18n,
-  render: h => h(App)
+  render: h => h(App),
+  mounted() {
+    this.$store.dispatch('acrou/view/load')
+  }
 }).$mount('#app')
