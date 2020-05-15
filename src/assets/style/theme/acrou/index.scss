@@ -37,26 +37,35 @@ body {
 .table {
   width: 100%;
   table-layout: fixed;
+
   th,
   td {
     border: 0 !important;
   }
+
   td {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     vertical-align: middle;
+
     &:hover,
     & .icon {
       cursor: pointer;
     }
   }
+
   td span {
     vertical-align: middle;
   }
+
   td .g2-file-desc {
     font-size: 12px;
   }
+}
+
+.g2-content {
+  margin-top: 1rem;
 }
 
 .footer {
@@ -64,8 +73,7 @@ body {
 }
 
 .no-content {
-  background: url(https://s1.hdslb.com/bfs/static/jinkela/search/asserts/no-data.png)
-    no-repeat 50% 50%;
+  background: url(https://s1.hdslb.com/bfs/static/jinkela/search/asserts/no-data.png) no-repeat 50% 50%;
   height: 240px;
   line-height: 240px;
   text-align: center;
@@ -78,6 +86,7 @@ body {
   position: relative;
   padding-bottom: 56.25%;
   height: 0;
+
   iframe {
     position: absolute;
     top: 0;
@@ -88,7 +97,8 @@ body {
 }
 
 // 搜索框
-.search-input,.search-input::-webkit-input-placeholder {
+.search-input,
+.search-input::-webkit-input-placeholder {
   color: whitesmoke;
 }
 
@@ -99,10 +109,12 @@ body {
   .el-loading-mask {
     z-index: initial;
   }
+
   .pageloader:not(.is-bottom-to-top) {
     -webkit-transform: initial;
     transform: initial;
   }
+
   .pageloader {
     position: absolute;
     padding-top: 0;
@@ -114,6 +126,7 @@ body {
       color: hsl(0, 0%, 4%);
     }
   }
+
   .pageloader::after {
     border: 0 solid black;
   }
@@ -135,16 +148,20 @@ body {
   border-bottom-color: #c0c4cc;
   top: 5px;
 }
+
 .sort-caret.descending {
   border-top-color: #c0c4cc;
   bottom: 7px;
 }
+
 .descending .sort-caret.descending {
   border-top-color: #409eff;
 }
+
 .ascending .sort-caret.ascending {
   border-bottom-color: #409eff;
 }
+
 .sort-caret {
   width: 0;
   height: 0;

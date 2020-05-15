@@ -1,6 +1,5 @@
 <template>
-  <div class="content">
-    <hr />
+  <div class="content g2-content">
     <figure class="image">
       <img :src="imgurl" :class="!display?'is-hidden':''" @load="loading" />
       <center :class="display?'is-hidden':''">

@@ -8,7 +8,7 @@
         <div class="level-item">
           <ul>
             <li>
-              <a @click="go('/'+index+':/')">{{$t('index')}}</a>
+              <a v-show="navs && navs.length>0" @click="go('/'+index+':/')">{{$t('index')}}</a>
             </li>
             <li
               v-for="(item,index) in navs"
@@ -106,18 +106,19 @@ export default {
 <style lang="scss" scoped>
 .g2-breadcrumb {
   border-bottom: 2px solid whitesmoke;
-  height: 100%;
-  padding: 0 0.75em;
+  // height: 100%;
+  padding: 10px 0.75em;
 }
 .level-right {
   .level-item {
     border-radius: 50%;
-    height: 40px;
-    width: 40px;
+    // height: 40px;
+    // width: 40px;
     &:hover {
       border: 1px dotted transparent;
       background: rgba(0, 0, 0, 0.12);
       text-decoration: none;
+      cursor: pointer;
     }
   }
 }

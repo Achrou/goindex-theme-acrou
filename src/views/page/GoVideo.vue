@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div class="content g2-content">
     <div class="video-content">
       <iframe
         width="100%"

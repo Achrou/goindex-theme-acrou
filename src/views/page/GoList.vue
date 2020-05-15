@@ -347,7 +347,7 @@ export default {
               window.open(href);
             } else {
               this.$router.push({
-                path: href,
+                path: checkView(href),
               });
             }
           }
