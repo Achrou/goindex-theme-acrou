@@ -11,6 +11,10 @@
     "error": "復制失敗"
   },
   "list": {
+    "view": {
+      "gridMode": "網格視圖",
+      "listMode": "列表視圖"
+    },
     "auth": "目錄加密，請輸入密碼",
     "title": {
       "file": "文件",

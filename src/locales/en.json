@@ -11,6 +11,10 @@
     "error": "Copy failed"
   },
   "list": {
+    "view": {
+      "gridMode": "Grid view",
+      "listMode": "List view"
+    },
     "auth": "Directory encryption, please enter password",
     "title": {
       "file": "File",

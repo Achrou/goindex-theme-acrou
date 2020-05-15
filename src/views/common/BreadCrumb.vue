@@ -25,11 +25,11 @@
         <div
           class="level-item"
           v-show="$route.meta.view==='list'"
-          :title="$route.meta.view==='list'?'列表视图':'网格视图'"
+          :title="listMode?$t('list.view.listMode'):$t('list.view.gridMode')"
           @click="changeView"
         >
           <span class="icon">
-            <i :class="'fa'+(listMode ? ' fa-th': ' fa-th-list')" aria-hidden="true"></i>
+            <i :class="'fa'+(listMode ? ' fa-th-list': ' fa-th')" aria-hidden="true"></i>
           </span>
         </div>
       </div>
@@ -45,7 +45,7 @@ export default {
     return {
       navs: [],
       index: "/",
-      listMode: true
+      listMode: false
     };
   },
   mounted () {
@@ -111,13 +111,13 @@ export default {
 }
 .level-right {
   .level-item {
-    border-radius: 50%;
+    // border-radius: 50%;
     // height: 40px;
     // width: 40px;
     &:hover {
-      border: 1px dotted transparent;
-      background: rgba(0, 0, 0, 0.12);
-      text-decoration: none;
+      // border: 1px dotted transparent;
+      // background: rgba(0, 0, 0, 0.12);
+      // text-decoration: none;
       cursor: pointer;
     }
   }

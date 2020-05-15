@@ -11,6 +11,10 @@
     "error": "复制失败"
   },
   "list": {
+    "view": {
+      "gridMode": "网格视图",
+      "listMode": "列表视图"
+    },
     "auth": "目录加密，请输入密码",
     "title": {
       "file": "文件",
