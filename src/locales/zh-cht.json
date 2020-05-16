@@ -49,5 +49,8 @@
       "text": "清理緩存",
       "success": "緩存清理成功"
     }
+  },
+  "checkVersion": {
+    "tips": "檢測到有新版本，<a href='${url}'>前往GitHub</a>"
   }
 }

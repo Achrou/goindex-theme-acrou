@@ -49,5 +49,8 @@
       "text": "Clean cache",
       "success": "Cache cleanup successful"
     }
+  },
+  "checkVersion": {
+    "tips": "New version detected, <a href='${url}'>Go to GitHub</a>"
   }
 }
