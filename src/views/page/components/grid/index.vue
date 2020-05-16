@@ -3,16 +3,11 @@
     <div class="columns is-multiline">
       <div
         class="column is-one-quarter"
-        v-for="(file, index) in imgData"
-        :key="index"
-        @click="
-          go(
-            file,
-            file.mimeType !== 'application/vnd.google-apps.folder' ? 'view' : ''
-          )
-        "
+        v-for="(file, index) in folders"
+        :key="'folder_' + index"
+        @click="go(file)"
       >
-        <div class="card g2-view-box g2-grid-folder" v-if="file.isFolder">
+        <div class="card g2-grid-view-card g2-grid-view-folder">
           <div class="media">
             <div class="content">
               <svg class="iconfont" aria-hidden="true">
@@ -22,12 +17,21 @@
             </div>
           </div>
         </div>
-        <div class="card g2-view-box" v-if="!file.isFolder">
+      </div>
+    </div>
+    <div class="columns is-multiline">
+      <div
+        class="column is-one-quarter"
+        v-for="(file, index) in files"
+        :key="'file_' + index"
+        @click="go(file, 'view')"
+      >
+        <div class="card g2-grid-view-card">
           <div class="card-image">
             <figure class="image is-square">
               <img
                 v-if="file.thumbnailLink"
-                :src="thum(file.thumbnailLink)"
+                v-lazy="thum(file.thumbnailLink)"
                 alt="Placeholder image"
               />
             </figure>
@@ -60,22 +64,22 @@ export default {
     go: {
       type: Function,
     },
+    thum: {
+      type: Function,
+    },
   },
   data: function() {
     return {};
   },
   computed: {
-    imgData() {
-      //   return this.data.filter((file) => file.mimeType.indexOf("image/") != -1);
-      //   return this.data.filter((file) => !file.isFolder);
-      return this.data;
+    folders() {
+      return this.data.filter((item) => item.isFolder);
+    },
+    files() {
+      return this.data.filter((item) => !item.isFolder);
     },
   },
-  methods: {
-    thum(url) {
-      return url ? `/${this.$route.params.id}:view?url=${url}` : "";
-    },
-  },
+  methods: {},
 };
 </script>
 <style lang="scss" scoped>
@@ -95,14 +99,14 @@ export default {
 .column {
   cursor: pointer;
 }
-.g2-view-box {
+.g2-grid-view-card {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.1);
   border-radius: 1rem;
   &:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.05);
   }
 }
-.g2-grid-folder {
+.g2-grid-view-folder {
   padding: 10px;
 }
 .iconfont {

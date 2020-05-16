@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="breadcrumb is-hidden-mobile is-hidden-touch level g2-breadcrumb"
+      class="breadcrumb level g2-breadcrumb is-hidden-mobile is-hidden-touch"
       aria-label="breadcrumbs"
     >
       <div class="level-left">
@@ -28,22 +28,8 @@
         </div>
       </div>
       <div class="level-right">
-        <div
-          class="level-item"
-          v-show="$route.meta.view === 'list'"
-          :title="
-            mode === 'list'
-              ? $t('list.view.gridMode')
-              : $t('list.view.listMode')
-          "
-          @click="changeView"
-        >
-          <span class="icon">
-            <i
-              :class="'fa' + (mode === 'list' ? ' fa-th' : ' fa-th-list')"
-              aria-hidden="true"
-            ></i>
-          </span>
+        <div class="level-item">
+          <view-mode />
         </div>
       </div>
     </nav>
@@ -51,10 +37,13 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import ViewMode from "@/layout/viewmode";
 import { decode64 } from "@utils/AcrouUtil";
 export default {
   props: ["name"],
+  components: {
+    ViewMode,
+  },
   data: function() {
     return {
       navs: [],
@@ -67,11 +56,7 @@ export default {
   watch: {
     $route: "render",
   },
-  computed: {
-    ...mapState("acrou/view", ["mode"]),
-  },
   methods: {
-    ...mapActions("acrou/view", ["toggle"]),
     go(path) {
       this.$router.push({
         path: path,
@@ -113,9 +98,6 @@ export default {
         }
         this.navs = navs;
       }
-    },
-    changeView() {
-      this.toggle(this.mode === "list" ? "grid" : "list");
     },
   },
 };

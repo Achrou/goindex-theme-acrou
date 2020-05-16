@@ -85,6 +85,7 @@
         v-if="mode !== 'list'"
         :getIcon="getIcon"
         :go="go"
+        :thum="thum"
       />
       <div
         v-show="files.length === 0"
@@ -102,6 +103,24 @@
     </div>
     <hr />
     <readmemd :option="readmemd" v-if="readmemd.display"></readmemd>
+
+    <viewer
+      v-if="images && images.length > 0"
+      :images="images"
+      class="is-hidden"
+      ref="viewer"
+      :options="{ toolbar: true, url: 'data-source' }"
+      @inited="inited"
+    >
+      <img
+        v-for="image in images"
+        :src="thum(image.thumbnailLink)"
+        :data-source="image.path"
+        :key="image.path"
+        :alt="image.name"
+        class="image"
+      />
+    </viewer>
   </div>
 </template>
 
@@ -185,18 +204,30 @@ export default {
     },
     buildFiles() {
       var path = this.$route.path;
-      return this.files.map((item) => {
-        var p = path + checkoutPath(item.name, item);
-        let isFolder = item.mimeType === "application/vnd.google-apps.folder";
-        let size = isFolder ? "-" : formatFileSize(item.size);
-        return {
-          path: p,
-          ...item,
-          modifiedTime: formatDate(item.modifiedTime),
-          size: size,
-          isFolder: isFolder,
-        };
-      });
+      return this.files
+        .map((item) => {
+          var p = path + checkoutPath(item.name, item);
+          let isFolder = item.mimeType === "application/vnd.google-apps.folder";
+          let size = isFolder ? "-" : formatFileSize(item.size);
+          return {
+            path: p,
+            ...item,
+            modifiedTime: formatDate(item.modifiedTime),
+            size: size,
+            isFolder: isFolder,
+          };
+        })
+        .sort((a, b) => {
+          if (a.isFolder && b.isFolder) {
+            return 0;
+          }
+          return a.isFolder ? -1 : 1;
+        });
+    },
+    images() {
+      return this.buildFiles.filter(
+        (file) => file.mimeType.indexOf("image") != -1
+      );
     },
   },
   created() {
@@ -287,7 +318,19 @@ export default {
           });
         });
     },
+    thum(url) {
+      return url ? `/${this.$route.params.id}:view?url=${url}` : "";
+    },
+    inited(viewer) {
+      this.$viewer = viewer;
+    },
     go(file, target) {
+      if (file.mimeType.indexOf("image") != -1) {
+        this.$viewer.show();
+        // const viewer = this.$el.querySelector(".images").$viewer;
+        // viewer.show();
+        return;
+      }
       let path = file.path;
       let cmd = this.$route.params.cmd;
       if (cmd && cmd === "search") {
