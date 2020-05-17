@@ -83,8 +83,8 @@ export default {
           if (n == "") {
             continue;
           }
-          n = decodeURI(n);
-          p += n + "/";
+          n = decodeURIComponent(n);
+          p += arr[i] + "/";
           // if (p.match("/[0-9]+:/")[0] === p) {
           //   n = this.$t('index');
           // }

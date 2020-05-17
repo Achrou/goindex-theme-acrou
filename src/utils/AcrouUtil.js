@@ -23,7 +23,15 @@ let Base64 = require("js-base64").Base64;
 //   "gif",
 // ];
 
+export const encodePath = (path) => {
+  return path.replace(/(.*)/, (p1, p2) => {
+    return p2.replace().replace(/\//g, "%2F").replace(/#/g, "%23")
+  })
+  //return path.replace().replace("/", "%2F").replace("#", "%23")
+}
+
 export const checkoutPath = (path, file) => {
+  path = encodePath(path)
   if (file.mimeType === "application/vnd.google-apps.folder") {
     if (path.substr(-1) !== "/") {
       path += "/";
@@ -75,13 +83,12 @@ export const getQueryString = (path, param) => {
 
 export const getURLParameters = (url) =>
   url
-    .match(/([^?=&]+)(=([^&]*))/g)
-    .reduce(
-      (a, v) => (
-        (a[v.slice(0, v.indexOf("="))] = v.slice(v.indexOf("=") + 1)), a
-      ),
-      {}
-    );
+  .match(/([^?=&]+)(=([^&]*))/g)
+  .reduce(
+    (a, v) => (
+      (a[v.slice(0, v.indexOf("="))] = v.slice(v.indexOf("=") + 1)), a
+    ), {}
+  );
 
 // console.log(getURLParameters("/Movies/xx.mp4?a=view&y=123"));
 
@@ -176,7 +183,7 @@ export function formatFileSize(bytes) {
 }
 
 
- /** 日期格式化
+/** 日期格式化
  * @param {Number String Date} 
  * @param {String} 'YYYY-MM-DD HH:mm:ss EEE' 年(Y)、月(M)、日(D)、12小时(h)、24小时(H)、分(m)、秒(s)、毫秒(S)、周(E)、季度(q)
  * @return {String}
@@ -185,41 +192,41 @@ export function formatFileSize(bytes) {
 export function formatDate(date, fmt) {
   fmt = fmt || 'YYYY-MM-DD HH:mm:ss';
   if (typeof date === 'string') {
-      // date = new Date(date.replace(/-/g, '/'))
-      date = new Date(date)
+    // date = new Date(date.replace(/-/g, '/'))
+    date = new Date(date)
   }
   if (typeof date === 'number') {
-      date = new Date(date)
+    date = new Date(date)
   }
   var o = {
-      'M+': date.getMonth() + 1,
-      'D+': date.getDate(),
-      'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12,
-      'H+': date.getHours(),
-      'm+': date.getMinutes(),
-      's+': date.getSeconds(),
-      'q+': Math.floor((date.getMonth() + 3) / 3),
-      'S': date.getMilliseconds()
+    'M+': date.getMonth() + 1,
+    'D+': date.getDate(),
+    'h+': date.getHours() % 12 === 0 ? 12 : date.getHours() % 12,
+    'H+': date.getHours(),
+    'm+': date.getMinutes(),
+    's+': date.getSeconds(),
+    'q+': Math.floor((date.getMonth() + 3) / 3),
+    'S': date.getMilliseconds()
   }
   var week = {
-      '0': '\u65e5',
-      '1': '\u4e00',
-      '2': '\u4e8c',
-      '3': '\u4e09',
-      '4': '\u56db',
-      '5': '\u4e94',
-      '6': '\u516d'
+    '0': '\u65e5',
+    '1': '\u4e00',
+    '2': '\u4e8c',
+    '3': '\u4e09',
+    '4': '\u56db',
+    '5': '\u4e94',
+    '6': '\u516d'
   }
   if (/(Y+)/.test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
+    fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
   }
   if (/(E+)/.test(fmt)) {
-      fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? '\u661f\u671f' : '\u5468') : '') + week[date.getDay() + ''])
+    fmt = fmt.replace(RegExp.$1, ((RegExp.$1.length > 1) ? (RegExp.$1.length > 2 ? '\u661f\u671f' : '\u5468') : '') + week[date.getDay() + ''])
   }
   for (var k in o) {
-      if (new RegExp('(' + k + ')').test(fmt)) {
-          fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
-      }
+    if (new RegExp('(' + k + ')').test(fmt)) {
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (('00' + o[k]).substr(('' + o[k]).length)))
+    }
   }
   return fmt;
 }

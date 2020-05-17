@@ -19,7 +19,7 @@
     <tbody>
       <tr v-for="(file, index) in data" v-bind:key="index">
         <td
-          @click="
+          @click.self="
             go(
               file,
               file.mimeType !== 'application/vnd.google-apps.folder'
@@ -32,7 +32,7 @@
             <use :xlink:href="icons(file.mimeType)" />
           </svg>
           {{ file.name }}
-          <span class="has-text-grey g2-file-desc">{{ file.description }}</span>
+          <span class="has-text-grey g2-file-desc" v-html="file.description"></span>
         </td>
         <td class="is-hidden-mobile is-hidden-touch">
           {{ file.modifiedTime }}
