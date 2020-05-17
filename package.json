@@ -12,7 +12,6 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
-    "bulma-pageloader": "^0.3.0",
     "core-js": "^3.6.4",
     "element-ui": "^2.13.1",
     "feb-alive": "^1.0.9",
