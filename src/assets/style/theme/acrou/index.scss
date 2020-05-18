@@ -169,3 +169,15 @@ body {
   position: absolute;
   left: 7px;
 }
+
+
+// bulma-divider
+.is-divider,
+.is-divider-vertical {
+  border-top: .1rem solid #f5f5f5;
+}
+
+.is-divider-vertical[data-content]::after,
+.is-divider[data-content]::after {
+  color: #919191;
+}

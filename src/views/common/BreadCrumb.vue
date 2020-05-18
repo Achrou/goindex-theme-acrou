@@ -104,7 +104,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .g2-breadcrumb {
-  border-bottom: 2px solid whitesmoke;
+  border-bottom: 2px solid #f5f5f5;
   // height: 100%;
   padding: 10px 0.75em;
 }

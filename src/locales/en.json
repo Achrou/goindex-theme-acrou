@@ -1,7 +1,7 @@
 {
   "_name": "🇬🇧English",
   "languages": "Languages",
-  "index": "Index",
+  "index": "Home",
   "folder": "Folder",
   "notify": {
     "title": "Notify"
@@ -20,7 +20,7 @@
       "file": "File",
       "moditime": "Modified Time",
       "size": "Size",
-      "operation": "Operation"
+      "operation": "Actions"
     },
     "loading": "Loading...",
     "opt": {

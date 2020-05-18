@@ -32,12 +32,12 @@
           <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
           <span class="sr-only">Loading...</span>
         </div>
-        <span v-if="page.page_token === null && files.length !== 0" class="tag">
+        <!-- <span v-if="page.page_token === null && files.length !== 0" class="tag">
           {{ $t("list.total") }} {{ files.length }} {{ $t("list.item") }}
-        </span>
+        </span> -->
       </center>
     </div>
-    <hr />
+    <div class="is-divider" :data-content="$t('list.total')+' '+files.length+' ' + $t('list.item')"></div>
     <readmemd :option="readmemd" v-if="readmemd.display"></readmemd>
 
     <viewer
