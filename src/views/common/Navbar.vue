@@ -42,7 +42,7 @@
 
         <div class="navbar-end">
           <!-- is-hidden-desktop -->
-          <div class="navbar-item">
+          <div class="navbar-item" v-show="showSearch">
             <div class="field is-grouped">
               <p class="control has-icons-left is-dark" style="width:100%;">
                 <input
@@ -71,8 +71,11 @@
             <i class="fab fa-github"></i>
           </a>
           <header-setting />
-          <a class="navbar-item is-hidden-desktop" @click.stop="$refs.viewMode.toggleMode">
-            <view-mode ref="viewMode"/>
+          <a
+            class="navbar-item is-hidden-desktop"
+            @click.stop="$refs.viewMode.toggleMode"
+          >
+            <view-mode ref="viewMode" />
           </a>
         </div>
       </div>
@@ -143,6 +146,10 @@ export default {
   computed: {
     getCurrGD() {
       return this.gds.filter((item) => item.name !== this.currgd.name);
+    },
+    showSearch() {
+      // 文件夹不支持搜索
+      return window.MODEL ? window.MODEL.root_type < 2 : true
     },
   },
   watch: {

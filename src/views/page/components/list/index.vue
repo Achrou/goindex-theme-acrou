@@ -32,7 +32,11 @@
             <use :xlink:href="icons(file.mimeType)" />
           </svg>
           {{ file.name }}
-          <span class="has-text-grey g2-file-desc" v-html="file.description"></span>
+          <span
+            class="has-text-grey g2-file-desc"
+            v-if="isShowDesc"
+            v-html="file.description"
+          ></span>
         </td>
         <td class="is-hidden-mobile is-hidden-touch">
           {{ file.modifiedTime }}
@@ -106,6 +110,9 @@ export default {
           class: "is-hidden-mobile is-hidden-touch",
         },
       ];
+    },
+    isShowDesc() {
+      return window.themeOptions.render.desc || false;
     },
   },
 };

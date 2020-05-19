@@ -108,6 +108,13 @@ export default {
   // height: 100%;
   padding: 10px 0.75em;
 }
+.level-left {
+  width: 95%;
+  .level-item {
+    display: initial;
+    width: 100%;
+  }
+}
 .level-right {
   .level-item {
     // border-radius: 50%;
