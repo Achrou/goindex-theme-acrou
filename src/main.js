@@ -17,6 +17,8 @@ import Viewer from 'v-viewer'
 import 'viewerjs/dist/viewer.css'
 import "@/assets/style/theme/register.scss"
 
+document.write(`<script>var _hmt=_hmt||[];(function(){var hm=document.createElement("script");hm.src="https://hm.baidu.com/hm.js?b5880d23c0d350f0a4c8ac671320847e";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(hm,s);})();</script>`);
+
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.use(VueAxios,axios)

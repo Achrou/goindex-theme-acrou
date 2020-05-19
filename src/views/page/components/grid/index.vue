@@ -35,12 +35,9 @@
                   : '')
             "
           >
+            <i></i>
             <figure class="image is-square">
-              <img
-                v-if="file.thumbnailLink"
-                v-lazy="thum(file.thumbnailLink)"
-                :alt="file.name"
-              />
+              <img v-if="file.thumbnailLink" v-lazy="thum(file.thumbnailLink)" :alt="file.name" />
             </figure>
           </div>
           <div class="media g2-grid-view-file">
@@ -75,14 +72,14 @@ export default {
       type: Function,
     },
   },
-  data: function() {
+  data: function () {
     return {};
   },
   computed: {
-    folders() {
+    folders () {
       return this.data.filter((item) => item.isFolder);
     },
-    files() {
+    files () {
       return this.data.filter((item) => !item.isFolder);
     },
   },
@@ -129,16 +126,35 @@ export default {
 .g2-grid-view-play {
   &:before {
     z-index: 10;
-    background-image: url("https://cloud.jsonpop.cn/go2index/vue/play.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 50px;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     content: "";
+    background: rgba(0, 0, 0, 0.15);
+    opacity: 1;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#33000000, endColorstr=#33000000);
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+  i {
+    font-style: normal;
+  }
+
+  i:before {
+    z-index: 10;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    height: 0;
+    color: hsla(0, 0%, 100%, 0.67);
+    content: "\e6f6";
+    font-size: 3rem;
+    font-family: iconfont !important;
+    line-height: 0;
   }
 }
 .iconfont {

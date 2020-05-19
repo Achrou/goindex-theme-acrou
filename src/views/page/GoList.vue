@@ -8,13 +8,7 @@
       infinite-scroll-disabled="busy"
       infinite-scroll-distance="10"
     >
-      <list-view
-        :data="buildFiles"
-        v-if="mode === 'list'"
-        :icons="getIcon"
-        :go="go"
-        :copy="copy"
-      />
+      <list-view :data="buildFiles" v-if="mode === 'list'" :icons="getIcon" :go="go" :copy="copy" />
       <grid-view
         class="g2-content"
         :data="buildFiles"
@@ -23,10 +17,7 @@
         :go="go"
         :thum="thum"
       />
-      <div
-        v-show="files.length === 0"
-        class="has-text-centered no-content"
-      ></div>
+      <div v-show="files.length === 0" class="has-text-centered no-content"></div>
       <center>
         <div :class="!busy ? 'is-hidden' : ''">
           <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -34,7 +25,7 @@
         </div>
         <!-- <span v-if="page.page_token === null && files.length !== 0" class="tag">
           {{ $t("list.total") }} {{ files.length }} {{ $t("list.item") }}
-        </span> -->
+        </span>-->
       </center>
     </div>
     <div class="is-divider" :data-content="$t('list.total')+' '+files.length+' ' + $t('list.item')"></div>
@@ -80,7 +71,7 @@ export default {
     Headmd: Markdown,
     Readmemd: Markdown,
   },
-  data: function() {
+  data: function () {
     return {
       busy: false,
       page: {
@@ -121,7 +112,7 @@ export default {
   },
   computed: {
     ...mapState("acrou/view", ["mode"]),
-    buildFiles() {
+    buildFiles () {
       var path = this.$route.path;
       return this.files
         .map((item) => {
@@ -143,22 +134,22 @@ export default {
           return a.isFolder ? -1 : 1;
         });
     },
-    images() {
+    images () {
       return this.buildFiles.filter(
         (file) => file.mimeType.indexOf("image") != -1
       );
     },
   },
-  created() {
+  created () {
     this.render();
   },
   methods: {
-    pageLoad() {
+    pageLoad () {
       if (!this.page.page_token) return;
       this.page.page_index++;
       this.render("scroll");
     },
-    render(scroll) {
+    render (scroll) {
       if (scroll) {
         this.busy = true;
       } else {
@@ -210,7 +201,7 @@ export default {
           this.$router.go(-1);
         });
     },
-    checkPassword(path) {
+    checkPassword (path) {
       var pass = prompt(this.$t("list.auth"), "");
       localStorage.setItem("password" + path, pass);
       if (pass != null && pass != "") {
@@ -219,7 +210,7 @@ export default {
         this.$router.go(-1);
       }
     },
-    copy(path) {
+    copy (path) {
       let origin = window.location.origin;
       path = origin + encodeURI(path);
       this.$copyText(path)
@@ -237,17 +228,18 @@ export default {
           });
         });
     },
-    thum(url) {
+    thum (url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
-    inited(viewer) {
+    inited (viewer) {
       this.$viewer = viewer;
     },
-    go(file, target) {
+    go (file, target) {
       if (file.mimeType.indexOf("image") != -1) {
         this.viewer = true;
         this.$nextTick(() => {
-          this.$viewer.show();
+          let index = this.images.findIndex(item => item.path === file.path)
+          this.$viewer.view(index);
         });
         return;
       }
@@ -279,7 +271,7 @@ export default {
         return;
       }
     },
-    renderMd(files, path) {
+    renderMd (files, path) {
       var cmd = this.$route.params.cmd;
       if (cmd) {
         return;
@@ -303,7 +295,7 @@ export default {
         }
       });
     },
-    goSearchResult(file, target) {
+    goSearchResult (file, target) {
       this.loading = true;
       let cur = window.current_drive_order;
       axios
@@ -328,7 +320,7 @@ export default {
           console.log(e);
         });
     },
-    getIcon(type) {
+    getIcon (type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     },
   },

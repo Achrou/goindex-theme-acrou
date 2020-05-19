@@ -17,14 +17,12 @@ class BuildAppJSPlugin {
         // 遍历所有编译过的资源文件，
         // 对于每个文件名称，都添加一行内容。
         for (let filename in compilation.assets) {
-          if (process.env.NODE_ENV === "production") {
-            filename = (process.env.VUE_APP_PUBLIC_PATH || "/") + filename;
-          } else {
-            filename = "/" + filename;
-          }
-          // filename = "/" + filename;
-
           if (filename.match(".*\\.js$")) {
+            if (process.env.NODE_ENV === "production") {
+              filename = (process.env.VUE_APP_PUBLIC_PATH || "/") + filename;
+            } else {
+              filename = "/" + filename;
+            }
             jsarr.push(filename);
           }
           if (filename.match(".*\\.css$")) {
@@ -47,33 +45,32 @@ class BuildAppJSPlugin {
             .map((e) => e.css));
         }
         let content = `
-          var styles = ${JSON.stringify(cssarr)};
           var scripts = ${JSON.stringify(jsarr)};
           ${cdnjs}
-          document.write('<div id="app"></div>');
-          var title = document.getElementsByTagName('title')
-          styles.forEach((item) => {
-              let link = document.createElement('link');
-              link.href=item;
-              link.rel = 'preload';
-              link.as = 'style';
-              title[0].parentNode.insertBefore(link,title[0])
-              link = document.createElement('link');
-              link.href=item;
-              link.rel = 'stylesheet';
-              title[0].parentNode.insertBefore(link,title[0])
-          });
           scripts.forEach((item) => {
             document.write('<script src="' + item + '"></script>');
           });
         `;
+        let cssContent = ''
+        cssarr.forEach(item=>{
+          cssContent += `@import url(${item});\n`
+        })
         // 将这个列表作为一个新的文件资源，插入到 webpack 构建中：
         compilation.assets["app.js"] = {
           source: function() {
             return content;
           },
           size: function() {
-            return cssarr.length + jsarr.length;
+            return jsarr.length;
+          },
+        };
+
+        compilation.assets["style.css"] = {
+          source: function() {
+            return cssContent;
+          },
+          size: function() {
+            return cssarr.length;
           },
         };
 
