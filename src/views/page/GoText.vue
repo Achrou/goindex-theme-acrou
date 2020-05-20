@@ -1,24 +1,31 @@
 <template>
   <div class="content g2-content">
-    <editor
-      ref="myEditor"
-      v-model="content"
-      @init="editorInit"
-      lang="html"
-      theme="chrome"
-      width="100%"
-      height="600"
-    ></editor>
+    <codemirror v-model="content" :options="cmOptions" />
   </div>
 </template>
 
 <script>
 import { get_file, decode64 } from "@utils/AcrouUtil";
+import { codemirror } from 'vue-codemirror'
+
+// import base style
+import 'codemirror/lib/codemirror.css'
+// import language js
+import 'codemirror/mode/javascript/javascript.js'
+// import theme style
+import 'codemirror/theme/base16-dark.css'
 export default {
   data: function () {
     return {
       path: "",
-      content: ""
+      content: "",
+      cmOptions: {
+        tabSize: 4,
+        mode: 'text/javascript',
+        // theme: 'base16-dark',
+        lineNumbers: true,
+        line: true
+      }
     };
   },
   activated () {
@@ -33,7 +40,7 @@ export default {
     }
   },
   components: {
-    editor: require("@/components/ace-editor")
+    codemirror
   },
   methods: {
     render () {
@@ -42,17 +49,12 @@ export default {
       get_file({ path: path, file: {} }, data => {
         this.content = data;
       });
-    },
-    editorInit (editor) {
-      editor.setFontSize(18);
-      editor.session.setUseWrapMode(false);
-      require("brace/ext/language_tools"); //language extension prerequsite...
-      require("brace/mode/html");
-      require("brace/mode/javascript"); //language
-      require("brace/mode/less");
-      require("brace/theme/chrome");
-      require("brace/snippets/javascript"); //snippet
     }
   }
 };
 </script>
+<style lang="scss">
+.CodeMirror {
+  height: 650px;
+}
+</style>
