@@ -12,7 +12,7 @@ process.env.VUE_APP_VERSION = require('./package.json').version
 process.env.VUE_APP_G2INDEX_VERSION = require('./package.json').g2index
 
 // 基础路径 注意发布之前要先修改这里
-let publicPath = process.env.VUE_APP_PUBLIC_PATH || "/";
+let publicPath = process.env.VUE_APP_CDN_PATH || "/";
 
 // 设置不参与构建的库
 let externals = {};

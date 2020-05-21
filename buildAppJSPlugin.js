@@ -19,7 +19,7 @@ class BuildAppJSPlugin {
         for (let filename in compilation.assets) {
           if (filename.match(".*\\.js$")) {
             if (process.env.NODE_ENV === "production") {
-              filename = (process.env.VUE_APP_PUBLIC_PATH || "/") + filename;
+              filename = (process.env.VUE_APP_CDN_PATH || "/") + filename;
             } else {
               filename = "/" + filename;
             }
