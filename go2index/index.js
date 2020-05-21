@@ -1,12 +1,11 @@
+// =======Options START=======
 var authConfig = {
-  siteName: "Achirou's Cloud", // 网站名称
+  siteName: "GoIndex-theme-acrou", // 网站名称
   version: "1.1.0", // 程序版本
   theme: "acrou",
-  /*"client_id": "202264815644.apps.googleusercontent.com",
-    "client_secret": "X4Z3ca8xfWDb1Voo-F9a7ZxJ",*/
   // 强烈推荐使用自己的 client_id 和 client_secret
-  client_id: "",
-  client_secret: "",
+  client_id: "202264815644.apps.googleusercontent.com",
+  client_secret: "X4Z3ca8xfWDb1Voo-F9a7ZxJ",
   refresh_token: "", // 授权 token
   /**
    * 设置要显示的多个云端硬盘；按格式添加多个
@@ -62,20 +61,31 @@ var authConfig = {
    * 如果在全局认证的基础上，仍需要给某些目录单独进行 .password 文件内的密码验证的话，将此选项设置为 true;
    * 【注意】如果开启了 .password 文件密码验证，每次列目录都会额外增加查询目录内 .password 文件是否存在的开销。
    */
-  enable_password_file_verify: true,
+  enable_password_file_verify: false,
 };
 
 var themeOptions = {
   //可选默认系统语言:en/zh-chs/zh-cht
   languages: "en",
   render: {
+    /**
+     * 是否渲染HEAD.md文件
+     * Render HEAD.md file
+     */
     head_md: false,
+    /**
+     * 是否渲染README.md文件
+     * Render README.md file
+     */
     readme_md: false,
-    // 是否显示文件/文件夹描述（默认不显示）
-    // Show file/folder description or not (not shown by default)
+    /**
+     * 是否渲染文件/文件夹描述
+     * Render file/folder description or not
+     */
     desc: false
   },
 };
+// =======Options END=======
 
 /**
  * global functions
