@@ -325,8 +325,8 @@ export default {
           this.loading = false;
           let data = res.data;
           if (data) {
-            var href = `/${cur}:${data}`;
-            href = checkoutPath(href, file);
+            var href = checkoutPath(data, file);
+            href = `/${cur}:${data}`;
             if (target === "_blank") {
               window.open(href);
             } else {
