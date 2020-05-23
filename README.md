@@ -63,6 +63,8 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - Support quick deployment
 - Support PDF Online preview
 - Replace text editor
+- Solve the problem of URL encoding [#20](https://github.com/Aicirou/goindex-theme-acrou/issues/20) [#23](https://github.com/Aicirou/goindex-theme-acrou/issues/23) [#25](https://github.com/Aicirou/goindex-theme-acrou/issues/25)
+- Solve other known problems
 
 ### 2020-4-29
 

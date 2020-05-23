@@ -62,6 +62,8 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - 支持快速部署（帮助小白的利器）
 - 支持PDF在线预览
 - 更换文本编辑器
+- 解决url编码问题 [#20](https://github.com/Aicirou/goindex-theme-acrou/issues/20) [#23](https://github.com/Aicirou/goindex-theme-acrou/issues/23) [#25](https://github.com/Aicirou/goindex-theme-acrou/issues/25)
+- 解决其他已知问题
 
 ### 2020-4-29
 
