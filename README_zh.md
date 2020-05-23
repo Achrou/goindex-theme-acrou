@@ -1,6 +1,10 @@
-![GoIndex](https://raw.githubusercontent.com/donwa/goindex/master/themes/logo.png)  
-
 # GoIndex-theme-acrou
+
+结合 [Cloudflare Workers](https://workers.cloudflare.com/) 和 [Google Drive](https://www.google.com/drive/) 的力量，你可以在Cloudflare Workers的浏览器上建立你的文件索引。
+
+[goindex/index.js](https://github.com/Aicirou/goindex-theme-acrou/go2index) 是Workers脚本的内容。
+
+这个主题的goindex目前是基于 [yanzai/goindex](https://github.com/yanzai/goindex/)
 
 [README](README.md) | [中文文档](README_zh.md)
 
@@ -8,46 +12,64 @@
 
 Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/) 
 
-## 使用
+## 特色
 
-主题文件在dist目录可以下载下来上传到自己cdn或者使用下面的链接也可以
+- [x] 🗂 多盘切换
+- [x] 🔐 Http Basic Auth
+- [x] 🎨 网格视图模式（文件预览）
+- [x] 🎯 分页加载
+- [x] 🌐 I18n（多国语言）
+- [x] 🛠 html渲染
+- [x] 🖥 视频在线播放(mp4,mkv,webm,flv,m3u8)
+- [x] 🚀 拥有更快的速度
 
-修改goindex的index.js中所使用的app.js为(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou/dist/app.mini.js)
+## TODO
 
-goindex作者的`index.js`不支持搜索，需要搜索功能请使用[index.js](https://oss.achirou.workers.dev/go2index/index.js?a=view)
-
-## 即将支持
-
-- [x] 多盘切换
-- [ ] 分页显示
-- [ ] 图片列表显示
 - [ ] 更多文件格式预览
+- [ ] 让Goindex不只是一个目录索引
 
-GoIndex  
-====
+## 快速部署
 
-Google Drive Directory Index  
-Combining the power of [Cloudflare Workers](https://workers.cloudflare.com/) and [Google Drive](https://www.google.com/drive/) will allow you to index you files on the browser on Cloudflare Workers.    
-
-[index.js](https://github.com/donwa/goindex/) is the content of the Workers script.  
+1. 打开https://goindex-quick-install.glitch.me  
+2. 授权并获取授权码
+3. 将代码部署到 [Cloudflare Workers](https://www.cloudflare.com/)
 
 ## Deployment  
 
-1.Install `rclone` software locally  
-2.Follow [https://rclone.org/drive/]( https://rclone.org/drive/) bind a drive  
-3.Execute the command`rclone config file` to find the file `rclone.conf` path  
-4.Open `rclone.conf`,find the configuration `root_folder_id` and `refresh_token`  
-5.Download index.js in https://github.com/donwa/goindex and fill in root and refresh_token  
-6.Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)
+1. 开启[Google Drive API](https://console.developers.google.com/apis/api/drive.googleapis.com/overview)
+2. 创建一个 [OAuth client ID](https://console.developers.google.com/apis/credentials/oauthclient)
+3. 本地安装[rclone](https://rclone.org/downloads/)
+4. 使用`rclone`获取`refresh_token`
+5. 下载`index.js` (https://github.com/Aicirou/goindex-theme-acrou/go2index)然后替换`client_id`,`client_secret`,`refresh_token` 为你刚刚获取到的
+6. 把代码部署到[Cloudflare Workers](https://www.cloudflare.com/)
 
-## Quick Deployment  
+> 如果你写了一篇不错的文章，想分享给大家，请提交Issues，我会把链接贴在这里。
 
-1.Open https://installen.gd.workers.dev/  
-2.Auth and get the code  
-3.Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)  
+## Logs
 
+### 2020-5-20
 
+- 程序改为单页应用
 
-## About  
+- 添加页面级缓存（浏览器前后后退不刷新秒加载，mac用户使用触控板体验更佳）
+- 添加 http basic auth（每个盘符可单独配置用户名和密码，可以保护该盘下所有子文件和子文件夹）
+- 添加网格视图模式（文件预览）
+- 添加分页加载
+- 添加 i18n多国语言
+- 添加 html渲染
+- 添加 渲染文件夹/文件的描述 （用途自行挖掘）
+- 添加可选配置
+- 支持快速部署（帮助小白的利器）
+- 支持PDF在线预览
+- 更换文本编辑器
 
-Cloudflare Workers allow you to write JavaScript which runs on all of Cloudflare's 150+ global data centers.  
+### 2020-4-29
+
+- 支持多盘切换
+- 添加版本检测
+- 优化搜索结果
+- 优化页面显示
+
+## Lisense
+
+[MIT](LICENSE)
