@@ -73,6 +73,11 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - Optimize search results
 - Optimize page display
 
+## About
+
+At the beginning of this project, it was just to satisfy my personal perception and experience development. When this project reaped the first start, the first fork and the first issues, and then everyone began to make suggestions, I had the power to update. Thank you very much for your support. Now we have version 2.0.
+
 ## Lisense
 
 [MIT](LICENSE)
+
