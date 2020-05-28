@@ -12,7 +12,7 @@
         :data="buildFiles"
         v-if="mode === 'list'"
         :icons="getIcon"
-        :go="go"
+        :action="action"
         :copy="copy"
       />
       <grid-view
@@ -20,7 +20,7 @@
         :data="buildFiles"
         v-if="mode !== 'list'"
         :getIcon="getIcon"
-        :go="go"
+        :action="action"
         :thum="thum"
       />
       <div
@@ -43,7 +43,10 @@
         $t('list.total') + ' ' + files.length + ' ' + $t('list.item')
       "
     ></div>
-    <readmemd :option="readmemd" v-if="renderReadMeMD && readmemd.display"></readmemd>
+    <readmemd
+      :option="readmemd"
+      v-if="renderReadMeMD && readmemd.display"
+    ></readmemd>
 
     <viewer
       v-if="viewer && images && images.length > 0"
@@ -72,7 +75,6 @@ import {
   checkoutPath,
   checkView,
   checkExtends,
-  encodePath
 } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import { mapState } from "vuex";
@@ -234,6 +236,7 @@ export default {
     },
     copy(path) {
       let origin = window.location.origin;
+      console.log(path)
       path = origin + encodeURI(path);
       this.$copyText(path)
         .then(() => {
@@ -256,7 +259,7 @@ export default {
     inited(viewer) {
       this.$viewer = viewer;
     },
-    go(file, target) {
+    action(file, target) {
       if (file.mimeType.indexOf("image") != -1) {
         this.viewer = true;
         this.$nextTick(() => {
@@ -265,19 +268,25 @@ export default {
         });
         return;
       }
-      let path = file.path;
       let cmd = this.$route.params.cmd;
       if (cmd && cmd === "search") {
         this.goSearchResult(file, target);
         return;
       }
+      this.target(file, target);
+    },
+    target(file, target) {
+      let path = file.path;
       if (target === "_blank") {
         window.open(path);
         return;
       }
+      if (target === "copy") {
+        this.copy(path)
+        return;
+      }
       if (target === "down" || (!checkExtends(path) && !file.isFolder)) {
-        let temp_path = this.$route.params.path ? this.$route.params.path : "";
-        location.href = `/${this.$route.params.id}:down/${temp_path}/${encodePath(file.name)}`;
+        location.href = path.replace(/^\/(\d+:)\//,"/$1down/");
         return;
       }
       if (target === "view") {
@@ -319,22 +328,15 @@ export default {
     },
     goSearchResult(file, target) {
       this.loading = true;
-      let cur = window.current_drive_order;
+      let id = this.$route.params.id;
       axios
-        .post(`/${cur}:id2path`, { id: file.id })
+        .post(`/${id}:id2path`, { id: file.id })
         .then((res) => {
           this.loading = false;
           let data = res.data;
           if (data) {
-            var href = checkoutPath(data, file);
-            href = `/${cur}:${data}`;
-            if (target === "_blank") {
-              window.open(href);
-            } else {
-              this.$router.push({
-                path: checkView(href),
-              });
-            }
+            file.path = `/${id}:${data}`;
+            this.target(file, target)
           }
         })
         .catch((e) => {

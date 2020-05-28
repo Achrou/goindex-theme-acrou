@@ -5,7 +5,7 @@
         class="column is-one-quarter"
         v-for="(file, index) in folders"
         :key="'folder_' + index"
-        @click="go(file)"
+        @click="action(file)"
       >
         <div class="card g2-grid-view-card g2-grid-view-folder">
           <div class="media">
@@ -24,7 +24,7 @@
         class="column is-one-quarter"
         v-for="(file, index) in files"
         :key="'file_' + index"
-        @click="go(file, 'view')"
+        @click="action(file, 'view')"
       >
         <div class="card g2-grid-view-card">
           <div
@@ -65,7 +65,7 @@ export default {
     getIcon: {
       type: Function,
     },
-    go: {
+    action: {
       type: Function,
     },
     thum: {
