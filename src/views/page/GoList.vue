@@ -1,15 +1,9 @@
 <template>
   <div>
     <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
-    <div
-      class="golist"
-      v-loading="loading"
-      v-infinite-scroll="pageLoad"
-      infinite-scroll-disabled="busy"
-      infinite-scroll-distance="10"
-    >
+    <div class="golist">
       <list-view
-        :data="buildFiles"
+        :data="files"
         v-if="mode === 'list'"
         :icons="getIcon"
         :action="action"
@@ -17,21 +11,21 @@
       />
       <grid-view
         class="g2-content"
-        :data="buildFiles"
+        :data="files"
         v-if="mode !== 'list'"
         :getIcon="getIcon"
         :action="action"
         :thum="thum"
       />
+      <infinite-loading
+        :identifier="infiniteId"
+        @infinite="infiniteHandler"
+      ></infinite-loading>
       <div
         v-show="files.length === 0"
         class="has-text-centered no-content"
       ></div>
       <center>
-        <div :class="!busy ? 'is-hidden' : ''">
-          <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-          <span class="sr-only">Loading...</span>
-        </div>
         <!-- <span v-if="page.page_token === null && files.length !== 0" class="tag">
           {{ $t("list.total") }} {{ files.length }} {{ $t("list.item") }}
         </span>-->
@@ -78,12 +72,14 @@ import {
 } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import { mapState } from "vuex";
+import InfiniteLoading from "vue-infinite-loading";
 import ListView from "./components/list";
 import GridView from "./components/grid";
 import Markdown from "../common/Markdown";
 export default {
   name: "GoList",
   components: {
+    InfiniteLoading,
     ListView,
     GridView,
     Headmd: Markdown,
@@ -91,13 +87,12 @@ export default {
   },
   data: function() {
     return {
-      busy: false,
+      infiniteId: +new Date(),
       page: {
         page_token: null,
         page_index: 0,
       },
       files: [],
-      loading: true,
       viewer: false,
       icon: {
         "application/vnd.google-apps.folder": "icon-morenwenjianjia",
@@ -130,28 +125,6 @@ export default {
   },
   computed: {
     ...mapState("acrou/view", ["mode"]),
-    buildFiles() {
-      var path = this.$route.path;
-      return this.files
-        .map((item) => {
-          var p = path + checkoutPath(item.name, item);
-          let isFolder = item.mimeType === "application/vnd.google-apps.folder";
-          let size = isFolder ? "-" : formatFileSize(item.size);
-          return {
-            path: p,
-            ...item,
-            modifiedTime: formatDate(item.modifiedTime),
-            size: size,
-            isFolder: isFolder,
-          };
-        })
-        .sort((a, b) => {
-          if (a.isFolder && b.isFolder) {
-            return 0;
-          }
-          return a.isFolder ? -1 : 1;
-        });
-    },
     images() {
       return this.buildFiles.filter(
         (file) => file.mimeType.indexOf("image") != -1
@@ -164,21 +137,14 @@ export default {
       return window.themeOptions.render.readme_md || false;
     },
   },
-  created() {
-    this.render();
-  },
   methods: {
-    pageLoad() {
-      if (!this.page.page_token) return;
+    infiniteHandler($state) {
+      // TODO 异步请求的原因，导致数据响应在下个页面。需要终止上次请求
       this.page.page_index++;
-      this.render("scroll");
+      console.log("滚动加载了", this.page.page_index, this.$route.path);
+      this.render($state);
     },
-    render(scroll) {
-      if (scroll) {
-        this.busy = true;
-      } else {
-        this.loading = true;
-      }
+    render($state) {
       this.headmd = { display: false, file: {}, path: "" };
       this.readmemd = { display: false, file: {}, path: "" };
       var path = this.$route.path;
@@ -205,25 +171,50 @@ export default {
               page_token: body.nextPageToken,
               page_index: body.curPageIndex,
             };
-            try {
-              if (scroll) {
-                this.files = this.files.concat(data.files);
-              } else {
-                this.files = data.files;
-              }
+            if (scroll) {
+              this.files = this.buildFiles(this.files.concat(data.files));
+            } else {
+              this.files = this.buildFiles(data.files);
+            }
+            if (data.files) {
               this.renderMd(data.files, path);
-            } catch (e) {
-              console.log(e);
             }
           }
-          this.loading = false;
-          this.busy = false;
+          if (body.nextPageToken) {
+            $state.loaded();
+          } else {
+            $state.complete();
+          }
         })
-        .catch(() => {
-          this.loading = false;
-          this.busy = false;
-          this.$router.go(-1);
+        .catch((e) => {
+          $state.loaded();
+          console.log(e);
         });
+    },
+    buildFiles(files) {
+      var path = this.$route.path;
+      return !files
+        ? []
+        : files
+            .map((item) => {
+              var p = path + checkoutPath(item.name, item);
+              let isFolder =
+                item.mimeType === "application/vnd.google-apps.folder";
+              let size = isFolder ? "-" : formatFileSize(item.size);
+              return {
+                path: p,
+                ...item,
+                modifiedTime: formatDate(item.modifiedTime),
+                size: size,
+                isFolder: isFolder,
+              };
+            })
+            .sort((a, b) => {
+              if (a.isFolder && b.isFolder) {
+                return 0;
+              }
+              return a.isFolder ? -1 : 1;
+            });
     },
     checkPassword(path) {
       var pass = prompt(this.$t("list.auth"), "");
@@ -236,7 +227,7 @@ export default {
     },
     copy(path) {
       let origin = window.location.origin;
-      console.log(path)
+      console.log(path);
       path = origin + encodeURI(path);
       this.$copyText(path)
         .then(() => {
@@ -282,11 +273,11 @@ export default {
         return;
       }
       if (target === "copy") {
-        this.copy(path)
+        this.copy(path);
         return;
       }
       if (target === "down" || (!checkExtends(path) && !file.isFolder)) {
-        location.href = path.replace(/^\/(\d+:)\//,"/$1down/");
+        location.href = path.replace(/^\/(\d+:)\//, "/$1down/");
         return;
       }
       if (target === "view") {
@@ -336,7 +327,7 @@ export default {
           let data = res.data;
           if (data) {
             file.path = `/${id}:${data}`;
-            this.target(file, target)
+            this.target(file, target);
           }
         })
         .catch((e) => {
