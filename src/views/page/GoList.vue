@@ -72,6 +72,7 @@ import {
   checkoutPath,
   checkView,
   checkExtends,
+  encodePath
 } from "@utils/AcrouUtil";
 import axios from "@/utils/axios";
 import { mapState } from "vuex";
@@ -276,7 +277,7 @@ export default {
       }
       if (target === "down" || (!checkExtends(path) && !file.isFolder)) {
         let temp_path = this.$route.params.path ? this.$route.params.path : "";
-        location.href = `/${this.$route.params.id}:down/${temp_path}/${file.name}`;
+        location.href = `/${this.$route.params.id}:down/${temp_path}/${encodePath(file.name)}`;
         return;
       }
       if (target === "view") {
