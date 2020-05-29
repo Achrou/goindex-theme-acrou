@@ -1,13 +1,7 @@
 <template>
   <div>
     <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
-    <div
-      class="golist"
-      v-loading="loading"
-      v-infinite-scroll="pageLoad"
-      infinite-scroll-disabled="busy"
-      infinite-scroll-distance="10"
-    >
+    <div class="golist" v-loading="loading">
       <list-view
         :data="files"
         v-if="mode === 'list'"
@@ -23,14 +17,19 @@
         :action="action"
         :thum="thum"
       />
-      <!-- <infinite-loading :identifier="infiniteId" @infinite="infiniteHandler"></infinite-loading> -->
-      <div v-show="files.length === 0" class="has-text-centered no-content"></div>
-      <center>
-        <div :class="!busy ? 'is-hidden' : ''">
-          <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-          <span class="sr-only">Loading...</span>
-        </div>
-      </center>
+      <infinite-loading
+        v-show="!loading"
+        ref="infinite"
+        spinner="bubbles"
+        @infinite="infiniteHandler"
+      >
+        <div slot="no-more"></div>
+        <div slot="no-results"></div>
+      </infinite-loading>
+      <div
+        v-show="files.length === 0"
+        class="has-text-centered no-content"
+      ></div>
     </div>
     <div
       class="is-divider"
@@ -38,7 +37,10 @@
         $t('list.total') + ' ' + files.length + ' ' + $t('list.item')
       "
     ></div>
-    <readmemd :option="readmemd" v-if="renderReadMeMD && readmemd.display"></readmemd>
+    <readmemd
+      :option="readmemd"
+      v-if="renderReadMeMD && readmemd.display"
+    ></readmemd>
 
     <viewer
       v-if="viewer && images && images.length > 0"
@@ -69,23 +71,22 @@ import {
   checkExtends,
 } from "@utils/AcrouUtil";
 import { mapState } from "vuex";
-import InfiniteLoading from "vue-infinite-loading";
 import ListView from "./components/list";
 import GridView from "./components/grid";
 import Markdown from "../common/Markdown";
+import InfiniteLoading from "vue-infinite-loading";
 export default {
   name: "GoList",
   components: {
-    InfiniteLoading,
     ListView,
     GridView,
     Headmd: Markdown,
     Readmemd: Markdown,
+    InfiniteLoading,
   },
-  data: function () {
+  data: function() {
     return {
       infiniteId: +new Date(),
-      busy: false,
       loading: true,
       page: {
         page_token: null,
@@ -124,40 +125,31 @@ export default {
   },
   computed: {
     ...mapState("acrou/view", ["mode"]),
-    images () {
-      return this.buildFiles.filter(
+    images() {
+      return this.files.filter(
         (file) => file.mimeType.indexOf("image") != -1
       );
     },
-    renderHeadMD () {
+    renderHeadMD() {
       return window.themeOptions.render.head_md || false;
     },
-    renderReadMeMD () {
+    renderReadMeMD() {
       return window.themeOptions.render.readme_md || false;
     },
   },
-  created () {
+  created() {
     this.render();
   },
   methods: {
-    pageLoad () {
-      if (!this.page.page_token) return;
+    infiniteHandler($state) {
+      // 首次进入页面不执行滚动事件
+      if (!this.page.page_token) {
+        return;
+      }
       this.page.page_index++;
-      console.log("滚动加载了", this.page.page_index, this.$route.path);
-      this.render("scroll");
-    },
-    infiniteHandler ($state) {
-      // TODO 异步请求的原因，导致数据响应在下个页面。需要终止上次请求
-      this.page.page_index++;
-      console.log("滚动加载了", this.page.page_index, this.$route.path);
       this.render($state);
     },
-    render (scroll) {
-      if (scroll) {
-        this.busy = true;
-      } else {
-        this.loading = true;
-      }
+    render($state) {
       this.headmd = { display: false, file: {}, path: "" };
       this.readmemd = { display: false, file: {}, path: "" };
       var path = this.$route.path;
@@ -184,8 +176,8 @@ export default {
               page_token: body.nextPageToken,
               page_index: body.curPageIndex,
             };
-            if (scroll) {
-              this.files = this.buildFiles(this.files.concat(data.files));
+            if ($state) {
+              this.files.push(...this.buildFiles(data.files));
             } else {
               this.files = this.buildFiles(data.files);
             }
@@ -193,47 +185,44 @@ export default {
               this.renderMd(data.files, path);
             }
           }
-          // if (body.nextPageToken) {
-          //   $state.loaded();
-          // } else {
-          //   $state.complete();
-          // }
+          if (body.nextPageToken) {
+            this.$refs.infinite.stateChanger.loaded();
+          } else {
+            this.$refs.infinite.stateChanger.complete();
+          }
           this.loading = false;
-          this.busy = false;
         })
         .catch((e) => {
-          // $state.loaded();
           this.loading = false;
-          this.busy = false;
           console.log(e);
         });
     },
-    buildFiles (files) {
+    buildFiles(files) {
       var path = this.$route.path;
       return !files
         ? []
         : files
-          .map((item) => {
-            var p = path + checkoutPath(item.name, item);
-            let isFolder =
-              item.mimeType === "application/vnd.google-apps.folder";
-            let size = isFolder ? "-" : formatFileSize(item.size);
-            return {
-              path: p,
-              ...item,
-              modifiedTime: formatDate(item.modifiedTime),
-              size: size,
-              isFolder: isFolder,
-            };
-          })
-          .sort((a, b) => {
-            if (a.isFolder && b.isFolder) {
-              return 0;
-            }
-            return a.isFolder ? -1 : 1;
-          });
+            .map((item) => {
+              var p = path + checkoutPath(item.name, item);
+              let isFolder =
+                item.mimeType === "application/vnd.google-apps.folder";
+              let size = isFolder ? "-" : formatFileSize(item.size);
+              return {
+                path: p,
+                ...item,
+                modifiedTime: formatDate(item.modifiedTime),
+                size: size,
+                isFolder: isFolder,
+              };
+            })
+            .sort((a, b) => {
+              if (a.isFolder && b.isFolder) {
+                return 0;
+              }
+              return a.isFolder ? -1 : 1;
+            });
     },
-    checkPassword (path) {
+    checkPassword(path) {
       var pass = prompt(this.$t("list.auth"), "");
       localStorage.setItem("password" + path, pass);
       if (pass != null && pass != "") {
@@ -242,9 +231,8 @@ export default {
         this.$router.go(-1);
       }
     },
-    copy (path) {
+    copy(path) {
       let origin = window.location.origin;
-      console.log(path);
       path = origin + encodeURI(path);
       this.$copyText(path)
         .then(() => {
@@ -261,13 +249,13 @@ export default {
           });
         });
     },
-    thum (url) {
+    thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
-    inited (viewer) {
+    inited(viewer) {
       this.$viewer = viewer;
     },
-    action (file, target) {
+    action(file, target) {
       if (file.mimeType.indexOf("image") != -1) {
         this.viewer = true;
         this.$nextTick(() => {
@@ -283,7 +271,7 @@ export default {
       }
       this.target(file, target);
     },
-    target (file, target) {
+    target(file, target) {
       let path = file.path;
       if (target === "_blank") {
         window.open(path);
@@ -310,7 +298,7 @@ export default {
         return;
       }
     },
-    renderMd (files, path) {
+    renderMd(files, path) {
       var cmd = this.$route.params.cmd;
       if (cmd) {
         return;
@@ -334,7 +322,7 @@ export default {
         }
       });
     },
-    goSearchResult (file, target) {
+    goSearchResult(file, target) {
       this.loading = true;
       let id = this.$route.params.id;
       this.axios
@@ -352,7 +340,7 @@ export default {
           console.log(e);
         });
     },
-    getIcon (type) {
+    getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-weizhi");
     },
   },

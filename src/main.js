@@ -11,7 +11,6 @@ import i18n from "./i18n";
 // store
 import store from "@/store/index";
 import VueClipboard from "vue-clipboard2";
-import infiniteScroll from "vue-infinite-scroll";
 import VueLazyload from "vue-lazyload";
 import Viewer from "v-viewer";
 import cdnpath from "./libs/util.cdn";
@@ -27,7 +26,6 @@ Vue.use(ElementUI);
 Vue.use(VueAxios, axios);
 Vue.use(cdnpath);
 Vue.use(VueClipboard);
-Vue.use(infiniteScroll);
 Vue.use(VueLazyload, {
   loading: cdnpath("/images/airplane.gif"),
 });
