@@ -27,6 +27,7 @@
                 : ''
             )
           "
+          :title="file.name"
         >
           <svg class="iconfont" aria-hidden="true">
             <use :xlink:href="icons(file.mimeType)" />

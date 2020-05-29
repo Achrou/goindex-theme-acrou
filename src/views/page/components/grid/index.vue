@@ -9,7 +9,7 @@
       >
         <div class="card g2-grid-view-card g2-grid-view-folder">
           <div class="media">
-            <div class="content">
+            <div class="content" :title="file.name">
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
@@ -41,7 +41,7 @@
             </figure>
           </div>
           <div class="media g2-grid-view-file">
-            <div class="content">
+            <div class="content" :title="file.name">
               <svg class="iconfont" aria-hidden="true">
                 <use :xlink:href="getIcon(file.mimeType)" />
               </svg>
