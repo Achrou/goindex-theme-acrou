@@ -4,7 +4,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/icon.css";
 import "element-ui/lib/theme-chalk/notification.css";
 import "element-ui/lib/theme-chalk/loading.css";
-import axios from "@utils/axios";
+import axios from "@/plugin/axios";
 import VueAxios from "vue-axios";
 import router from "./router";
 import i18n from "./i18n";

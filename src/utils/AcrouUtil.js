@@ -1,4 +1,4 @@
-import axios from "@utils/axios";
+import axios from "@/plugin/axios";
 let Base64 = require("js-base64").Base64;
 
 const text_exts = [
