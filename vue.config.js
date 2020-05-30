@@ -14,7 +14,7 @@ process.env.VUE_APP_G2INDEX_VERSION = require("./package.json").g2index;
 process.env.VUE_APP_CDN_PATH =
   process.env.VUE_APP_CDN_PATH.replace(
     "@master",
-    "@" + process.env.VUE_APP_VERSION
+    "@v" + process.env.VUE_APP_VERSION
   ) || "/";
 
 // 基础路径 注意发布之前要先修改这里

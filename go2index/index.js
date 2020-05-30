@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "GoIndex-theme-acrou", // 网站名称
-  version: "1.1.0", // 程序版本
+  version: "1.1.1", // 程序版本
   theme: "acrou",
   // 强烈推荐使用自己的 client_id 和 client_secret
   client_id: "202264815644.apps.googleusercontent.com",
@@ -65,6 +65,9 @@ var authConfig = {
 };
 
 var themeOptions = {
+  cdn: "https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou",
+  // 主题版本号
+  version: "2.0.5",
   //可选默认系统语言:en/zh-chs/zh-cht
   languages: "en",
   render: {
@@ -82,7 +85,18 @@ var themeOptions = {
      * 是否渲染文件/文件夹描述
      * Render file/folder description or not
      */
-    desc: false
+    desc: false,
+  },
+  /**
+   * 播放器选项
+   * Player options
+   */
+  player: {
+    /**
+     * 播放器api（不指定则使用浏览器默认播放器）
+     * Player api(Use browser default player if not specified)
+     */
+    api: "https://api.jsonpop.cn/demo/blplyaer/?url=",
   },
 };
 // =======Options END=======
@@ -94,7 +108,7 @@ const FUNCS = {
   /**
    * 转换成针对谷歌搜索词法相对安全的搜索关键词
    */
-  formatSearchKeyword: function(keyword) {
+  formatSearchKeyword: function (keyword) {
     let nothing = "";
     let space = " ";
     if (!keyword) return nothing;
@@ -132,7 +146,7 @@ function html(current_drive_order = 0, model = {}) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <style>
-    @import url(https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou@master/dist/style.min.css);
+    @import url(${themeOptions.cdn}@${themeOptions.version}/dist/style.min.css);
   </style>
   <script>
     window.gdconfig = JSON.parse('${JSON.stringify({
@@ -149,7 +163,9 @@ function html(current_drive_order = 0, model = {}) {
 </head>
 <body>
     <div id="app"></div>
-    <script src="https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou@master/dist/app.min.js"></script>
+    <script src="${themeOptions.cdn}@${
+    themeOptions.version
+  }/dist/app.min.js"></script>
 </body>
 </html>
 `;
@@ -184,7 +200,7 @@ async function handleRequest(request) {
   // 并根据 drive order 获取对应的 gd instance
   let gd;
   let url = new URL(request.url);
-  let path = url.pathname;
+  let path = decodeURI(url.pathname);
 
   /**
    * 重定向至起始页
@@ -291,12 +307,7 @@ async function handleRequest(request) {
       })
     );
   } else {
-    if (
-      path
-        .split("/")
-        .pop()
-        .toLowerCase() == ".password"
-    ) {
+    if (path.split("/").pop().toLowerCase() == ".password") {
       return basic_auth_res || new Response("", { status: 404 });
     }
     let file = await gd.file(path);
@@ -917,9 +928,9 @@ class googleDrive {
   }
 
   sleep(ms) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function (resolve, reject) {
       let i = 0;
-      setTimeout(function() {
+      setTimeout(function () {
         console.log("sleep" + ms);
         i++;
         if (i >= 2) reject(new Error("i>=2"));
@@ -929,7 +940,7 @@ class googleDrive {
   }
 }
 
-String.prototype.trim = function(char) {
+String.prototype.trim = function (char) {
   if (char) {
     return this.replace(
       new RegExp("^\\" + char + "+|\\" + char + "+$", "g"),
