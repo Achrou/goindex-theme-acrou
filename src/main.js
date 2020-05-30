@@ -14,6 +14,8 @@ import VueClipboard from "vue-clipboard2";
 import VueLazyload from "vue-lazyload";
 import Viewer from "v-viewer";
 import cdnpath from "./libs/util.cdn";
+// 组件
+import '@/components'
 import "viewerjs/dist/viewer.css";
 import "@/assets/style/theme/register.scss";
 

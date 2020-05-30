@@ -4,7 +4,7 @@
 
 <script>
 import { get_file } from "@utils/AcrouUtil";
-import MarkdownIt from "markdown-it";
+import marked from "marked";
 export default {
   props: {
     option: {}
@@ -32,13 +32,11 @@ export default {
       `
     }
   },
-  components: {},
   methods: {
     render() {
       this.content = this.defaultContent
-      const md = new MarkdownIt();
       get_file(this.option, data => {
-        this.content = md.render(data);
+        this.content = marked(data);
       });
     }
   }

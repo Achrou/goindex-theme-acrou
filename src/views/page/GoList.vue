@@ -1,6 +1,7 @@
 <template>
   <div>
-    <headmd :option="headmd" v-if="renderHeadMD && headmd.display"></headmd>
+    <headmd :option="headmd" v-if="renderHeadMD && headmd.display" style="margin:1rem 0;"></headmd>
+    <bread-crumb ref="breadcrumb"></bread-crumb>
     <div class="golist" v-loading="loading">
       <list-view
         :data="files"
@@ -71,6 +72,7 @@ import {
   checkExtends,
 } from "@utils/AcrouUtil";
 import { mapState } from "vuex";
+import BreadCrumb from "../common/BreadCrumb";
 import ListView from "./components/list";
 import GridView from "./components/grid";
 import Markdown from "../common/Markdown";
@@ -78,6 +80,7 @@ import InfiniteLoading from "vue-infinite-loading";
 export default {
   name: "GoList",
   components: {
+    BreadCrumb,
     ListView,
     GridView,
     Headmd: Markdown,
@@ -109,6 +112,7 @@ export default {
         "text/x-sh": "icon-SH",
         "application/x-subrip": "icon-srt",
         "application/zip": "icon-zip",
+        "application/x-zip-compressed": "icon-zip",
         "application/rar": "icon-rar",
         "application/pdf": "icon-pdf",
         "application/json": "icon-JSON1",
@@ -118,6 +122,7 @@ export default {
         "image/bmp": "icon-img",
         "image/jpeg": "icon-img",
         "image/png": "icon-img",
+        "image/gif": "icon-img"
       },
       headmd: { display: false, file: {}, path: "" },
       readmemd: { display: false, file: {}, path: "" },

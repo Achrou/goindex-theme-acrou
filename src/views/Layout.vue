@@ -3,7 +3,6 @@
     <Head></Head>
     <section class="section">
       <div class="container">
-        <bread-crumb ref="breadcrumb"></bread-crumb>
         <!-- <keep-alive> -->
         <feb-alive>
           <router-view></router-view>
@@ -17,7 +16,6 @@
 
 <script>
 import Head from "./common/Head";
-import BreadCrumb from "./common/BreadCrumb";
 import Footer from "./common/Footer";
 export default {
   data: function () {
@@ -25,7 +23,6 @@ export default {
   },
   components: {
     Head,
-    BreadCrumb,
     Footer: Footer,
   },
   methods: {},

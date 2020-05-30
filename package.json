@@ -20,7 +20,7 @@
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
     "lowdb": "^1.0.0",
-    "markdown-it": "^10.0.0",
+    "marked": "^1.1.0",
     "node-sass": "^4.14.0",
     "sass-loader": "^8.0.2",
     "v-viewer": "^1.5.1",

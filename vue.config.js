@@ -71,6 +71,7 @@ module.exports = {
       .set("@", resolve("src"))
       .set("@assets", resolve("src/assets"))
       .set("@utils", resolve("src/utils"))
+      .set("@api", resolve("src/api"))
       .set("@node_modules", resolve("node_modules"));
 
     // 分析工具
