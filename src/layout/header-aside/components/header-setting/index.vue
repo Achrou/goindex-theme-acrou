@@ -21,10 +21,19 @@ export default {
   },
   methods: {
     cleanCache() {
-      this.$notify({
-        title: this.$t("notify.title"),
-        message: this.$t("setting.clear.success"),
-        type: "success",
+      new Promise((resolve) => {
+        Object.keys(localStorage).forEach((item) => {
+          if (item.indexOf("file_path_") !== -1) {
+            localStorage.removeItem(item);
+          }
+        });
+        resolve();
+      }).then(() => {
+        this.$notify({
+          title: this.$t("notify.title"),
+          message: this.$t("setting.clear.success"),
+          type: "success",
+        });
       });
     },
   },
