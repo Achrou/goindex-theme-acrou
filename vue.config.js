@@ -1,18 +1,26 @@
 const path = require("path");
 const cdnDependencies = require("./dependencies-cdn");
 const BuildAppJSPlugin = require("./buildAppJSPlugin");
-const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const CompressionWebpackPlugin = require("compression-webpack-plugin");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
 }
 
 // 增加环境变量
-process.env.VUE_APP_VERSION = require('./package.json').version
-process.env.VUE_APP_G2INDEX_VERSION = require('./package.json').g2index
+process.env.VUE_APP_VERSION = require("./package.json").version;
+process.env.VUE_APP_G2INDEX_VERSION = require("./package.json").g2index;
+
+process.env.VUE_APP_CDN_PATH =
+  process.env.VUE_APP_CDN_PATH.replace(
+    "@master",
+    "@" + process.env.VUE_APP_VERSION
+  ) || "/";
 
 // 基础路径 注意发布之前要先修改这里
 let publicPath = process.env.VUE_APP_CDN_PATH || "/";
+let cdnPath = process.env.VUE_APP_CDN_PATH;
+const isProd = process.env.NODE_ENV === "production";
 
 // 设置不参与构建的库
 let externals = {};
@@ -28,23 +36,30 @@ const cdn = {
 module.exports = {
   publicPath,
   lintOnSave: true,
-
+  css: {
+    loaderOptions: {
+      // 设置 scss 公用变量文件
+      sass: {
+        prependData: `$cdnPath: "${isProd ? cdnPath : "/"}";`,
+      },
+    },
+  },
   configureWebpack: (config) => {
-    const configNew = {}
-    if (process.env.NODE_ENV === 'production') {
-      configNew.externals = externals
+    const configNew = {};
+    if (isProd) {
+      configNew.externals = externals;
       configNew.plugins = [
         // gzip
         new CompressionWebpackPlugin({
-          filename: '[path].gz[query]',
-          test: new RegExp('\\.(' + ['js', 'css'].join('|') + ')$'),
+          filename: "[path].gz[query]",
+          test: new RegExp("\\.(" + ["js", "css"].join("|") + ")$"),
           threshold: 10240,
           minRatio: 0.8,
-          deleteOriginalAssets: false
-        })
-      ]
+          deleteOriginalAssets: false,
+        }),
+      ];
     }
-    return configNew
+    return configNew;
   },
 
   chainWebpack: (config) => {
@@ -53,7 +68,7 @@ module.exports = {
      * 添加 CDN 参数到 htmlWebpackPlugin 配置中
      */
     config.plugin("html").tap((args) => {
-      if (process.env.NODE_ENV === "production") {
+      if (isProd) {
         args[0].cdn = cdn;
       } else {
         args[0].cdn = {
@@ -61,12 +76,11 @@ module.exports = {
           css: cdnDependencies.filter((e) => e.name === "").map((e) => e.css),
         };
       }
-      args[0].inject = false
+      args[0].inject = false;
       return args;
     });
     // 解决 cli3 热更新失效 https://github.com/vuejs/vue-cli/issues/1559
-    config.resolve
-      .symlinks(true)
+    config.resolve.symlinks(true);
     config.resolve.alias
       .set("@", resolve("src"))
       .set("@assets", resolve("src/assets"))

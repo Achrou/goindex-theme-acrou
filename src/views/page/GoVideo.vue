@@ -1,10 +1,10 @@
 <template>
   <div class="content g2-content">
-    <div class="video-content">
+    <div v-if="player && player.api" class="video-content">
       <iframe
         width="100%"
         height="100%"
-        :src="apiurl"
+        :src="apiUrl"
         frameborder="0"
         border="0"
         marginwidth="0"
@@ -14,6 +14,9 @@
         allowfullscreen="true"
       ></iframe>
     </div>
+    <video v-else style="width:100%;" preload controls>
+      <source :src="videoUrl" type="video/mp4" />
+    </video>
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -32,7 +35,7 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input" type="text" :value="videourl" />
+              <input class="input" type="text" :value="videoUrl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
@@ -62,16 +65,16 @@ import { decode64 } from "@utils/AcrouUtil";
 export default {
   data: function() {
     return {
-      apiurl: "",
-      videourl: "",
+      apiUrl: "",
+      player: window.themeOptions.player,
+      videoUrl: "",
     };
   },
   methods: {
     render() {
       // 便于开发环境调试
-      this.videourl = window.location.origin + encodeURI(this.url);
-      this.apiurl =
-        "https://api.jsonpop.cn/demo/blplyaer/?url=" + this.videourl;
+      this.videoUrl = window.location.origin + encodeURI(this.url);
+      this.apiUrl = this.player.api + this.videoUrl;
     },
   },
   activated() {
@@ -88,50 +91,50 @@ export default {
       return [
         {
           name: "IINA",
-          icon: "https://www.iina.io/images/iina-icon-60.png",
-          scheme: "iina://weblink?url=" + this.videourl,
+          icon: this.$cdnpath("images/player/iina.png"),
+          scheme: "iina://weblink?url=" + this.videoUrl,
         },
         {
           name: "PotPlayer",
-          icon: "https://cloud.jsonpop.cn/go2index/player/potplayer.png",
-          scheme: "potplayer://" + this.videourl,
+          icon: this.$cdnpath("images/player/potplayer.png"),
+          scheme: "potplayer://" + this.videoUrl,
         },
         {
           name: "VLC",
-          icon: "https://cloud.jsonpop.cn/go2index/player/vlc.png",
-          scheme: "vlc://" + this.videourl,
+          icon: this.$cdnpath("images/player/vlc.png"),
+          scheme: "vlc://" + this.videoUrl,
         },
         {
           name: "Thunder",
-          icon: "https://cloud.jsonpop.cn/go2index/player/thunder.png",
+          icon: this.$cdnpath("images/player/thunder.png"),
           scheme: "thunder://" + this.getThunder,
         },
         {
           name: "Aria2",
-          icon: "https://cloud.jsonpop.cn/go2index/player/aria2.png",
+          icon: this.$cdnpath("images/player/aria2.png"),
           scheme: 'javascript:alert("暂未实现")',
         },
         {
           name: "nPlayer",
-          icon: "https://cloud.jsonpop.cn/go2index/player/nplayer.png",
-          scheme: "nplayer-" + this.videourl,
+          icon: this.$cdnpath("images/player/nplayer.png"),
+          scheme: "nplayer-" + this.videoUrl,
         },
         {
           name: "MXPlayer(Free)",
-          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.videoUrl +
             "#Intent;package=com.mxtech.videoplayer.ad;S.title=" +
             this.title +
             ";end",
         },
         {
           name: "MXPlayer(Pro)",
-          icon: "https://cloud.jsonpop.cn/go2index/player/mxplayer.png",
+          icon: this.$cdnpath("images/player/mxplayer.png"),
           scheme:
             "intent:" +
-            this.videourl +
+            this.videoUrl +
             "#Intent;package=com.mxtech.videoplayer.pro;S.title=" +
             this.title +
             ";end",
@@ -139,7 +142,7 @@ export default {
       ];
     },
     getThunder() {
-      return Buffer.from("AA" + this.videourl + "ZZ").toString("base64");
+      return Buffer.from("AA" + this.videoUrl + "ZZ").toString("base64");
     },
   },
 };

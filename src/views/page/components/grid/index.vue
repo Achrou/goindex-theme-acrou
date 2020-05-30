@@ -37,7 +37,14 @@
           >
             <i></i>
             <figure class="image is-square">
-              <img v-if="file.thumbnailLink" v-lazy="thum(file.thumbnailLink)" :alt="file.name" />
+              <img
+                v-if="file.thumbnailLink"
+                v-lazy="thum(file.thumbnailLink)"
+                :alt="file.name"
+              />
+              <svg v-else class="file-icon iconfont" aria-hidden="true">
+                <use :xlink:href="getIcon(file.mimeType)" />
+              </svg>
             </figure>
           </div>
           <div class="media g2-grid-view-file">
@@ -72,14 +79,14 @@ export default {
       type: Function,
     },
   },
-  data: function () {
+  data: function() {
     return {};
   },
   computed: {
-    folders () {
+    folders() {
       return this.data.filter((item) => item.isFolder);
     },
-    files () {
+    files() {
       return this.data.filter((item) => !item.isFolder);
     },
   },
@@ -107,9 +114,19 @@ export default {
   //   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05), 0 0 1px rgba(0, 0, 0, 0.1);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2), 0 0 1px rgba(0, 0, 0, 0.05);
   border-radius: 0.5rem;
-  .card-image img {
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+  .card-image {
+    img {
+      border-top-left-radius: 0.5rem;
+      border-top-right-radius: 0.5rem;
+    }
+    .file-icon {
+      width: 64px;
+      height: 64px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   &:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 0 1px rgba(0, 0, 0, 0.05);

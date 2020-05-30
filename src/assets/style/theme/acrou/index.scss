@@ -83,7 +83,7 @@ body {
 }
 
 .no-content {
-  background: url(https://s1.hdslb.com/bfs/static/jinkela/search/asserts/no-data.png) no-repeat 50% 50%;
+  background: url(#{$cdnPath}images/no-data.png) no-repeat 50% 50%;
   height: 240px;
   line-height: 240px;
   text-align: center;

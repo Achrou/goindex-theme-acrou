@@ -29,20 +29,20 @@ class BuildAppJSPlugin {
             cssarr.push(filename);
           }
         }
-        cssarr = cssarr.sort(function(a) {
+        cssarr = cssarr.sort(function (a) {
           return a.indexOf("app.");
         });
-        var cdnjs = ''
+        var cdnjs = "";
         if (process.env.NODE_ENV === "production") {
           cssarr = cdn.css.concat(cssarr);
           cdnjs = `var cdnjs = ${JSON.stringify(cdn.js)};
           cdnjs.forEach((item) => {
             document.write('<script src="' + item + '"></script>');
-          });`
+          });`;
         } else {
-          cssarr = cssarr.concat(cdnDependencies
-            .filter((e) => e.name === "")
-            .map((e) => e.css));
+          cssarr = cssarr.concat(
+            cdnDependencies.filter((e) => e.name === "").map((e) => e.css)
+          );
         }
         let content = `
           var scripts = ${JSON.stringify(jsarr)};
@@ -51,25 +51,25 @@ class BuildAppJSPlugin {
             document.write('<script src="' + item + '"></script>');
           });
         `;
-        let cssContent = ''
-        cssarr.forEach(item=>{
-          cssContent += `@import url(${item});\n`
-        })
+        let cssContent = "";
+        cssarr.forEach((item) => {
+          cssContent += `@import url(${item});\n`;
+        });
         // 将这个列表作为一个新的文件资源，插入到 webpack 构建中：
         compilation.assets["app.js"] = {
-          source: function() {
+          source: function () {
             return content;
           },
-          size: function() {
+          size: function () {
             return jsarr.length;
           },
         };
 
         compilation.assets["style.css"] = {
-          source: function() {
+          source: function () {
             return cssContent;
           },
-          size: function() {
+          size: function () {
             return cssarr.length;
           },
         };
