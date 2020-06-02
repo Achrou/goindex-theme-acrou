@@ -48,11 +48,20 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## Logs
 
+### 2020-06-02
+
+- Add clean file cache
+- Support for custom video player (API)
+- Beautify: the grid mode file shows icon when no preview is shown
+- Beautify: Adjust the HEAD.md render position
+- Solve the problem that files that can't be previewed can't be downloaded directly by clicking [#30](https://github.com/Aicirou/goindex-theme-acrou/issues/30)
+- Solve the problem that the file name cannot be opened [#20](https://github.com/Aicirou/goindex-theme-acrou/issues/20)
+- Solve the problem that switching pages will fall back in the current page loading [#37](https://github.com/Aicirou/goindex-theme-acrou/issues/37) (Thanks [@PedroZhang](https://github.com/PedroZhang) Help to find out the cause of the problem)
+
 ### 2020-5-20
 
 - Program changed to SPA(single page application)
-
-- Add page level cache(The browser does not refresh and load in seconds after backward, and Mac users have a better experience of using touch pad)
+- Add page level cache(Browser forward and backward do not refresh seconds to load, and Mac users have a better experience of using touch pad)
 - Add http basic auth(Each drive letter can be configured with a user name and password separately, which can protect all sub files and sub folders under the drive)
 - Add  grid view mode(File preview)
 - Add paging load

@@ -47,11 +47,21 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## 更新日志
 
+### 2020-06-02
+
+- 添加清理文件缓存
+- 支持自定义视频播放器（API）
+- 美化：网格模式文件无预览图时显示图标
+- 美化：调整HEAD.md渲染位置
+- 解决搜索不能预览的文件点击无法直接下载 [#30](https://github.com/Aicirou/goindex-theme-acrou/issues/30)
+- 解决文件名中有#无法打开的问题 [#20](https://github.com/Aicirou/goindex-theme-acrou/issues/20)
+- 解决当前页面加载中切换页面会回退的问题 [#37](https://github.com/Aicirou/goindex-theme-acrou/issues/37) (感谢@[PedroZhang](https://github.com/PedroZhang)帮忙找出的问题原因)
+
 ### 2020-5-20
 
 - 程序改为单页应用
 
-- 添加页面级缓存（浏览器前后后退不刷新秒加载，mac用户使用触控板体验更佳）
+- 添加页面级缓存（浏览器前进后退不刷新秒加载，mac用户使用触控板体验更佳）
 - 添加 http basic auth（每个盘符可单独配置用户名和密码，可以保护该盘下所有子文件和子文件夹）
 - 添加网格视图模式（文件预览）
 - 添加分页加载
