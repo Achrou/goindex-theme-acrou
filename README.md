@@ -31,7 +31,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## Quick Deployment
 
-1. Open https://goindex-quick-install.glitch.me  
+1. Open https://install.achirou.workers.dev or https://goindex-quick-install.glitch.me  
 2. Auth and get the code  
 3. Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)
 

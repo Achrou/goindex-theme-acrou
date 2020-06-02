@@ -30,7 +30,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## 快速部署
 
-1. 打开https://goindex-quick-install.glitch.me  
+1. 打开https://install.achirou.workers.dev 或者 https://goindex-quick-install.glitch.me  
 2. 授权并获取授权码
 3. 将代码部署到 [Cloudflare Workers](https://www.cloudflare.com/)
 
@@ -55,7 +55,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - 美化：调整HEAD.md渲染位置
 - 解决搜索不能预览的文件点击无法直接下载 [#30](https://github.com/Aicirou/goindex-theme-acrou/issues/30)
 - 解决文件名中有#无法打开的问题 [#20](https://github.com/Aicirou/goindex-theme-acrou/issues/20)
-- 解决当前页面加载中切换页面会回退的问题 [#37](https://github.com/Aicirou/goindex-theme-acrou/issues/37) (感谢@[PedroZhang](https://github.com/PedroZhang)帮忙找出的问题原因)
+- 解决当前页面加载中切换页面会回退的问题 [#37](https://github.com/Aicirou/goindex-theme-acrou/issues/37) (感谢[@PedroZhang](https://github.com/PedroZhang)帮忙找出的问题原因)
 
 ### 2020-5-20
 
