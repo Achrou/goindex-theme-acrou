@@ -15,6 +15,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## Features
 
+- [x] 👑 Page-level caching,browser forward and backward without reloading (MAC users have a better experience with the trackpad)
 - [x] 🗂 Multi drive switching
 - [x] 🔐 Http Basic Auth
 - [x] 🎨 Grid view mode(File Preview)
@@ -22,6 +23,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - [x] 🌐 I18n(multi-language)
 - [x] 🛠 Html render 
 - [x] 🖥 Video Online(mp4,mkv,webm,flv,m3u8)
+- [x] 🕹 Support for custom video player (API)
 - [x] 🚀 Faster speed
 
 ## TODO
@@ -41,7 +43,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 2. Create a [OAuth client ID](https://console.developers.google.com/apis/credentials/oauthclient)
 3. Install [rclone](https://rclone.org/downloads/) software locally
 4. Get `refresh_token ` with `rclone`
-5. Download `index.js` in https://github.com/Aicirou/goindex-theme-acrou/go2index and replace `client_id`,`client_secret`,`refresh_token` for what you just got.
+5. Download `index.js` in https://github.com/Aicirou/goindex-theme-acrou/tree/master/go2index and replace `client_id`,`client_secret`,`refresh_token` for what you just got.
 6. Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)
 
 > If you write a good article and want to share it with others, please submit Issues and I will post the link here.

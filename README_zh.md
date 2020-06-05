@@ -14,6 +14,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## 特色
 
+- [x] 👑 页面级缓存，浏览器前进后退不刷新秒加载（mac用户使用触控板体验更佳）
 - [x] 🗂 多盘切换
 - [x] 🔐 Http Basic Auth
 - [x] 🎨 网格视图模式（文件预览）
@@ -21,6 +22,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - [x] 🌐 I18n（多国语言）
 - [x] 🛠 html渲染
 - [x] 🖥 视频在线播放(mp4,mkv,webm,flv,m3u8)
+- [x] 🕹 支持自定义视频播放器（API）
 - [x] 🚀 拥有更快的速度
 
 ## TODO
@@ -40,7 +42,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 2. 创建一个 [OAuth client ID](https://console.developers.google.com/apis/credentials/oauthclient)
 3. 本地安装[rclone](https://rclone.org/downloads/)
 4. 使用`rclone`获取`refresh_token`
-5. 下载`index.js` (https://github.com/Aicirou/goindex-theme-acrou/go2index)然后替换`client_id`,`client_secret`,`refresh_token` 为你刚刚获取到的
+5. 下载`index.js` (https://github.com/Aicirou/goindex-theme-acrou/tree/master/go2index) 然后替换`client_id`,`client_secret`,`refresh_token` 为你刚刚获取到的
 6. 把代码部署到[Cloudflare Workers](https://www.cloudflare.com/)
 
 > 如果你写了一篇不错的文章，想分享给大家，请提交Issues，我会把链接贴在这里。
