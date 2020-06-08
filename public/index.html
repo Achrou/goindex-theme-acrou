@@ -12,6 +12,34 @@
   <link href="<%= htmlWebpackPlugin.options.cdn.css[i] %>" rel="stylesheet">
   <% } %>
   <title><%= htmlWebpackPlugin.options.title %></title>
+  <style type="text/css">
+    .donate {
+        position: relative
+    }
+    .donate .qrcode {
+        display: none;
+        position: absolute;
+        z-index: 99;
+        bottom: 2.5em;
+        line-height: 0;
+        overflow: hidden;
+        border-radius: 4px;
+        box-shadow: 0 4px 10px rgba(0,0,0,.1),0 0 1px rgba(0,0,0,.2);
+        overflow: hidden;
+    }
+    .donate .qrcode img {
+        max-width: 280px
+    }
+    .donate:hover .qrcode {
+        display: block
+    }
+    .donate:first-child:not(:last-child) .qrcode {
+        left: -.75rem
+    }
+    .donate:last-child:not(:first-child) .qrcode {
+        right: -.75rem
+    }
+  </style>
   <script>
     var authConfig = {
       version: '1.1.1',
