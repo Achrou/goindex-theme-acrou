@@ -18,10 +18,7 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
-      <div
-        id="navbarBasicExample"
-        :class="'navbar-menu ' + (isActive ? 'is-active' : '')"
-      >
+      <div id="navbarBasicExample" :class="'navbar-menu ' + (isActive ? 'is-active' : '')">
         <div class="navbar-start">
           <div
             class="navbar-item has-dropdown is-hoverable"
@@ -34,8 +31,7 @@
                 @click="changeItem(item)"
                 v-for="(item, index) in getCurrGD"
                 v-bind:key="index"
-                >{{ item.name }}</a
-              >
+              >{{ item.name }}</a>
             </div>
           </div>
         </div>
@@ -45,6 +41,9 @@
           <div class="navbar-item" v-show="showSearch">
             <Search />
           </div>
+          <a class="navbar-item">
+            <header-theme />
+          </a>
           <header-locales />
           <a
             class="navbar-item"
@@ -56,10 +55,7 @@
             <i class="fab fa-github"></i>
           </a>
           <header-setting />
-          <a
-            class="navbar-item is-hidden-desktop"
-            @click.stop="$refs.viewMode.toggleMode"
-          >
+          <a class="navbar-item is-hidden-desktop" @click.stop="$refs.viewMode.toggleMode">
             <view-mode ref="viewMode" />
           </a>
         </div>
@@ -71,16 +67,18 @@
 <script>
 import headerLocales from "@/layout/header-aside/components/header-locales";
 import headerSetting from "@/layout/header-aside/components/header-setting";
+import headerTheme from "@/layout/header-aside/components/header-theme";
 import ViewMode from "@/layout/viewmode";
 import Search from "./Search";
 export default {
   components: {
     headerLocales,
     headerSetting,
+    headerTheme,
     ViewMode,
     Search,
   },
-  created() {
+  created () {
     this.siteName = document.getElementsByTagName("title")[0].innerText;
     if (window.gds && window.gds.length > 0) {
       this.gds = window.gds.map((item, index) => {
@@ -92,7 +90,7 @@ export default {
       this.chooseGD();
     }
   },
-  data: function() {
+  data: function () {
     return {
       siteName: "",
       currgd: {},
@@ -101,27 +99,27 @@ export default {
     };
   },
   methods: {
-    chooseGD() {
+    chooseGD () {
       let index = this.$route.params.id;
       if (this.gds && this.gds.length >= index) {
         this.currgd = this.gds[index];
       }
     },
-    changeItem(item) {
+    changeItem (item) {
       this.currgd = item;
       this.$router.push({
         path: item.id,
       });
     },
-    burgerClick() {
+    burgerClick () {
       this.isActive = !this.isActive;
     },
   },
   computed: {
-    getCurrGD() {
+    getCurrGD () {
       return this.gds.filter((item) => item.name !== this.currgd.name);
     },
-    showSearch() {
+    showSearch () {
       // 文件夹不支持搜索
       return window.MODEL ? window.MODEL.root_type < 2 : true;
     },

@@ -1,15 +1,12 @@
 <template>
   <div class="search">
-    <div :class="'dropdown' + (contentIsActive ? ' is-active' : '')">
+    <div :class="'dropdown is-right' + (contentIsActive ? ' is-active' : '')">
       <div class="field has-addons is-rounded" style="margin-bottom: 0;">
-        <div
-          class="control has-icons-left has-icons-right is-dark"
-          style="width:100%;"
-        >
+        <div class="control has-icons-left has-icons-right is-dark" style="width:100%;">
           <input
             class="input search-input"
             @keyup.enter="query"
-            v-model="param"
+            v-model="form.q"
             type="search"
             :placeholder="$t('search.placeholder')"
             :style="
@@ -33,12 +30,7 @@
           </a>
         </div>
       </div>
-      <div
-        class="dropdown-menu"
-        id="dropdown-menu2"
-        role="menu"
-        style="width:100%;"
-      >
+      <div class="dropdown-menu" id="dropdown-menu2" role="menu">
         <div class="dropdown-content">
           <div class="dropdown-item">
             <div class="field is-horizontal">
@@ -49,11 +41,13 @@
                 <div class="field is-narrow" style="width: 100%;">
                   <div class="control">
                     <div class="select is-fullwidth">
-                      <select>
-                        <option>不限</option>
-                        <option>照片和图片</option>
-                        <option>Marketing</option>
-                        <option>Sales</option>
+                      <select v-model="form.type">
+                        <option v-for="(type,index) in fileTypes" :key="index" :value="type.type">
+                          <svg class="iconfont" aria-hidden="true">
+                            <use :xlink:href="'#'+type.icon" />
+                          </svg>
+                          {{type.name}}
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -63,18 +57,33 @@
 
             <div class="field is-horizontal">
               <div class="field-label is-normal">
-                <label class="label">修改时间</label>
+                <label class="label">日期范围</label>
               </div>
               <div class="field-body">
                 <div class="field is-narrow" style="width: 100%;">
                   <div class="control">
-                    <div class="select is-fullwidth">
-                      <select>
-                        <option>任何时间</option>
-                        <option>Marketing</option>
-                        <option>Sales</option>
-                      </select>
-                    </div>
+                    <el-date-picker
+                      v-model="form.before"
+                      align="right"
+                      type="date"
+                      placeholder="选择日期"
+                      value-format="yyyy-MM-dd"
+                      :picker-options="pickerOptions"
+                      style="width:100%;"
+                    ></el-date-picker>
+                  </div>
+                </div>
+                <div class="field is-narrow" style="width: 100%;">
+                  <div class="control">
+                    <el-date-picker
+                      v-model="form.after"
+                      align="right"
+                      type="date"
+                      placeholder="选择日期"
+                      value-format="yyyy-MM-dd"
+                      :picker-options="pickerOptions"
+                      style="width:100%;"
+                    ></el-date-picker>
                   </div>
                 </div>
               </div>
@@ -91,6 +100,7 @@
                       class="input"
                       type="text"
                       placeholder="输入与部分文件名匹配的字词"
+                      v-model="form.title"
                     />
                   </div>
                 </div>
@@ -107,6 +117,7 @@
                       class="input is-normal"
                       type="text"
                       placeholder="输入文件中找到的字词"
+                      v-model="form.q"
                     />
                   </div>
                 </div>
@@ -120,12 +131,8 @@
               <div class="field-body">
                 <div class="field is-grouped is-grouped-right">
                   <div class="buttons are-small">
-                    <button class="button is-white">
-                      重置
-                    </button>
-                    <button class="button is-dark">
-                      搜索
-                    </button>
+                    <button class="button is-white">重置</button>
+                    <button class="button is-dark">搜索</button>
                   </div>
                 </div>
               </div>
@@ -137,32 +144,99 @@
   </div>
 </template>
 <script>
+import types from "@/libs/util.icon"
 export default {
-  data: function() {
+  data: function () {
     return {
       width: "",
       param: "",
       contentIsActive: false,
+      fileTypes: [
+        {
+          name: "不限",
+          type: ""
+        },
+        ...types
+      ],
+      form: {
+        type: "",
+        before: "",
+        after: "",
+        title: "",
+        q: ""
+      },
       eyes:
         "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAAA0CAYAAAAHSF9vAAAAAXNSR0IArs4c6QAACN5JREFUeAHtXG9oHGUaf95J0tj2sskmze4SsylCWiqlBZEiHp6atnJ+8FCx1OOgFUy1eKfXuwM9wdMPeoJ/QM8/3NHaCrYgXmn9g35QbI3W4+QohxARSxuQJrHsbppssrHtpcnO6/Ob7KYzs+/M7M7O7KZc3y+ZeZ7n9zzP+8sz77zv7LwjKIAmpWwaTWfXyAZaKyStkDq1kpAzfDyli4bvm5c1DCZaWjIBhArFRWp6OjZzPr9ek/lrpODcpWgWGk3x8VmRp2+749ETQojZIIILv06YZG04M7WJSN8upLxbEi1388UJf0Mk95N21ds9ncvPuNnWQjc8dq6L9P/9hkhs576sc4vJJJ2TQrxHpO3vibUe5b7obvZuuooJPyPlsrnMxOPstF9K6nJzrtLNJyuPcAeeWRlr/5fKJkzZ6czETVwgTzLRm1E0lcYSglAs+xpj7c91CXG+YnwlgNPpydtI6ru5Uq+pBKeyZeL5oqDdyxujf+7oEDmVTZCy8XEZOTeXfZ597mSiKy600lzE9yS0nSvjbZ+W6pwlZQXOZrNtuYvyVZJym7MrfxpUjKaJnd2d7R/58+CNGh2buEPX5W4/V6SndyEORJaI30ej0UlPWzbwJHw0l+vIX5j7lMm+rhyHfmwwzPBlvjOZ6NjrB++GGUmN7+Dhi8mufPhw82vRCfF1w9LG27ojkXGLXHHiOobh7q2fn/s8TLKRE8hgUvYMZyZ+p8jRtwj+4DdUsuc7cJ1+YW4AfHkl61jhmcyPiQv6zAA7WOPlJFi99seViejfqvV5OpX9A8+gXq7WT4X4E0u15r5Y7GcpJ5yywnFTuaBffJtBNSabxzghXxo9O7nRKeFy5MDDTzm2AdusAW/gz8mvkvCRzMSf+ELvcwKFKUeyej7/Fm7UfuIAB7xbp/34LR8j++b5UyNKCB9JT6znPj+rNq+NlGcT3dMz8h9+ogEHvB9sUBjwBx5V/iyEc1VoPDk+wNXdrDKupUyS/PVIevKeSmKOZia3AFcJJhxb2Qwewafdv0XACd/FRsr/jB1Yi3NJ+lOVxNGlzivIxdHAI/i0Z2MhXEr9MbtBPc+R9Ehm/PZycoDdYioW5Kzic4Hw4Uz2Zr4Mbiinc7W00XVRVhGUa1fL3MEneDXHXCBc6vJRs2LxHMu+02OT17vlM6+vz6zKLS/o7LwahKekXM6L/F96geulF3nd9ebppa9X3kZc5tXgt5CEQfjsGJc9/4hQ18Rcg0t+7u7WvPRu2JB1zKvBbyGMQTjPGzeHHLY690Jc77QQMuSsry5AuGgzv4UxfBFXCHPBs4+G6Yt0q4oWyKFX6RaP7BK/Gh7Mc2KLZu7tQtIvHHROcgfzuojXF3gmbUZOd3GFOD5sqUt6qqBSXq0Sc/mr5Urj+gjBL3hGdG1Oz3s+w61PmtaoPKdV5ukkt6Lrf1bkWdNIKDtS/xStGfAlqMzTSW5F1/+syLPGzx+UHal/iiUZOOXpJC9xUE9BkWeNJPl67lzr5Pkuo8zTSV7r/DzjFXjmSqdJT+PFYCBlVpUGv2xxeeQvyMif31DQFu0raGaCBYkx87np+LLIn3k28m/USXomnE5n6KMPP6Djx49TOpU2+hpPxGnDhg10x6/upHg8/GGUZyPKPAvytaZ/gOWQp2R07Isv6LOBz+jUyZM0nctRSyRCq1avpo19G+nmW27h31HDnxUXeRZnzubWzM7NfmfJ0nRy8OBBOrD/LZqdVb/L2NTURNu230dbt241oYI/5Ar/Z0+iveTXnOHUxDv8K8+9qoipVIr++szTNDQ0pFIbst7eXvrLk09RIpFwtAlC0dTYdG3XisgJrVm0nCm8dlbi9409u+nNfXsdyQYA/wjY7H1jTwk+UIEQPyj9OchB9q5dj7iSDX/4Z8AO9mE18Aue4V8rvNc3aA/21Vf/psOHD9vFjueHDh0iYEJsXzr4LpFjGEFlT01OOUCsYtjBHriQ2mDx/cnCwytxxB5o3959dpHnuR+Mp1M24ArJtyyhz1W2kENv1mHMdhtGzLbFY9gDF067xK9BOFf8UXOgoaFTNDo6YhaVdQwMsIE3Kf/r9LKkIWe9OSZukH6aX5xXLDO/BuFNndFjXEYLd8VTJ/2TVg3WMXHtUoUobWx6zEb8NL8411jMq8FvwcggPCHEOV5xflIE5njq5LdVg3WKKYX2rpMOcrseUz8/zS/ONRbzavBbMCqM4TxOauLFIjDC81S/rRqsOqYYWNnZZhky7HbzejFQlGOe7af5xbnFMvMKuwXCe2LRYzz9/w+Eq1avwh9frRqsKqCmyRdUcrvMbIdFjZ/mF+cUC3yCV7N+gXAIhdCMzvX2rqLu7qTZrqzjZDJJwAbVePYxmIx1fFyOP9jBHrZYQfppfnFOsYp8mvUWwrtjbe8Xk+7f0W+2K+v4/v7KMW6OBWlPu+ntuqI9lutYQVbSYA9cUA08gk+7PwvhbKTzZbCNa33mxht/Tlu2bLHbO57DFpigGi/l30nG28pfeXFg2APH/TCW661trWWlAzss74ELpokZ8Ag+7f4shEOZjLcP8rzxCRzveOBBur9/B+F5iVODDjawDaoxaSMtzeIhP/6AAx7PRl555TXPSkdlwy7IZyngDzyq8lf+S/Gj53A6y4uh+dfHavm0kKtC8jPjTd2d0YVZhypxN9noWLaPd60dRT+wXK/t00Ix0BOPbkI/VDkqCYfhlT0+Kro8ZZ57fBwJh2vsyrp4fvYIV8k6z1BVGhQq4uGeePvfq3S1AB9OT/yWT15HpS8IQzrg/L9Zsqxps9c3BUrGcHM+AGtLG/v4bvK1WR70MSeLfZoPBkk2coQ/+IX/oHO2+GN+wJMX2cC4Eg4DbPbknba8K0zsx3nQjScGP/C7GneGsSkWucIv/CNO0LnDH3gBP+VsijXsK0niyl57M1sh7rU3h7nyNYkafk3CTDzfiLSRzNRm3vi0jcfJ/4vvpfBK9kAy1nqkmntCIHdvJt/0RSDRydssIpf/F4FEjmfxY0F/EchctFeOa8DAT7a2wdC+qrYdAAAAAElFTkSuQmCC",
     };
   },
-  created() {
-    if (this.$route.query) {
-      this.param = this.$route.query.q || "";
+  created () {
+    // if (this.$route.query) {
+    //   this.param = this.$route.query.q || "";
+    // }
+  },
+  computed: {
+    pickerOptions () {
+      return {
+        disabledDate (time) {
+          return time.getTime() > Date.now();
+        },
+        shortcuts: [{
+          text: '今天',
+          onClick (picker) {
+            picker.$emit('pick', new Date());
+          }
+        }, {
+          text: '昨天',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '一周前',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '最近30天',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 30);
+            picker.$emit('pick', date);
+          }
+        }, {
+          text: '过去90天',
+          onClick (picker) {
+            const date = new Date();
+            date.setTime(date.getTime() - 3600 * 1000 * 24 * 90);
+            picker.$emit('pick', date);
+          }
+        }]
+      }
     }
   },
   methods: {
-    optnOptions() {
+    optnOptions () {
       this.width = this.width ? "" : 400;
       this.contentIsActive = !this.contentIsActive;
     },
-    query() {
-      if (this.param) {
-        this.$router.push({
-          path: `/${this.$route.params.id}:search?q=${this.param}`,
-        });
+    query () {
+      let q = "";
+      for (const [k, v] of Object.entries(this.form)) {
+        if (!v) {
+          continue
+        }
+        if (k === "q") {
+          q += `${v}`
+        } else {
+          q += `${k}:${v} `
+        }
       }
+      this.$router.push({
+        path: `/${this.$route.params.id}:search?q=${q}`,
+      });
     },
   },
 };
@@ -171,5 +245,9 @@ export default {
 .search .dropdown-menu input,
 .search .dropdown-menu select {
   font-size: 0.95rem;
+}
+
+.search .dropdown-menu {
+  width: 100%;
 }
 </style>

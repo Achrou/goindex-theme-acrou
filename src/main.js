@@ -4,6 +4,7 @@ import ElementUI from "element-ui";
 import "element-ui/lib/theme-chalk/icon.css";
 import "element-ui/lib/theme-chalk/notification.css";
 import "element-ui/lib/theme-chalk/loading.css";
+import "element-ui/lib/theme-chalk/date-picker.css";
 import axios from "@/plugin/axios";
 import VueAxios from "vue-axios";
 import router from "./router";
