@@ -856,10 +856,10 @@ class googleDrive {
     let requestOption = await this.requestOption();
     let response = await fetch(url, requestOption);
     let obj = await response.json();
-    if (obj.files[0] == undefined) {
-      return null;
-    }
-    return obj.files[0].id;
+    if (!obj.files) return null
+    const same_name = obj.files.find(v => v.name === name)
+    if (!same_name) return null
+    return same_name.id
   }
 
   async accessToken() {
