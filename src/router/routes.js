@@ -7,7 +7,7 @@ const meta = {
 }
 
 const frameIn = [{
-    path: "/:id(\\d)::cmd(text)/:path",
+    path: "/:id(\\d+)::cmd(text)/:path",
     component: _import("page/GoText"),
     meta: {
       ...meta,
@@ -15,7 +15,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(pdf)/:path",
+    path: "/:id(\\d+)::cmd(pdf)/:path",
     component: _import("page/GoPdf"),
     meta: {
       ...meta,
@@ -23,7 +23,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(video)/:path",
+    path: "/:id(\\d+)::cmd(video)/:path",
     component: _import("page/GoVideo"),
     meta: {
       ...meta,
@@ -31,7 +31,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(image)/:path",
+    path: "/:id(\\d+)::cmd(image)/:path",
     component: _import("page/GoImg"),
     meta: {
       ...meta,
@@ -39,7 +39,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d)::cmd(search)(/?q=)*",
+    path: "/:id(\\d+)::cmd(search)(/?q=)*",
     component: _import("page/GoList"),
     meta: {
       ...meta,
@@ -47,7 +47,7 @@ const frameIn = [{
     }
   },
   {
-    path: "/:id(\\d):/:path*",
+    path: "/:id(\\d+):/:path*",
     component: _import("page/GoList"),
     meta: {
       ...meta,
