@@ -13,7 +13,7 @@ const text_exts = [
   "sh",
   "md",
 ];
-const video_exts = ["mp4", "webm", "mkv", "m3u8"];
+const video_exts = ["mp4", "webm", "mkv", "m3u8", "flv", "wmv", "avi", "mov"];
 const image_exts = ["bmp", "jpg", "jpeg", "png", "gif"];
 const pdf_exts = ["pdf"];
 
