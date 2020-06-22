@@ -132,7 +132,7 @@ export default {
     ...mapState("acrou/view", ["mode"]),
     images() {
       return this.files.filter(
-        (file) => file.mimeType.indexOf("image") != -1
+        (file) => file.mimeType.startsWith("image/")
       );
     },
     renderHeadMD() {
@@ -261,7 +261,7 @@ export default {
       this.$viewer = viewer;
     },
     action(file, target) {
-      if (file.mimeType.indexOf("image") != -1) {
+      if (file.mimeType.startsWith("image/")) {
         this.viewer = true;
         this.$nextTick(() => {
           let index = this.images.findIndex((item) => item.path === file.path);
