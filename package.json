@@ -16,7 +16,7 @@
     "core-js": "^3.6.4",
     "element-ui": "^2.13.1",
     "feb-alive": "^1.0.9",
-    "js-base64": "^2.5.2",
+    "js-base64": "^2.6.1",
     "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
     "lowdb": "^1.0.0",
@@ -36,7 +36,7 @@
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^1.0.0",
-    "@vue/cli-plugin-babel": "~4.3.0",
+    "@vue/cli-plugin-babel": "~4.4.5",
     "@vue/cli-plugin-eslint": "~4.3.0",
     "@vue/cli-plugin-vuex": "^4.3.1",
     "@vue/cli-service": "~4.4.5",
@@ -48,7 +48,7 @@
     "fs": "0.0.1-security",
     "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
-    "webpack-bundle-analyzer": "^3.7.0"
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "eslintConfig": {
     "root": true,
