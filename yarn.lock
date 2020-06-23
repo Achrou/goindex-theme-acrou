@@ -1084,10 +1084,10 @@
   dependencies:
     "@vue/cli-shared-utils" "^4.4.1"
 
-"@vue/cli-plugin-vuex@^4.3.1":
-  version "4.4.1"
-  resolved "https://registry.npm.taobao.org/@vue/cli-plugin-vuex/download/@vue/cli-plugin-vuex-4.4.1.tgz#98d18fc5d36fa6e0d1fc2ecaeea37aa965564f19"
-  integrity sha1-mNGPxdNvpuDR/C7K7qN6qWVWTxk=
+"@vue/cli-plugin-vuex@^4.3.1", "@vue/cli-plugin-vuex@^4.4.5":
+  version "4.4.5"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-vuex/-/cli-plugin-vuex-4.4.5.tgz#4c4cf7f2f2361fb82ca8cc2062521d6c9741b849"
+  integrity sha512-CyWWv41cgVE7vcq/NcuH6Ee0zqFJFvIqkWVf3as6S5wRdeF5VHuhBh+5/A0zPyZOL6FVs32khYqvez+x6tVdfg==
 
 "@vue/cli-service@~4.3.0":
   version "4.3.1"
