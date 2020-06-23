@@ -14,9 +14,20 @@
         allowfullscreen="true"
       ></iframe>
     </div>
-    <video v-else style="width:100%;" preload controls>
-      <source :src="videoUrl" type="video/mp4" />
-    </video>
+    <div v-else>
+      <vue-plyr ref="plyr" :options="{ autoplay: player.autoplay }">
+        <video>
+          <source :src="videoUrl" type="video/mp4" />
+          <!-- <track
+          kind="captions"
+          label="English"
+          srclang="en"
+          src="captions-en.vtt"
+          default
+        /> -->
+        </video>
+      </vue-plyr>
+    </div>
     <div class="card">
       <header class="card-header">
         <p class="card-header-title">
@@ -62,6 +73,8 @@
 
 <script>
 import { decode64 } from "@utils/AcrouUtil";
+import Hls from "hls.js";
+import flvjs from "flv.js";
 export default {
   data: function() {
     return {
@@ -72,15 +85,84 @@ export default {
   },
   methods: {
     render() {
-      // 便于开发环境调试
+      let path = encodeURI(this.url);
+      let index = path.lastIndexOf(".");
+      this.suffix = path.substring(index + 1, path.length);
       this.videoUrl = window.location.origin + encodeURI(this.url);
       this.apiUrl = this.player.api + this.videoUrl;
+      if (!this.player || !this.player.api) {
+        let options = { src: this.videoUrl, media: this.plyr.media };
+        if (this.suffix === "m3u8") {
+          this.hls(options);
+        } else if (this.suffix === "flv") {
+          this.flv(options);
+        }
+      }
+    },
+    hls({ src, media }) {
+      // eslint-disable-next-line no-undef
+      if (Hls.isSupported()) {
+        // For more Hls.js options, see https://github.com/dailymotion/hls.js
+        // eslint-disable-next-line no-undef
+        const hls = new Hls();
+        hls.loadSource(src);
+        hls.attachMedia(media);
+        hls.on(Hls.Events.ERROR, function(event, data) {
+          if (data.fatal) {
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                hls.startLoad();
+                break;
+              default:
+                hls.destroy();
+                break;
+            }
+          }
+        });
+        if (this.player.autoplay) {
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            media.play();
+          });
+        }
+        window.hls = hls;
+        // Handle changing captions
+        this.plyr.on("languagechange", () => {
+          // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+          setTimeout(() => (hls.subtitleTrack = this.plyr.currentTrack), 50);
+        });
+      }
+    },
+    flv({ src, media }) {
+      if (flvjs.isSupported()) {
+        var flvPlayer = flvjs.createPlayer({
+          type: "flv",
+          url: src,
+        });
+        flvPlayer.attachMediaElement(media);
+        flvPlayer.load();
+        flvPlayer.on(flvjs.Events.ERROR, (event) => {
+          switch (event) {
+            case flvjs.ErrorTypes.NETWORK_ERROR:
+              flvPlayer.load();
+              break;
+            default:
+              flvPlayer.destroy();
+              break;
+          }
+        });
+        if (this.player.autoplay) {
+          flvPlayer.play();
+        }
+      }
     },
   },
   activated() {
     this.render();
   },
   computed: {
+    plyr() {
+      return this.$refs.plyr.player;
+    },
     url() {
       if (this.$route.params.path) {
         return decode64(this.$route.params.path);
