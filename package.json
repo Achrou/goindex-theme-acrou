@@ -48,7 +48,7 @@
     "fs": "0.0.1-security",
     "vue-cli-plugin-i18n": "~1.0.1",
     "vue-template-compiler": "^2.6.11",
-    "webpack-bundle-analyzer": "^3.7.0"
+    "webpack-bundle-analyzer": "^3.8.0"
   },
   "eslintConfig": {
     "root": true,
