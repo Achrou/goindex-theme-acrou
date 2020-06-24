@@ -984,10 +984,10 @@
     lodash.kebabcase "^4.1.1"
     svg-tags "^1.0.0"
 
-"@vue/babel-preset-app@^4.4.5":
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-4.4.5.tgz#f769fe270702bfaf39020592d1d7ed18eaa6e2d1"
-  integrity sha512-od8qd5TXR4lJtvxfhXlI4+sOLA3sNRXU8qMhPviGBi8sprppJoa5Lm4iomdX4B+C086b9WX4HuLFC1J/k7sVmw==
+"@vue/babel-preset-app@^4.4.6":
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/@vue/babel-preset-app/-/babel-preset-app-4.4.6.tgz#92aef916e83f1abe0a2ed1e9e2cef5b332f958c4"
+  integrity sha512-urIa6Qk3lKacLvscrzxMNyYlTqKFcPAUo5MohOjv1ISZ9PssHw693WTOrqSC0XksdMLtp/rnLvc6l5G8Muk0lw==
   dependencies:
     "@babel/core" "^7.9.6"
     "@babel/helper-compilation-targets" "^7.9.6"
@@ -1057,14 +1057,14 @@
   resolved "https://registry.yarnpkg.com/@vue/cli-overlay/-/cli-overlay-4.4.5.tgz#feb7be0caac080927f1941612c0a8e41996190af"
   integrity sha512-4RtoBpmnAODzHpUsuAAoZ5u4YEkcQHvdRXiC4yXEmk7Kfc8WXUC+n9UsIiXKhSTA7NUnQyWTL7nXaR9gQhn3Kg==
 
-"@vue/cli-plugin-babel@~4.4.5":
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-4.4.5.tgz#ebdd8f982c26b57642a122f574113d254aedfa2d"
-  integrity sha512-iw1blSJToR8pPONY6PU0yCYhJAOF1AD5pinO357QF8WiCzn2RMQ2l234brs/iU+3yjtPFVKXWrQ+OJDttkpjqQ==
+"@vue/cli-plugin-babel@~4.4.6":
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/@vue/cli-plugin-babel/-/cli-plugin-babel-4.4.6.tgz#d5d750d4f74900c00836e19c164193650df26f3b"
+  integrity sha512-9cX9mN+4DIbcqw3rV6UBOA0t5zikIkrBLQloUzsOBOu5Xb7/UoD7inInFj7bnyHUflr5LqbdWJ+etCQcWAIIXA==
   dependencies:
     "@babel/core" "^7.9.6"
-    "@vue/babel-preset-app" "^4.4.5"
-    "@vue/cli-shared-utils" "^4.4.5"
+    "@vue/babel-preset-app" "^4.4.6"
+    "@vue/cli-shared-utils" "^4.4.6"
     babel-loader "^8.1.0"
     cache-loader "^4.1.0"
     thread-loader "^2.1.3"
@@ -1152,11 +1152,10 @@
     webpack-dev-server "^3.11.0"
     webpack-merge "^4.2.2"
 
-
-"@vue/cli-shared-utils@^4.3.1", "@vue/cli-shared-utils@^4.4.5":
-  version "4.4.5"
-  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.4.5.tgz#fe5025a28043fec9d6a301107325433a63eafccc"
-  integrity sha512-DChYSjidHZmHtxROIp1WHlvhp06AkUzNBdkw0+uJ6FWHSQmkeRpsCU9XYTdsyRbatHzO0wnJ6GO+20yl3ZzLPw==
+"@vue/cli-shared-utils@^4.3.1", "@vue/cli-shared-utils@^4.4.5", "@vue/cli-shared-utils@^4.4.6":
+  version "4.4.6"
+  resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.4.6.tgz#0ec59880920736c6dd79079ac0b5ceac29fa55e1"
+  integrity sha512-ba+FZZCjiTSu2otnLjY4qXqASe7ZIQ/QBljk5oRPgqrR0p1NUkDPUcZhqa041aOaSW1yAfSfhOD7Q84nMnWhzQ==
   dependencies:
     "@hapi/joi" "^15.0.1"
     chalk "^2.4.2"
@@ -8878,7 +8877,7 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-webpack-bundle-analyzer@^3.7.0, webpack-bundle-analyzer@^3.8.0:
+webpack-bundle-analyzer@^3.8.0:
   version "3.8.0"
   resolved "https://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-3.8.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-bundle-analyzer%2Fdownload%2Fwebpack-bundle-analyzer-3.8.0.tgz#ce6b3f908daf069fd1f7266f692cbb3bded9ba16"
   integrity sha1-zms/kI2vBp/R9yZvaSy7O97ZuhY=
