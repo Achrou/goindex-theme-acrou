@@ -13,9 +13,10 @@ import store from "@/store/index";
 import VueClipboard from "vue-clipboard2";
 import VueLazyload from "vue-lazyload";
 import Viewer from "v-viewer";
+import VuePlyr from "vue-plyr";
 import cdnpath from "./libs/util.cdn";
 // 组件
-import '@/components'
+import "@/components";
 import "viewerjs/dist/viewer.css";
 import "@/assets/style/theme/register.scss";
 
@@ -31,6 +32,7 @@ Vue.use(VueLazyload, {
   loading: cdnpath("images/airplane.gif"),
 });
 Vue.use(Viewer);
+Vue.use(VuePlyr);
 
 new Vue({
   router,

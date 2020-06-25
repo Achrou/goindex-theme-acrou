@@ -3,11 +3,9 @@
     <Head></Head>
     <section class="section">
       <div class="container">
-        <!-- <keep-alive> -->
         <feb-alive>
           <router-view></router-view>
         </feb-alive>
-        <!-- </keep-alive> -->
         <Footer></Footer>
       </div>
     </section>

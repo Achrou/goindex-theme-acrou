@@ -61,15 +61,6 @@
             </div>
           </div>
           <header-locales />
-          <a
-            class="navbar-item"
-            target="_blank"
-            rel="noopener"
-            title="View on github"
-            href="https://github.com/Aicirou/goindex-theme-acrou"
-          >
-            <i class="fab fa-github"></i>
-          </a>
           <header-setting />
           <a
             class="navbar-item is-hidden-desktop"

@@ -3,56 +3,67 @@ const _import = require("@/libs/util.import." + process.env.NODE_ENV);
 
 const meta = {
   // keepAlive: true
-  disableCache: false
-}
+  disableCache: false,
+};
 
-const frameIn = [{
-    path: "/:id(\\d)::cmd(text)/:path",
-    component: _import("page/GoText"),
+const frameIn = [
+  {
+    path: "/:id(\\d+)::cmd(text)/:path",
+    component: _import("page/GoView"),
     meta: {
       ...meta,
-      view: 'text'
-    }
+      view: "text",
+    },
+    children: [
+      {
+        path: "",
+        component: _import("page/GoText"),
+      },
+    ],
   },
   {
-    path: "/:id(\\d)::cmd(pdf)/:path",
-    component: _import("page/GoPdf"),
+    path: "/:id(\\d+)::cmd(pdf)/:path",
+    component: _import("page/GoView"),
     meta: {
       ...meta,
-      view: 'pdf'
-    }
+      view: "pdf",
+    },
+    children: [
+      {
+        path: "",
+        component: _import("page/GoPdf"),
+      },
+    ],
   },
   {
-    path: "/:id(\\d)::cmd(video)/:path",
-    component: _import("page/GoVideo"),
+    path: "/:id(\\d+)::cmd(video)/:path",
+    component: _import("page/GoView"),
     meta: {
       ...meta,
-      view: 'video'
-    }
+      view: "video",
+    },
+    children: [
+      {
+        path: "",
+        component: _import("page/GoVideo"),
+      },
+    ],
   },
   {
-    path: "/:id(\\d)::cmd(image)/:path",
-    component: _import("page/GoImg"),
-    meta: {
-      ...meta,
-      view: 'image'
-    }
-  },
-  {
-    path: "/:id(\\d)::cmd(search)(/?q=)*",
+    path: "/:id(\\d+)::cmd(search)(/?q=)*",
     component: _import("page/GoList"),
     meta: {
       ...meta,
-      view: 'list'
-    }
+      view: "list",
+    },
   },
   {
-    path: "/:id(\\d):/:path*",
+    path: "/:id(\\d+):/:path*",
     component: _import("page/GoList"),
     meta: {
       ...meta,
-      view: 'list'
-    }
+      view: "list",
+    },
   },
 ];
 
