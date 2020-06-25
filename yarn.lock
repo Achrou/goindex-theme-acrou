@@ -1152,7 +1152,6 @@
     webpack-dev-server "^3.11.0"
     webpack-merge "^4.2.2"
 
-
 "@vue/cli-shared-utils@^4.3.1", "@vue/cli-shared-utils@^4.4.5":
   version "4.4.5"
   resolved "https://registry.yarnpkg.com/@vue/cli-shared-utils/-/cli-shared-utils-4.4.5.tgz#fe5025a28043fec9d6a301107325433a63eafccc"
@@ -2009,10 +2008,10 @@ bulma-divider@^0.2.0:
   resolved "https://registry.npm.taobao.org/bulma-divider/download/bulma-divider-0.2.0.tgz#a9b4d9fe8b270c7cb7573023c575062bc62616f3"
   integrity sha1-qbTZ/osnDHy3VzAjxXUGK8YmFvM=
 
-bulma@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.npm.taobao.org/bulma/download/bulma-0.8.2.tgz#5d928f16ed4a84549c2873f95c92c38c69c631a7"
-  integrity sha1-XZKPFu1KhFScKHP5XJLDjGnGMac=
+bulma@^0.9.0:
+  version "0.9.0"
+  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.9.0.tgz#948c5445a49e9d7546f0826cb3820d17178a814f"
+  integrity sha512-rV75CJkubNUroAt0qCRkjznZLoaXq/ctfMXsMvKSL84UetbSyx5REl96e8GoQ04G4Tkw0XF3STECffTOQrbzOQ==
 
 bytes@3.0.0:
   version "3.0.0"
@@ -8917,7 +8916,7 @@ wcwidth@^1.0.1:
   dependencies:
     defaults "^1.0.3"
 
-webpack-bundle-analyzer@^3.7.0, webpack-bundle-analyzer@^3.8.0:
+webpack-bundle-analyzer@^3.8.0:
   version "3.8.0"
   resolved "https://registry.npm.taobao.org/webpack-bundle-analyzer/download/webpack-bundle-analyzer-3.8.0.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fwebpack-bundle-analyzer%2Fdownload%2Fwebpack-bundle-analyzer-3.8.0.tgz#ce6b3f908daf069fd1f7266f692cbb3bded9ba16"
   integrity sha1-zms/kI2vBp/R9yZvaSy7O97ZuhY=
