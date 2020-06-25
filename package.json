@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@intlify/vue-i18n-loader": "^1.0.0",
-    "@vue/cli-plugin-babel": "~4.4.5",
+    "@vue/cli-plugin-babel": "~4.4.6",
     "@vue/cli-plugin-eslint": "~4.3.0",
     "@vue/cli-plugin-vuex": "^4.4.6",
     "@vue/cli-service": "~4.4.6",
