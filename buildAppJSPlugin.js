@@ -8,24 +8,27 @@ const cdn = {
 
 class BuildAppJSPlugin {
   apply(compiler) {
-    // emit 是异步 hook，使用 tapAsync 触及它，还可以使用 tapPromise/tap(同步)
     compiler.hooks.emit.tapAsync(
       "BuildAppJSPlugin",
       (compilation, callback) => {
+        const isProd = process.env.NODE_ENV === "production"
         let cssarr = [];
         let jsarr = [];
-        // 遍历所有编译过的资源文件，
-        // 对于每个文件名称，都添加一行内容。
+        let reg = "";
+        if (isProd) {
+          reg = "(app|chunk-vendors)\\.";
+        }
+        // 遍历所有编译过的资源文件
         for (let filename in compilation.assets) {
-          if (filename.match(".*\\.js$")) {
-            if (process.env.NODE_ENV === "production") {
+          if (filename.match(reg + ".*\\.js$")) {
+            if (isProd) {
               filename = (process.env.VUE_APP_CDN_PATH || "/") + filename;
             } else {
               filename = "/" + filename;
             }
             jsarr.push(filename);
           }
-          if (filename.match(".*\\.css$")) {
+          if (filename.match(reg + ".*\\.css$")) {
             cssarr.push(filename);
           }
         }
@@ -33,7 +36,7 @@ class BuildAppJSPlugin {
           return a.indexOf("app.");
         });
         var cdnjs = "";
-        if (process.env.NODE_ENV === "production") {
+        if (isProd) {
           cssarr = cdn.css.concat(cssarr);
           cdnjs = `var cdnjs = ${JSON.stringify(cdn.js)};
           cdnjs.forEach((item) => {
