@@ -11,7 +11,7 @@
             <span class="tag is-light">
               MIT &nbsp;
               <span class="icon">
-                <i class="fab fa-github"></i>
+                <i class="fa fa-github"></i>
               </span>
             </span>
           </div>
