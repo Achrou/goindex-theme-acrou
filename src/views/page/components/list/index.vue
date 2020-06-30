@@ -17,6 +17,15 @@
       </tr>
     </thead>
     <tbody>
+      <tr v-if="isBack" @click="$router.go(-1)">
+        <td>
+          <span class="return-back"></span>
+          <span class="return-back-path">{{$route.path.replace(/^\/(\d+):/,'')}}</span>
+        </td>
+        <td class="is-hidden-mobile is-hidden-touch">-</td>
+        <td class="is-hidden-mobile is-hidden-touch">-</td>
+        <td class="is-hidden-mobile is-hidden-touch">-</td>
+      </tr>
       <tr v-for="(file, index) in data" v-bind:key="index">
         <td
           @click.self="
@@ -39,9 +48,7 @@
             v-html="file.description"
           ></span>
         </td>
-        <td class="is-hidden-mobile is-hidden-touch">
-          {{ file.modifiedTime }}
-        </td>
+        <td class="is-hidden-mobile is-hidden-touch">{{ file.modifiedTime }}</td>
         <td class="is-hidden-mobile is-hidden-touch">{{ file.size }}</td>
         <td class="is-hidden-mobile is-hidden-touch">
           <span class="icon" @click.stop="action(file,'copy')">
@@ -89,7 +96,7 @@ export default {
     }
   },
   computed: {
-    columns() {
+    columns () {
       return [
         { name: this.$t("list.title.file"), style: "" },
         {
@@ -109,9 +116,28 @@ export default {
         },
       ];
     },
-    isShowDesc() {
+    isShowDesc () {
       return window.themeOptions.render.desc || false;
     },
+    isBack () {
+      return !this.$route.path || !this.$route.path.match("^\\/(\\d+):\\/$")
+    }
   },
 };
 </script>
+<style lang="scss" scoped>
+.return-back {
+  background: url(https://console.upyun.com/assets/global/return-back.svg)
+    no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: 100% 100%;
+  cursor: pointer;
+  display: inline-block;
+}
+.return-back-path {
+  font-size: 14px;
+  color: rgb(104, 104, 104);
+  padding-left: 20px;
+}
+</style>
