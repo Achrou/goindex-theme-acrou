@@ -15,18 +15,20 @@
 </template>
 
 <script>
+import util from '@/libs/util'
 export default {
-  data() {
+  data () {
     return {};
   },
   methods: {
-    cleanCache() {
+    cleanCache () {
       new Promise((resolve) => {
         Object.keys(localStorage).forEach((item) => {
           if (item.indexOf("file_path_") !== -1) {
             localStorage.removeItem(item);
           }
         });
+        util.cookies.remove("lang")
         resolve();
       }).then(() => {
         this.$notify({
