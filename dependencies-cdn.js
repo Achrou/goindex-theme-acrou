@@ -9,7 +9,7 @@ module.exports = [
   { name: 'js-cookie', library: 'Cookies', js: 'https://cdn.jsdelivr.net/npm/js-cookie@2.2.1/src/js.cookie.min.js', css: '' },
   { name: 'lowdb', library: 'low', js: 'https://cdn.jsdelivr.net/npm/lowdb@1.0.0/dist/low.min.js', css: '' },
   { name: 'lowdb/adapters/LocalStorage', library: 'LocalStorage', js: 'https://cdn.jsdelivr.net/npm/lowdb@1.0.0/dist/LocalStorage.min.js', css: '' },
-  { name: '', library: '', js: 'https://at.alicdn.com/t/font_1760192_axq33n6snd.js', css: '' },
+  { name: '', library: '', js: 'https://at.alicdn.com/t/font_1760192_8add3xcxs4u.js', css: '' },
   { name: '', library: '', js: '', css: 'https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css' },
   { name: '', library: '', js: '', css: 'https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css' },
 ]
