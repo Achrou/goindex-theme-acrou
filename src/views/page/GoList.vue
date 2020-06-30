@@ -262,6 +262,15 @@ export default {
       this.$viewer = viewer;
     },
     action (file, target) {
+      // If it is a shortcut, the prompt cannot be downloaded
+      if (file.mimeType === "application/vnd.google-apps.shortcut") {
+        this.$notify({
+          title: this.$t("notify.title"),
+          message: this.$t("error.shortcut_not_down"),
+          type: "warning",
+        });
+        return;
+      }
       if (file.mimeType.startsWith("image/")) {
         this.viewer = true;
         this.$nextTick(() => {

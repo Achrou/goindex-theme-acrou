@@ -52,5 +52,8 @@
   },
   "checkVersion": {
     "tips": "检测到有新版本，<a href='${url}'>前往GitHub</a>"
+  },
+  "error": {
+    "shortcut_not_down": "快捷方式无法打开/下载"
   }
 }
