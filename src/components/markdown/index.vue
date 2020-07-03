@@ -52,10 +52,23 @@ export default {
       console.log("not mounted init");
     }
   },
+  watch: {
+    source(val) {
+      if (val) {
+        this.initWithMd();
+      }
+    },
+  },
   methods: {
+    handler(source) {
+      if (source) {
+        source = source.replace(/---\n([\s\S]*)---\n/, "");
+      }
+      return source;
+    },
     // 使用 md 初始化
     initWithMd() {
-      this.markedHTML = this.marked(this.source);
+      this.markedHTML = this.marked(this.handler(this.source));
     },
     // 使用 url 初始化
     async initWithUrl() {

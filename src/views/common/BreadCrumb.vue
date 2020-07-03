@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav
-      class="breadcrumb level g2-breadcrumb is-hidden-mobile is-hidden-touch"
+      class="breadcrumb level g2-breadcrumb is-hidden-mobile"
       aria-label="breadcrumbs"
     >
       <div class="level-left">

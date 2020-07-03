@@ -36,9 +36,9 @@
   },
   "page": {
     "video": {
-        "play": "Play",
-        "download": "Download",
-        "link": "Download link"
+      "play": "Play",
+      "download": "Download",
+      "link": "Download link"
     },
     "text": {
       "loading": "Loading..."
@@ -52,5 +52,8 @@
   },
   "checkVersion": {
     "tips": "New version detected, <a href='${url}'>Go to GitHub</a>"
+  },
+  "error": {
+    "shortcut_not_down": "Shortcut can't open/download"
   }
 }

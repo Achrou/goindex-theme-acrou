@@ -2,6 +2,7 @@ const path = require("path");
 const cdnDependencies = require("./dependencies-cdn");
 const BuildAppJSPlugin = require("./buildAppJSPlugin");
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
+const { set } = require("lodash");
 
 function resolve(dir) {
   return path.join(__dirname, dir);
@@ -67,18 +68,27 @@ module.exports = {
     /**
      * 添加 CDN 参数到 htmlWebpackPlugin 配置中
      */
-    config.plugin("html").tap((args) => {
+    config.plugin("html").tap((options) => {
       if (isProd) {
-        args[0].cdn = cdn;
+        set(options, "[0].cdn", cdn);
       } else {
-        args[0].cdn = {
+        set(options, "[0].cdn", {
           js: cdnDependencies.filter((e) => e.name === "").map((e) => e.js),
           css: cdnDependencies.filter((e) => e.name === "").map((e) => e.css),
-        };
+        });
       }
-      args[0].inject = false;
-      return args;
+      set(options, "[0].inject", false);
+      return options;
     });
+    /**
+     * 删除懒加载模块的 prefetch preload，降低带宽压力
+     * https://cli.vuejs.org/zh/guide/html-and-static-assets.html#prefetch
+     * https://cli.vuejs.org/zh/guide/html-and-static-assets.html#preload
+     * 而且预渲染时生成的 prefetch 标签是 modern 版本的，低版本浏览器是不需要的
+     */
+    if (isProd) {
+      config.plugins.delete("prefetch").delete("preload");
+    }
     // 解决 cli3 热更新失效 https://github.com/vuejs/vue-cli/issues/1559
     config.resolve.symlinks(true);
     config.resolve.alias
