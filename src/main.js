@@ -1,6 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
-import ElementUI from "element-ui";
+import { Loading } from "element-ui";
 import "element-ui/lib/theme-chalk/icon.css";
 import "element-ui/lib/theme-chalk/notification.css";
 import "element-ui/lib/theme-chalk/loading.css";
@@ -25,7 +25,7 @@ document.write(
 );
 Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
-Vue.use(ElementUI);
+Vue.use(Loading);
 Vue.use(VueAxios, axios);
 Vue.use(VueClipboard);
 Vue.use(VueLazyload, {
