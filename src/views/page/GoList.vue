@@ -1,6 +1,10 @@
 <template>
   <div>
-    <headmd :option="headmd" v-if="renderHeadMD && headmd.display" style="margin:1rem 0;"></headmd>
+    <headmd
+      :option="headmd"
+      v-if="renderHeadMD && headmd.display"
+      style="margin:1rem 0;"
+    ></headmd>
     <bread-crumb ref="breadcrumb"></bread-crumb>
     <div class="golist" v-loading="loading">
       <list-view
@@ -27,7 +31,10 @@
         <div slot="no-more"></div>
         <div slot="no-results"></div>
       </infinite-loading>
-      <div v-show="files.length === 0" class="has-text-centered no-content"></div>
+      <div
+        v-show="files.length === 0"
+        class="has-text-centered no-content"
+      ></div>
     </div>
     <div
       class="is-divider"
@@ -35,7 +42,10 @@
         $t('list.total') + ' ' + files.length + ' ' + $t('list.item')
       "
     ></div>
-    <readmemd :option="readmemd" v-if="renderReadMeMD && readmemd.display"></readmemd>
+    <readmemd
+      :option="readmemd"
+      v-if="renderReadMeMD && readmemd.display"
+    ></readmemd>
 
     <viewer
       v-if="viewer && images && images.length > 0"
@@ -81,7 +91,7 @@ export default {
     Readmemd: Markdown,
     InfiniteLoading,
   },
-  data: function () {
+  data: function() {
     return {
       infiniteId: +new Date(),
       loading: true,
@@ -123,7 +133,7 @@ export default {
         "image/bmp": "icon-img",
         "image/jpeg": "icon-img",
         "image/png": "icon-img",
-        "image/gif": "icon-img"
+        "image/gif": "icon-img",
       },
       headmd: { display: false, file: {}, path: "" },
       readmemd: { display: false, file: {}, path: "" },
@@ -131,23 +141,21 @@ export default {
   },
   computed: {
     ...mapState("acrou/view", ["mode"]),
-    images () {
-      return this.files.filter(
-        (file) => file.mimeType.startsWith("image/")
-      );
+    images() {
+      return this.files.filter((file) => file.mimeType.startsWith("image/"));
     },
-    renderHeadMD () {
+    renderHeadMD() {
       return window.themeOptions.render.head_md || false;
     },
-    renderReadMeMD () {
+    renderReadMeMD() {
       return window.themeOptions.render.readme_md || false;
     },
   },
-  created () {
+  created() {
     this.render();
   },
   methods: {
-    infiniteHandler ($state) {
+    infiniteHandler($state) {
       // 首次进入页面不执行滚动事件
       if (!this.page.page_token) {
         return;
@@ -155,7 +163,7 @@ export default {
       this.page.page_index++;
       this.render($state);
     },
-    render ($state) {
+    render($state) {
       this.headmd = { display: false, file: {}, path: "" };
       this.readmemd = { display: false, file: {}, path: "" };
       var path = this.$route.path;
@@ -198,37 +206,36 @@ export default {
           }
           this.loading = false;
         })
-        .catch((e) => {
+        .catch(() => {
           this.loading = false;
-          console.log(e);
         });
     },
-    buildFiles (files) {
+    buildFiles(files) {
       var path = this.$route.path;
       return !files
         ? []
         : files
-          .map((item) => {
-            var p = path + checkoutPath(item.name, item);
-            let isFolder =
-              item.mimeType === "application/vnd.google-apps.folder";
-            let size = isFolder ? "-" : formatFileSize(item.size);
-            return {
-              path: p,
-              ...item,
-              modifiedTime: formatDate(item.modifiedTime),
-              size: size,
-              isFolder: isFolder,
-            };
-          })
-          .sort((a, b) => {
-            if (a.isFolder && b.isFolder) {
-              return 0;
-            }
-            return a.isFolder ? -1 : 1;
-          });
+            .map((item) => {
+              var p = path + checkoutPath(item.name, item);
+              let isFolder =
+                item.mimeType === "application/vnd.google-apps.folder";
+              let size = isFolder ? "-" : formatFileSize(item.size);
+              return {
+                path: p,
+                ...item,
+                modifiedTime: formatDate(item.modifiedTime),
+                size: size,
+                isFolder: isFolder,
+              };
+            })
+            .sort((a, b) => {
+              if (a.isFolder && b.isFolder) {
+                return 0;
+              }
+              return a.isFolder ? -1 : 1;
+            });
     },
-    checkPassword (path) {
+    checkPassword(path) {
       var pass = prompt(this.$t("list.auth"), "");
       localStorage.setItem("password" + path, pass);
       if (pass != null && pass != "") {
@@ -237,36 +244,37 @@ export default {
         this.$router.go(-1);
       }
     },
-    copy (path) {
+    copy(path) {
       let origin = window.location.origin;
       path = origin + encodeURI(path);
       this.$copyText(path)
         .then(() => {
           this.$notify({
-            title: this.$t("notify.title"),
-            message: this.$t("copy.success"),
+            title: "notify.title",
+            message: "copy.success",
             type: "success",
           });
         })
         .catch(() => {
-          this.$notify.error({
-            title: this.$t("notify.title"),
-            message: this.$t("copy.error"),
+          this.$notify({
+            title: "notify.title",
+            message: "copy.error",
+            type: "error"
           });
         });
     },
-    thum (url) {
+    thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";
     },
-    inited (viewer) {
+    inited(viewer) {
       this.$viewer = viewer;
     },
-    action (file, target) {
+    action(file, target) {
       // If it is a shortcut, the prompt cannot be downloaded
       if (file.mimeType === "application/vnd.google-apps.shortcut") {
         this.$notify({
-          title: this.$t("notify.title"),
-          message: this.$t("error.shortcut_not_down"),
+          title: "notify.title",
+          message: "error.shortcut_not_down",
           type: "warning",
         });
         return;
@@ -286,7 +294,7 @@ export default {
       }
       this.target(file, target);
     },
-    target (file, target) {
+    target(file, target) {
       let path = file.path;
       if (target === "_blank") {
         window.open(path);
@@ -313,7 +321,7 @@ export default {
         return;
       }
     },
-    renderMd (files, path) {
+    renderMd(files, path) {
       var cmd = this.$route.params.cmd;
       if (cmd) {
         return;
@@ -337,7 +345,7 @@ export default {
         }
       });
     },
-    goSearchResult (file, target) {
+    goSearchResult(file, target) {
       this.loading = true;
       let id = this.$route.params.id;
       this.axios
@@ -355,7 +363,7 @@ export default {
           console.log(e);
         });
     },
-    getIcon (type) {
+    getIcon(type) {
       return "#" + (this.icon[type] ? this.icon[type] : "icon-file");
     },
   },

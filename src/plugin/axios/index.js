@@ -1,6 +1,6 @@
 import axios from "axios";
 import store from "@/store";
-import router from "@/router";
+import notify from "@/components/notification";
 
 // 创建一个 axios 实例
 const service = axios.create({
@@ -33,14 +33,19 @@ service.interceptors.response.use(
     if (error && error.response) {
       switch (error.response.status) {
         case 401:
-          error.message = "未授权，请登录";
+          error.message = "error.401";
+          notify({
+            title: "notify.title",
+            message: error.message,
+            type: "error",
+            duration: 5 * 1000,
+          });
           break;
         default:
+          console.log(error);
           break;
       }
     }
-    console.log(error);
-    router.app.$router.go(-1);
     return Promise.reject(error);
   }
 );

@@ -54,6 +54,7 @@
     "tips": "New version detected, <a href='${url}'>Go to GitHub</a>"
   },
   "error": {
-    "shortcut_not_down": "Shortcut can't open/download"
+    "shortcut_not_down": "Shortcut can't open/download",
+    "401": "Unauthorized, please login"
   }
 }
