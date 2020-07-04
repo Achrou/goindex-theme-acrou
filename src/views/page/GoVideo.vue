@@ -1,10 +1,10 @@
 <template>
   <div class="content g2-content">
-    <div v-if="player && player.api" class="video-content">
+    <div v-if="options && options.api" class="video-content">
       <iframe
         width="100%"
         height="100%"
-        :src="apiUrl"
+        :src="apiVideoUrl"
         frameborder="0"
         border="0"
         marginwidth="0"
@@ -15,16 +15,10 @@
       ></iframe>
     </div>
     <div v-else>
-      <vue-plyr ref="plyr" :options="{ autoplay: player.autoplay }">
-        <video>
+      <vue-plyr ref="plyr" :options="options">
+        <video controls crossorigin playsinline>
           <source :src="videoUrl" type="video/mp4" />
-          <!-- <track
-          kind="captions"
-          label="English"
-          srclang="en"
-          src="captions-en.vtt"
-          default
-        /> -->
+          <track kind="captions" :src="subtitle" default />
         </video>
       </vue-plyr>
     </div>
@@ -46,7 +40,7 @@
           <div class="field">
             <label class="label">{{ $t("page.video.link") }}</label>
             <div class="control">
-              <input class="input" type="text" :value="videoUrl" />
+              <input class="input" type="text" :value="downloadUrl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
@@ -73,94 +67,84 @@
 
 <script>
 import { decode64 } from "@utils/AcrouUtil";
-import Hls from "hls.js";
-import flvjs from "flv.js";
+import { Hls, Flv } from "@/plugin/vplayer";
 export default {
   data: function() {
     return {
-      apiUrl: "",
-      player: window.themeOptions.player,
+      apiVideoUrl: "",
       videoUrl: "",
+      downloadUrl: "",
+      subtitle: "",
     };
+  },
+  mounted() {
+    this.render();
   },
   methods: {
     render() {
       let path = encodeURI(this.url);
       let index = path.lastIndexOf(".");
       this.suffix = path.substring(index + 1, path.length);
-      this.videoUrl = window.location.origin + encodeURI(this.url);
-      this.apiUrl = this.player.api + this.videoUrl;
-      if (!this.player || !this.player.api) {
-        let options = { src: this.videoUrl, media: this.plyr.media };
+      this.loadSub(path, index);
+      this.videoUrl = path;
+      this.downloadUrl = window.location.origin + path;
+      this.apiVideoUrl = this.options.api + this.videoUrl;
+      if (!this.options.api) {
+        let options = {
+          src: this.videoUrl,
+          autoplay: this.options.autoplay,
+          media: this.player.media,
+        };
         if (this.suffix === "m3u8") {
-          this.hls(options);
-        } else if (this.suffix === "flv") {
-          this.flv(options);
-        }
-      }
-    },
-    hls({ src, media }) {
-      // eslint-disable-next-line no-undef
-      if (Hls.isSupported()) {
-        // For more Hls.js options, see https://github.com/dailymotion/hls.js
-        // eslint-disable-next-line no-undef
-        const hls = new Hls();
-        hls.loadSource(src);
-        hls.attachMedia(media);
-        hls.on(Hls.Events.ERROR, function(event, data) {
-          if (data.fatal) {
-            switch (data.type) {
-              case Hls.ErrorTypes.NETWORK_ERROR:
-                hls.startLoad();
-                break;
-              default:
-                hls.destroy();
-                break;
-            }
-          }
-        });
-        if (this.player.autoplay) {
-          hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            media.play();
+          Hls({
+            ...options,
+            callback: (hls) => {
+              // Handle changing captions
+              this.player.on("languagechange", () => {
+                // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+                setTimeout(
+                  () => (hls.subtitleTrack = this.player.currentTrack),
+                  50
+                );
+              });
+            },
           });
-        }
-        window.hls = hls;
-        // Handle changing captions
-        this.plyr.on("languagechange", () => {
-          // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
-          setTimeout(() => (hls.subtitleTrack = this.plyr.currentTrack), 50);
-        });
-      }
-    },
-    flv({ src, media }) {
-      if (flvjs.isSupported()) {
-        var flvPlayer = flvjs.createPlayer({
-          type: "flv",
-          url: src,
-        });
-        flvPlayer.attachMediaElement(media);
-        flvPlayer.load();
-        flvPlayer.on(flvjs.Events.ERROR, (event) => {
-          switch (event) {
-            case flvjs.ErrorTypes.NETWORK_ERROR:
-              flvPlayer.load();
-              break;
-            default:
-              flvPlayer.destroy();
-              break;
-          }
-        });
-        if (this.player.autoplay) {
-          flvPlayer.play();
+        } else if (this.suffix === "flv") {
+          Flv(options);
         }
       }
     },
-  },
-  activated() {
-    this.render();
+    loadSub(path, index) {
+      this.subtitle = path.substring(0, index) + ".vtt";
+    },
   },
   computed: {
-    plyr() {
+    options() {
+      var options = window.themeOptions.video;
+      return {
+        ...options,
+        autoplay: options.autoplay || false,
+        invertTime: options.invertTime || false,
+        controls: options.controls || [
+          "play-large",
+          "restart",
+          "play",
+          "progress",
+          "current-time",
+          "duration",
+          "mute",
+          "volume",
+          "captions",
+          "settings",
+          "pip",
+          "airplay",
+          "download",
+          "fullscreen",
+        ],
+        settings: options.settings || ["quality", "speed", "loop"]
+      };
+    },
+    player() {
       return this.$refs.plyr.player;
     },
     url() {
