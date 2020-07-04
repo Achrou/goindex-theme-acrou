@@ -1,9 +1,11 @@
 import Vue from "vue";
 import febAlive from "feb-alive";
 import VueRouter from "vue-router";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css";
 // 路由数据
 import routes from "./routes";
-import store from '@/store/index';
+import store from "@/store/index";
 
 // 在router实例化之前重写history
 febAlive.resetHistory();
@@ -43,15 +45,17 @@ Vue.use(febAlive, { router });
  * 权限验证
  */
 router.beforeEach(async (to, from, next) => {
+  NProgress.start();
   if (process.env.NODE_ENV === "development") {
     console.log("before:");
     console.log(to, from);
   }
-  store.dispatch("acrou/cancelToken/cancel")
+  store.dispatch("acrou/cancelToken/cancel");
   next();
 });
 
 router.afterEach((to) => {
+  NProgress.done();
   if (process.env.NODE_ENV === "development") {
     console.log("after:");
     console.log(to);
