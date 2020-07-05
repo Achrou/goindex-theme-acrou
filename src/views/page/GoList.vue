@@ -247,21 +247,7 @@ export default {
     copy(path) {
       let origin = window.location.origin;
       path = origin + encodeURI(path);
-      this.$copyText(path)
-        .then(() => {
-          this.$notify({
-            title: "notify.title",
-            message: "copy.success",
-            type: "success",
-          });
-        })
-        .catch(() => {
-          this.$notify({
-            title: "notify.title",
-            message: "copy.error",
-            type: "error"
-          });
-        });
+      this.$copyText(path);
     },
     thum(url) {
       return url ? `/${this.$route.params.id}:view?url=${url}` : "";

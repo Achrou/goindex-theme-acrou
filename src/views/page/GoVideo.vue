@@ -18,7 +18,13 @@
       <vue-plyr ref="plyr" :options="options">
         <video controls crossorigin playsinline>
           <source :src="videoUrl" type="video/mp4" />
-          <track kind="captions" :src="subtitle" default />
+          <track
+            kind="captions"
+            label="Default"
+            srclang="default"
+            :src="subtitle"
+            default
+          />
         </video>
       </vue-plyr>
     </div>
@@ -38,7 +44,12 @@
       <div class="card-content">
         <div class="content">
           <div class="field">
-            <label class="label">{{ $t("page.video.link") }}</label>
+            <label class="label">
+              {{ $t("page.video.link") }}
+              <a class="button is-text index-button-copy" @click="copy">
+                {{ $t("copy.text") }}
+              </a>
+            </label>
             <div class="control">
               <input class="input" type="text" :value="downloadUrl" />
             </div>
@@ -117,6 +128,9 @@ export default {
     loadSub(path, index) {
       this.subtitle = path.substring(0, index) + ".vtt";
     },
+    copy() {
+      this.$copyText(this.downloadUrl);
+    },
   },
   computed: {
     options() {
@@ -141,7 +155,8 @@ export default {
           "download",
           "fullscreen",
         ],
-        settings: options.settings || ["quality", "speed", "loop"]
+        settings: options.settings || ["quality", "speed", "loop"],
+        captions: { active: true, language: "default", ...options.captions },
       };
     },
     player() {
