@@ -10,6 +10,7 @@
     "i18n:report": "vue-cli-service i18n:report --src './src/**/*.?(js|vue)' --locales './src/locales/**/*.json'"
   },
   "dependencies": {
+    "aplayer": "^1.10.1",
     "axios": "^0.19.2",
     "bulma": "^0.8.2",
     "bulma-divider": "^0.2.0",

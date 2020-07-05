@@ -202,3 +202,13 @@ body {
   padding-bottom: 0;
   padding-top: 0;
 }
+
+// APlayer
+.aplayer.aplayer-fixed.aplayer-narrow {
+  .aplayer-body {
+    left: -66px !important;
+  }
+  .aplayer-body:hover {
+    left: 0px !important;
+  }
+}

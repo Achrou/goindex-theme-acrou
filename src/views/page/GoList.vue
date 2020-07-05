@@ -75,7 +75,7 @@ import {
   checkView,
   checkExtends,
 } from "@utils/AcrouUtil";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import BreadCrumb from "../common/BreadCrumb";
 import ListView from "./components/list";
 import GridView from "./components/grid";
@@ -110,6 +110,11 @@ export default {
         "video/x-flv": "icon-video",
         "application/x-mpegURL": "icon-video",
         "audio/mpegurl": "icon-video",
+        "audio/mp3": "icon-audio",
+        "audio/flac": "icon-audio",
+        "audio/x-m4a": "icon-audio",
+        "audio/wav": "icon-audio",
+        "audio/ogg": "icon-audio",
         "text/plain": "icon-txt",
         "text/markdown": "icon-markdown",
         "text/x-ssa": "icon-ass",
@@ -155,6 +160,7 @@ export default {
     this.render();
   },
   methods: {
+    ...mapActions("acrou/aplayer", ["add"]),
     infiniteHandler($state) {
       // 首次进入页面不执行滚动事件
       if (!this.page.page_token) {
@@ -271,6 +277,20 @@ export default {
           let index = this.images.findIndex((item) => item.path === file.path);
           this.$viewer.view(index);
         });
+        return;
+      }
+      if (file.mimeType.startsWith("audio/") && target === "view") {
+        if (window.aplayer) {
+          this.add({
+            audio: {
+              id: file.id,
+              name: file.name,
+              artist: "none",
+              url: file.path,
+            },
+            play: true,
+          });
+        }
         return;
       }
       let cmd = this.$route.params.cmd;

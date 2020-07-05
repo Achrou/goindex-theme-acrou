@@ -9,12 +9,14 @@
         <Footer></Footer>
       </div>
     </section>
+    <APlayer />
   </div>
 </template>
 
 <script>
 import Head from "./common/Head";
 import Footer from "./common/Footer";
+import APlayer from "./common/APlayer";
 export default {
   data: function () {
     return {};
@@ -22,6 +24,7 @@ export default {
   components: {
     Head,
     Footer: Footer,
+    APlayer
   },
   methods: {},
 };

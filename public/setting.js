@@ -32,6 +32,9 @@ var themeOptions = {
     api: "",
     autoplay: true,
   },
+  audio: {
+    autoplay: false,
+  },
 };
 window.gdconfig = JSON.parse(
   JSON.stringify({ version: authConfig.version, themeOptions: themeOptions })
