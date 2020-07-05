@@ -10,7 +10,7 @@ import router from "./router";
 import i18n from "./i18n";
 // store
 import store from "@/store/index";
-import VueClipboard from "vue-clipboard2";
+import Clipboard from "@/plugin/clipboard";
 import VueLazyload from "vue-lazyload";
 import Viewer from "v-viewer";
 import VuePlyr from "vue-plyr";
@@ -27,7 +27,7 @@ Vue.config.productionTip = false;
 Vue.prototype.$cdnpath = cdnpath;
 Vue.use(Loading);
 Vue.use(VueAxios, axios);
-Vue.use(VueClipboard);
+Vue.use(Clipboard);
 Vue.use(VueLazyload, {
   loading: cdnpath("images/airplane.gif"),
 });
