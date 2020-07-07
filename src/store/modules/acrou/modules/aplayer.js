@@ -3,6 +3,8 @@ export default {
   state: {
     player: null,
     audios: [],
+    openedAudios: [],
+    customAudios: window.themeOptions.audio.audios || [],
   },
   actions: {
     set({ state }, player) {
@@ -10,26 +12,24 @@ export default {
     },
     add({ state, dispatch }, { audio, play }) {
       return new Promise((resolve) => {
-        for (var i = 0; i < state.audios.length; i++) {
-          var s = state.audios[i];
-          if (s.id === audio.id) {
-            state.audios.splice(i, 1);
-            state.player.list.remove(i);
-            i--;
-          }
+        var index = state.openedAudios.findIndex((s) => s.id === audio.id);
+        console.log(index);
+        if (index >= 0) {
+          state.openedAudios.splice(index, 1);
+          state.player.list.remove(index + state.customAudios.length || 0);
         }
         state.player.list.add(audio);
-        state.audios.push(audio);
+        state.openedAudios.push(audio);
         if (play) {
-          var index = state.audios.length;
-          state.player.list.switch(index - 1);
+          var length = state.player.list.audios.length || 1;
+          state.player.list.switch(length - 1);
           state.player.play();
         }
         dispatch(
           "acrou/db/set",
           {
             path: "audio.list",
-            value: state.audios,
+            value: state.openedAudios,
           },
           { root: true }
         );
@@ -39,7 +39,7 @@ export default {
     load({ state, dispatch }) {
       // eslint-disable-next-line no-async-promise-executor
       return new Promise(async (resolve) => {
-        var audio = await dispatch(
+        var openedAudios = await dispatch(
           "acrou/db/get",
           {
             path: "audio.list",
@@ -47,7 +47,8 @@ export default {
           },
           { root: true }
         );
-        state.audios = audio;
+        state.openedAudios = openedAudios
+        state.audios = state.customAudios.concat(openedAudios);
         resolve();
       });
     },

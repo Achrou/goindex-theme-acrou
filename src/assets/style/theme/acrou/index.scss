@@ -212,3 +212,15 @@ body {
     left: 0px !important;
   }
 }
+
+.aplayer {
+  .aplayer-lrc {
+    p.aplayer-lrc-current {
+      font-size: 14px;
+      color: orange;
+    }
+    p {
+      font-weight: 700;
+    }
+  }
+}
