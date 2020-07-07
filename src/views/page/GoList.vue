@@ -271,7 +271,7 @@ export default {
         });
         return;
       }
-      if (file.mimeType.startsWith("image/")) {
+      if (file.mimeType.startsWith("image/") && target === "view") {
         this.viewer = true;
         this.$nextTick(() => {
           let index = this.images.findIndex((item) => item.path === file.path);
