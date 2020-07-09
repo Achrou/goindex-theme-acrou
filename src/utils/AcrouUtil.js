@@ -13,7 +13,7 @@ const text_exts = [
   "sh",
   "md",
 ];
-const video_exts = ["mp4", "webm", "mkv", "m3u8", "flv"];
+const video_exts = ["mp4", "webm", "mkv", "m3u8", "flv", "mov", "m4v"];
 const image_exts = ["bmp", "jpg", "jpeg", "png", "gif"];
 const pdf_exts = ["pdf"];
 
@@ -76,7 +76,7 @@ export const checkExtends = (path) => {
     .split(".")
     .pop()
     .toLowerCase();
-  let exts = text_exts.concat(...video_exts,...image_exts,...pdf_exts);
+  let exts = text_exts.concat(...video_exts, ...image_exts, ...pdf_exts);
   return exts.indexOf(`${ext}`) != -1;
 };
 
