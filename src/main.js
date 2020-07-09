@@ -13,7 +13,6 @@ import store from "@/store/index";
 import Clipboard from "@/plugin/clipboard";
 import VueLazyload from "vue-lazyload";
 import Viewer from "v-viewer";
-import VuePlyr from "vue-plyr";
 import cdnpath from "./libs/util.cdn";
 // 组件
 import "@/components";
@@ -32,7 +31,6 @@ Vue.use(VueLazyload, {
   loading: cdnpath("images/airplane.gif"),
 });
 Vue.use(Viewer);
-Vue.use(VuePlyr);
 
 new Vue({
   router,

@@ -51,7 +51,7 @@
               </a>
             </label>
             <div class="control">
-              <input class="input" type="text" :value="downloadUrl" />
+              <input class="input" type="text" :value="videoUrl" />
             </div>
           </div>
           <div class="columns is-mobile is-multiline has-text-centered">
@@ -78,13 +78,15 @@
 
 <script>
 import { decode64 } from "@utils/AcrouUtil";
-import { Hls, Flv } from "@/plugin/vplayer";
+import VuePlyr from "vue-plyr";
 export default {
+  comments: {
+    VuePlyr,
+  },
   data: function() {
     return {
       apiVideoUrl: "",
       videoUrl: "",
-      downloadUrl: "",
       subtitle: "",
     };
   },
@@ -97,8 +99,7 @@ export default {
       let index = path.lastIndexOf(".");
       this.suffix = path.substring(index + 1, path.length);
       this.loadSub(path, index);
-      this.videoUrl = path;
-      this.downloadUrl = window.location.origin + path;
+      this.videoUrl = window.location.origin + path;
       this.apiVideoUrl = this.options.api + this.videoUrl;
       if (!this.options.api) {
         let options = {
@@ -107,39 +108,52 @@ export default {
           media: this.player.media,
         };
         if (this.suffix === "m3u8") {
-          Hls({
-            ...options,
-            callback: (hls) => {
-              // Handle changing captions
-              this.player.on("languagechange", () => {
-                // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
-                setTimeout(
-                  () => (hls.subtitleTrack = this.player.currentTrack),
-                  50
-                );
-              });
-            },
-          });
+          this.loadHls(options);
         } else if (this.suffix === "flv") {
-          Flv(options);
+          this.loadFlv(options);
         }
       }
     },
     loadSub(path, index) {
       this.subtitle = path.substring(0, index) + ".vtt";
     },
+    loadHls(options) {
+      import("@/plugin/vplayer/hls").then((res) => {
+        var Hls = res.default;
+        Hls({
+          ...options,
+          callback: (hls) => {
+            // Handle changing captions
+            this.player.on("languagechange", () => {
+              // Caption support is still flaky. See: https://github.com/sampotts/plyr/issues/994
+              setTimeout(
+                () => (hls.subtitleTrack = this.player.currentTrack),
+                50
+              );
+            });
+          },
+        });
+      });
+    },
+    loadFlv(options) {
+      import("@/plugin/vplayer/flv").then((res) => {
+        var Flv = res.default;
+        Flv(options);
+      });
+    },
     copy() {
-      this.$copyText(this.downloadUrl);
+      this.$copyText(this.videoUrl);
     },
   },
   computed: {
     options() {
       var options = window.themeOptions.video;
       return {
-        ...options,
-        autoplay: options.autoplay || false,
-        invertTime: options.invertTime || false,
-        controls: options.controls || [
+        autoplay: false,
+        invertTime: false,
+        settings: ["quality", "speed", "loop"],
+        ratio: "16:9",
+        controls: [
           "play-large",
           "restart",
           "play",
@@ -155,7 +169,7 @@ export default {
           "download",
           "fullscreen",
         ],
-        settings: options.settings || ["quality", "speed", "loop"],
+        ...options,
         captions: { active: true, language: "default", ...options.captions },
       };
     },
