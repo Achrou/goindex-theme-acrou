@@ -279,7 +279,11 @@ export default {
         });
         return;
       }
-      if (file.mimeType.startsWith("audio/") && target === "view") {
+      if (
+        file.mimeType.startsWith("audio/") &&
+        file.mimeType !== "audio/mpegurl" &&
+        target === "view"
+      ) {
         if (window.aplayer) {
           this.add({
             audio: {
