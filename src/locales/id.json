@@ -4,7 +4,7 @@
   "index": "Beranda",
   "folder": "Folder",
   "notify": {
-    "title": "Beritahukan"
+    "title": "Notifikasi"
   },
   "copy": {
     "success": "Berhasil disalin",
