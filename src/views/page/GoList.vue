@@ -261,7 +261,7 @@ export default {
     inited(viewer) {
       this.$viewer = viewer;
     },
-    action(file, target) {
+    action(file, target, isSearch = true) {
       // If it is a shortcut, the prompt cannot be downloaded
       if (file.mimeType === "application/vnd.google-apps.shortcut") {
         this.$notify({
@@ -271,6 +271,13 @@ export default {
         });
         return;
       }
+
+      let cmd = this.$route.params.cmd;
+      if (cmd && cmd === "search" && isSearch) {
+        this.goSearchResult(file, target);
+        return;
+      }
+
       if (file.mimeType.startsWith("image/") && target === "view") {
         this.viewer = true;
         this.$nextTick(() => {
@@ -281,7 +288,7 @@ export default {
       }
       if (
         file.mimeType.startsWith("audio/") &&
-        file.mimeType !== "audio/mpegurl" &&
+        file.mimeType.indexOf("mpegurl")==-1 &&
         target === "view"
       ) {
         if (window.aplayer) {
@@ -295,11 +302,6 @@ export default {
             play: true,
           });
         }
-        return;
-      }
-      let cmd = this.$route.params.cmd;
-      if (cmd && cmd === "search") {
-        this.goSearchResult(file, target);
         return;
       }
       this.target(file, target);
@@ -365,7 +367,7 @@ export default {
           let data = res.data;
           if (data) {
             file.path = `/${id}:${data}`;
-            this.target(file, target);
+            this.action(file, target, false);
           }
         })
         .catch((e) => {
