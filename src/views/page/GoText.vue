@@ -70,7 +70,10 @@ export default {
   methods: {
     render() {
       let path = this.url;
-      this.content = this.$t("page.text.loading");
+      this.content =  `<center>
+        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+        <span class="sr-only">Loading...</span>
+      </center>`;
       get_file({ path: path, file: {} }, (data) => {
         this.content = data;
       });
