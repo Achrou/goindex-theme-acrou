@@ -13,7 +13,6 @@ export default {
     add({ state, dispatch }, { audio, play }) {
       return new Promise((resolve) => {
         var index = state.openedAudios.findIndex((s) => s.id === audio.id);
-        console.log(index);
         if (index >= 0) {
           state.openedAudios.splice(index, 1);
           state.player.list.remove(index + state.customAudios.length || 0);

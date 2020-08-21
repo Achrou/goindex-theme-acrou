@@ -18,7 +18,7 @@ export default {
     });
   },
   computed: {
-    ...mapState("acrou/aplayer", ["player", "audios"]),
+    ...mapState("acrou/aplayer", ["player", "audios", "openedAudios"]),
     container() {
       return document.getElementById("aplayer");
     },
@@ -36,7 +36,7 @@ export default {
       };
     },
     show() {
-      return this.audios && this.audios.length > 0;
+      return (this.audios && this.audios.length > 0) || (this.openedAudios && this.openedAudios.length > 0);
     },
   },
   methods: {
