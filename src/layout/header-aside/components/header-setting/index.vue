@@ -15,20 +15,23 @@
 </template>
 
 <script>
-import util from '@/libs/util'
+import { mapActions } from "vuex";
+import util from "@/libs/util";
 export default {
-  data () {
+  data() {
     return {};
   },
   methods: {
-    cleanCache () {
+    ...mapActions("acrou/db", ["databaseClear"]),
+    cleanCache() {
       new Promise((resolve) => {
         Object.keys(localStorage).forEach((item) => {
           if (item.indexOf("file_path_") !== -1) {
             localStorage.removeItem(item);
           }
         });
-        util.cookies.remove("lang")
+        util.cookies.remove("lang");
+        this.databaseClear();
         resolve();
       }).then(() => {
         this.$notify({

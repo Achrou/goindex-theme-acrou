@@ -6,16 +6,8 @@
       v-model="content"
       :options="options"
     />
-    <markdown
-      v-if="ismd"
-      v-show="!isEdit"
-      :source="content"
-    />
-    <a
-      v-if="ismd"
-      class="g2-content-edit is-hidden-mobile"
-      @click="edit"
-    >
+    <markdown v-if="ismd" v-show="!isEdit" :source="content" />
+    <a v-if="ismd" class="g2-content-edit is-hidden-mobile" @click="edit">
       <i
         :class="'fa' + (isEdit ? ' fa-eye' : ' fa-pencil-square-o')"
         aria-hidden="true"
@@ -25,6 +17,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 import { get_file, decode64 } from "@utils/AcrouUtil";
 import { codemirror } from "vue-codemirror";
 
@@ -50,6 +43,12 @@ export default {
       loaded: false,
     };
   },
+  beforeRouteEnter(to, from, next) {
+    if (from.path === "/") {
+      to.params.reload = true;
+    }
+    next();
+  },
   activated() {
     this.render();
   },
@@ -68,13 +67,23 @@ export default {
     codemirror,
   },
   methods: {
-    render() {
+    ...mapActions("acrou/db", ["get"]),
+    async render() {
       let path = this.url;
-      this.content =  `<center>
+      this.content = `<center>
         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
         <span class="sr-only">Loading...</span>
       </center>`;
-      get_file({ path: path, file: {} }, (data) => {
+
+      let file;
+      let reload = this.$route.params.reload;
+      if (!reload) {
+        file = await this.get({
+          path: `page.${this.$route.fullPath}`,
+        });
+      }
+
+      get_file({ path: path, file }, (data) => {
         this.content = data;
       });
     },

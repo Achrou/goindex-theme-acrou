@@ -88,11 +88,10 @@ export const decode64 = (str) => {
   return Base64.decode(str);
 };
 
-export function get_file(option, callback) {
-  var path = option.path;
-  var modifiedTime = option.file.modifiedTime;
+export function get_file({ path, file }, callback) {
+  var modifiedTime = file ? file.modifiedTime : null;
   var key = "file_path_" + path + modifiedTime;
-  var data = localStorage.getItem(key);
+  var data = modifiedTime ? localStorage.getItem(key) : null;
   if (data) {
     return callback(data);
   } else {

@@ -161,6 +161,7 @@ export default {
   },
   methods: {
     ...mapActions("acrou/aplayer", ["add"]),
+    ...mapActions("acrou/db", ["set"]),
     infiniteHandler($state) {
       // 首次进入页面不执行滚动事件
       if (!this.page.page_token) {
@@ -288,7 +289,7 @@ export default {
       }
       if (
         file.mimeType.startsWith("audio/") &&
-        file.mimeType.indexOf("mpegurl")==-1 &&
+        file.mimeType.indexOf("mpegurl") == -1 &&
         target === "view"
       ) {
         if (window.aplayer) {
@@ -321,8 +322,13 @@ export default {
         return;
       }
       if (target === "view") {
+        let checkViewPath = checkView(path);
+        this.set({
+          path: `page.${checkViewPath}`,
+          value: file,
+        });
         this.$router.push({
-          path: checkView(path),
+          path: checkViewPath,
         });
         return;
       }
