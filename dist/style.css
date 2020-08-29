@@ -1,11 +1,4 @@
-@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css);
 @import url(https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css);
 @import url(https://cdn.jsdelivr.net/npm/font-awesome-animation@0.2.1/dist/font-awesome-animation.min.css);
-@import url(css/chunk-vendors.e81dccfb.css);
-@import url(css/chunk-91c3565e.9b848216.css);
-@import url(css/chunk-50779d2e.ce88a193.css);
-@import url(css/chunk-498d4d6d.30be7901.css);
-@import url(css/chunk-48822c69.ee3330ec.css);
-@import url(css/chunk-2a286362.75822c75.css);
-@import url(css/chunk-0547c3c8.63d5b552.css);
-@import url(css/app.0b3f4d4c.css);
+@import url(css/chunk-vendors.9b14a1cb.css);
+@import url(css/app.a0b47f7b.css);
