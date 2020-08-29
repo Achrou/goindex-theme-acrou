@@ -1,7 +1,7 @@
 // =======Options START=======
 var authConfig = {
   siteName: "GoIndex-theme-acrou", // 网站名称
-  version: "1.1.1", // 程序版本
+  version: "1.1.2", // 程序版本
   theme: "acrou",
   // 强烈推荐使用自己的 client_id 和 client_secret
   client_id: "202264815644.apps.googleusercontent.com",
@@ -67,7 +67,7 @@ var authConfig = {
 var themeOptions = {
   cdn: "https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou",
   // 主题版本号
-  version: "2.0.5",
+  version: "2.0.8",
   //可选默认系统语言:en/zh-chs/zh-cht
   languages: "en",
   render: {
@@ -88,16 +88,22 @@ var themeOptions = {
     desc: false,
   },
   /**
-   * 播放器选项
-   * Player options
+   * 视频播放器选项
+   * Video player options
    */
-  player: {
+  video: {
     /**
-     * 播放器api（不指定则使用浏览器默认播放器）
-     * Player api(Use browser default player if not specified)
+     * 播放器api（不指定则使用默认播放器）
+     * Player api(Use default player if not specified)
      */
-    api: "https://api.jsonpop.cn/demo/blplyaer/?url=",
+    api: "",
+    autoplay: true,
   },
+  /**
+   * 音频播放器选项
+   * Audio player options
+   */
+  audio: {},
 };
 // =======Options END=======
 
@@ -108,7 +114,7 @@ const FUNCS = {
   /**
    * 转换成针对谷歌搜索词法相对安全的搜索关键词
    */
-  formatSearchKeyword: function (keyword) {
+  formatSearchKeyword: function(keyword) {
     let nothing = "";
     let space = " ";
     if (!keyword) return nothing;
@@ -307,7 +313,12 @@ async function handleRequest(request) {
       })
     );
   } else {
-    if (path.split("/").pop().toLowerCase() == ".password") {
+    if (
+      path
+        .split("/")
+        .pop()
+        .toLowerCase() == ".password"
+    ) {
       return basic_auth_res || new Response("", { status: 404 });
     }
     let file = await gd.file(path);
@@ -928,9 +939,9 @@ class googleDrive {
   }
 
   sleep(ms) {
-    return new Promise(function (resolve, reject) {
+    return new Promise(function(resolve, reject) {
       let i = 0;
-      setTimeout(function () {
+      setTimeout(function() {
         console.log("sleep" + ms);
         i++;
         if (i >= 2) reject(new Error("i>=2"));
@@ -940,7 +951,7 @@ class googleDrive {
   }
 }
 
-String.prototype.trim = function (char) {
+String.prototype.trim = function(char) {
   if (char) {
     return this.replace(
       new RegExp("^\\" + char + "+|\\" + char + "+$", "g"),

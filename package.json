@@ -1,7 +1,7 @@
 {
   "name": "go2index-theme-acrou",
-  "version": "2.0.5",
-  "g2index": "1.1.1",
+  "version": "2.0.8",
+  "g2index": "1.1.2",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
