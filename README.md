@@ -3,7 +3,7 @@
 # GoIndex-theme-acrou 
 Combining the power of [Cloudflare Workers](https://workers.cloudflare.com/) and [Google Drive](https://www.google.com/drive/) will allow you to index you files on the browser on Cloudflare Workers.    
 
-[goindex/index.js](https://github.com/Aicirou/goindex-theme-acrou/go2index) is the content of the Workers script.  
+[go2index/index.js](https://github.com/Aicirou/goindex-theme-acrou/go2index) is the content of the Workers script.  
 
 This theme's goindex is currently based on [yanzai/goindex](https://github.com/yanzai/goindex/)
 
@@ -22,7 +22,7 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 - [x] 🎯 Paging load
 - [x] 🌐 I18n(multi-language)
 - [x] 🛠 Markdown/Html render (Maybe it can be your blog)
-- [x] 🖥 Video Online(mp4,mkv,webm,flv,m3u8,mov,m4v)
+- [x] 🖥 Video Online(.vtt subtitle)
 - [x] 🕹 Support for custom video player (API)
 - [x] 🎧 Audio Online
 - [x] 🚀 Faster speed
@@ -34,8 +34,14 @@ Acrou: [https://oss.achirou.workers.dev/](https://oss.achirou.workers.dev/)
 
 ## Quick Deployment
 
-1. Open https://install.achirou.workers.dev or https://goindex-quick-install.glitch.me  
+1. Open any of the following links
+
+   - https://install.achirou.workers.dev
+   - https://goindex-quick-install.glitch.me
+   - https://goindex-install.herokuapp.com
+
 2. Auth and get the code  
+
 3. Deploy the code to [Cloudflare Workers](https://www.cloudflare.com/)
 
 ## Deployment  
@@ -116,6 +122,8 @@ audio: {
 - Fix image file actions does not work [#100](https://github.com/Aicirou/goindex-theme-acrou/issues/100)
 - Fix misjudged file to image format [#88](https://github.com/Aicirou/goindex-theme-acrou/issues/88)
 - Fix more than 10 drive not working [#59](https://github.com/Aicirou/goindex-theme-acrou/issues/59) [#85](https://github.com/Aicirou/goindex-theme-acrou/issues/85)
+- Fix some of the operation functions in the search list cannot be used
+- Fix text cache content not refreshing
 - Add video default player([plyr](https://github.com/sampotts/plyr)) [#22](https://github.com/Aicirou/goindex-theme-acrou/issues/22) [#38](https://github.com/Aicirou/goindex-theme-acrou/issues/38)
 - Add audio player ([APlayer](https://github.com/MoePlayer/APlayer)) [#77](https://github.com/Aicirou/goindex-theme-acrou/issues/77)
 - Add copy button to video page
@@ -159,10 +167,6 @@ audio: {
 - Add version detection
 - Optimize search results
 - Optimize page display
-
-## About
-
-At the beginning of this project, it was just to satisfy my personal perception and experience development. When this project reaped the first start, the first fork and the first issues, and then everyone began to make suggestions, I had the power to update. Thank you very much for your support. Now we have version 2.0.
 
 ## Lisense
 
