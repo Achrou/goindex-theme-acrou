@@ -1,0 +1,56 @@
+{
+  "_name": "Indonesia",
+  "languages": "Bahasa",
+  "index": "Beranda",
+  "folder": "Folder",
+  "notify": {
+    "title": "Notifikasi"
+  },
+  "copy": {
+    "success": "Berhasil disalin",
+    "error": "Gagal disalin"
+  },
+  "list": {
+    "view": {
+      "gridMode": "Tampilan kisi",
+      "listMode": "Tampilan daftar"
+    },
+    "auth": "Enkripsi direktori, silakan masukkan kata sandi",
+    "title": {
+      "file": "Berkas",
+      "moditime": "Waktu Modifikasi",
+      "size": "Ukuran",
+      "operation": "Aksi"
+    },
+    "loading": "Sedang memuat...",
+    "opt": {
+      "copy": "Salin tautan",
+      "newTab": "Buka di tab baru",
+      "download": "Unduh"
+    },
+    "total": "Total",
+    "item": "item"
+  },
+  "search": {
+    "placeholder": "Cari..."
+  },
+  "page": {
+    "video": {
+        "play": "Putar",
+        "download": "Unduh",
+        "link": "Tautan unduhan"
+    },
+    "text": {
+      "loading": "Sedang memuat..."
+    }
+  },
+  "setting": {
+    "clear": {
+      "text": "Bersihkan tembolok",
+      "success": "Tembolok berhasil dibersihkan"
+    }
+  },
+  "checkVersion": {
+    "tips": "Versi baru terdeteksi, <a href='${url}'>Pergi ke GitHub</a>"
+  }
+}
