@@ -505,6 +505,10 @@ class googleDrive {
     let requestOption = await this.requestOption();
     requestOption.headers["Range"] = range;
     let res = await fetch(url, requestOption);
+    if (res.status === 403) {
+      url += '&acknowledgeAbuse=true';
+      res = await this.fetch200(url, requestOption);
+    }
     const { headers } = (res = new Response(res.body, res));
     this.authConfig.enable_cors_file_down &&
       headers.append("Access-Control-Allow-Origin", "*");
