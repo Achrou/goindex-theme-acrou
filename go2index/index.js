@@ -62,6 +62,15 @@ var authConfig = {
    * 【注意】如果开启了 .password 文件密码验证，每次列目录都会额外增加查询目录内 .password 文件是否存在的开销。
    */
   enable_password_file_verify: false,
+
+  /**
+   * Enable or disable service account usage with go2index. If set to true, `service_account_json` will need to have all the appropriate values
+   */
+  service_account: false,
+  /**
+   * This will hold the contents of the JSON file downloaded from Google Cloud Platform console
+   */
+  service_account_json: {},
 };
 
 var themeOptions = {
@@ -139,6 +148,68 @@ const CONSTS = new (class {
   };
   folder_mime_type = "application/vnd.google-apps.folder";
 })();
+
+/**
+ * Functions that are required to generate the JWT token required for service account authentication
+ */
+const JWT = {
+  header: {
+    alg: 'RS256',
+    typ: 'JWT'
+  },
+  importKey: async function(pemKey) {
+    var pemDER = this.textUtils.base64ToArrayBuffer(pemKey.split('\n').map(s => s.trim()).filter(l => l.length && !l.startsWith('---')).join(''));
+    return crypto.subtle.importKey('pkcs8', pemDER, { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' }, false, ['sign']);
+  },
+  createSignature: async function(text, key) {
+    const textBuffer = this.textUtils.stringToArrayBuffer(text);
+    return crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, textBuffer)
+  },
+  generateGCPToken: async function(serviceAccount) {
+    const iat = parseInt(Date.now()/1000);
+    var payload = {
+      "iss": serviceAccount.client_email,
+      "scope": "https://www.googleapis.com/auth/drive",
+      "aud": "https://oauth2.googleapis.com/token",
+      "exp": iat+3600,
+      "iat": iat
+    };
+    const encPayload = btoa(JSON.stringify(payload));
+    const encHeader = btoa(JSON.stringify(this.header));
+
+    var key = await this.importKey(serviceAccount.private_key);
+    var signed = await this.createSignature(encHeader+"."+encPayload, key);
+    return encHeader+"."+encPayload+"."+this.textUtils.arrayBufferToBase64(signed).replace(/\//g, '_').replace(/\+/g, '-');
+  },
+  textUtils: {
+    base64ToArrayBuffer: function(base64) {
+      var binary_string = atob(base64);
+      var len = binary_string.length;
+      var bytes = new Uint8Array(len);
+      for (var i = 0; i < len; i++) {
+        bytes[i] = binary_string.charCodeAt(i);
+      }
+      return bytes.buffer;
+    },
+    stringToArrayBuffer: function(str){
+      var len = str.length;
+      var bytes = new Uint8Array(len);
+      for (var i = 0; i < len; i++) {
+        bytes[i] = str.charCodeAt(i);
+      }
+      return bytes.buffer;
+    },
+    arrayBufferToBase64: function(buffer) {
+      let binary = '';
+      let bytes = new Uint8Array(buffer);
+      let len = bytes.byteLength;
+      for (let i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      return btoa(binary);
+    }
+  }
+};
 
 // gd instances
 var gds = [];
@@ -894,13 +965,24 @@ class googleDrive {
     const headers = {
       "Content-Type": "application/x-www-form-urlencoded",
     };
-    const post_data = {
-      client_id: this.authConfig.client_id,
-      client_secret: this.authConfig.client_secret,
-      refresh_token: this.authConfig.refresh_token,
-      grant_type: "refresh_token",
-    };
 
+    var post_data;
+    if(this.authConfig.service_account && typeof this.authConfig.service_account_json != "undefined")
+    {
+      const jwttoken = await JWT.generateGCPToken(this.authConfig.service_account_json);
+      post_data = {
+        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
+        assertion: jwttoken,
+      };
+    } else {
+      post_data = {
+        client_id: this.authConfig.client_id,
+        client_secret: this.authConfig.client_secret,
+        refresh_token: this.authConfig.refresh_token,
+        grant_type: "refresh_token",
+      };
+    }
+    
     let requestOption = {
       method: "POST",
       headers: headers,
