@@ -1,0 +1,61 @@
+{
+  "_name": "Portugês Brasil",
+  "languages": "Linguas",
+  "index": "Inicio",
+  "folder": "Pasta",
+  "notify": {
+    "title": "Notificar"
+  },
+  "copy": {
+    "text": "Copiar",
+    "success": "Copiado com sucesso",
+    "error": "Falha ao copiar"
+  },
+  "list": {
+    "view": {
+      "gridMode": "Vizualizar em Grade",
+      "listMode": "Vizualizar em Lista"
+    },
+    "auth": "Criptografia de diretório, digite a senha",
+    "title": {
+      "file": "Arquivo",
+      "moditime": "Modificado Em",
+      "size": "Tamanho",
+      "operation": "Ações"
+    },
+    "loading": "Carregando...",
+    "opt": {
+      "copy": "Copiar link",
+      "newTab": "Abrir nova aba",
+      "download": "Download"
+    },
+    "total": "Total",
+    "item": "item"
+  },
+  "search": {
+    "placeholder": "Procurar arquivos..."
+  },
+  "page": {
+    "video": {
+      "play": "Play",
+      "download": "Baixar",
+      "link": "Link para baixar"
+    },
+    "text": {
+      "loading": "Carregando..."
+    }
+  },
+  "setting": {
+    "clear": {
+      "text": "Limpar cache",
+      "success": "Cache limpo com sucesso"
+    }
+  },
+  "checkVersion": {
+    "tips": "Nova versão encontrada, <a href='${url}'>Vá para GitHub</a>"
+  },
+  "error": {
+    "shortcut_not_down": "Atalho não pôde ser aberto/baixado",
+    "401": "Não autorizado, por favor faça login"
+  }
+}
