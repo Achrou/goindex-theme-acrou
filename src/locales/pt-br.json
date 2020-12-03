@@ -1,10 +1,10 @@
 {
-  "_name": "Portugês Brasil",
-  "languages": "Linguas",
-  "index": "Inicio",
+  "_name": "Português Brasil",
+  "languages": "Línguas",
+  "index": "Início",
   "folder": "Pasta",
   "notify": {
-    "title": "Notificar"
+    "title": "Notificação"
   },
   "copy": {
     "text": "Copiar",
@@ -13,10 +13,10 @@
   },
   "list": {
     "view": {
-      "gridMode": "Vizualizar em Grade",
-      "listMode": "Vizualizar em Lista"
+      "gridMode": "Visualizar em Grade",
+      "listMode": "Visualizar em Lista"
     },
-    "auth": "Criptografia de diretório, digite a senha",
+    "auth": "Diretório criptografado, digite a senha",
     "title": {
       "file": "Arquivo",
       "moditime": "Modificado Em",
@@ -37,7 +37,7 @@
   },
   "page": {
     "video": {
-      "play": "Play",
+      "play": "Reproduzir",
       "download": "Baixar",
       "link": "Link para baixar"
     },
@@ -52,7 +52,7 @@
     }
   },
   "checkVersion": {
-    "tips": "Nova versão encontrada, <a href='${url}'>Vá para GitHub</a>"
+    "tips": "Nova versão encontrada, <a href='${url}'> Vá para GitHub</a>"
   },
   "error": {
     "shortcut_not_down": "Atalho não pôde ser aberto/baixado",
