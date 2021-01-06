@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "aplayer": "^1.10.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bulma": "^0.8.2",
     "bulma-divider": "^0.2.0",
     "clipboard": "^2.0.6",
