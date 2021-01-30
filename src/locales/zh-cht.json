@@ -1,61 +1,61 @@
 {
-  "_name": "繁体中文",
-  "languages": "選擇語言",
-  "index": "首頁",
-  "folder": "文件夾",
-  "notify": {
-    "title": "提示"
-  },
-  "copy": {
-    "text": "復制",
-    "success": "復制成功",
-    "error": "復制失敗"
-  },
-  "list": {
-    "view": {
-      "gridMode": "網格視圖",
-      "listMode": "列表視圖"
-    },
-    "auth": "目錄加密，請輸入密碼",
-    "title": {
-      "file": "文件",
-      "moditime": "修改時間",
-      "size": "大小",
-      "operation": "操作"
-    },
-    "loading": "加載中...",
-    "opt": {
-      "copy": "復制鏈接",
-      "newTab": "打開新的標簽頁",
-      "download": "下載"
-    },
-    "total": "共",
-    "item": "項"
-  },
-  "search": {
-    "placeholder": "搜索..."
-  },
-  "page": {
-    "video": {
-      "play": "播放",
-      "download": "下載",
-      "link": "下載地址"
-    },
-    "text": {
-      "loading": "加載中..."
-    }
-  },
-  "setting": {
-    "clear": {
-      "text": "清理緩存",
-      "success": "緩存清理成功"
-    }
-  },
-  "checkVersion": {
-    "tips": "檢測到有新版本，<a href='${url}'>前往GitHub</a>"
-  },
-  "error": {
-    "shortcut_not_down": "快捷方式無法打開/下載",
-    "401": "未授權，請登錄"
-  }
+	"_name": "繁體中文",
+	"languages": "選擇語言",
+	"index": "首頁",
+	"folder": "資料夾",
+	"notify": {
+		"title": "提示"
+	},
+	"copy": {
+		"text": "複製",
+		"success": "複製成功",
+		"error": "複製失敗"
+	},
+	"list": {
+		"view": {
+			"gridMode": "網格視圖",
+			"listMode": "列表視圖"
+		},
+		"auth": "目錄加密，請輸入密碼",
+		"title": {
+			"file": "文件",
+			"moditime": "修改時間",
+			"size": "大小",
+			"operation": "操作"
+		},
+		"loading": "載入中...",
+		"opt": {
+			"copy": "複製連結",
+			"newTab": "開啟至新分頁",
+			"download": "下載"
+		},
+		"total": "共",
+		"item": "項"
+	},
+	"search": {
+		"placeholder": "搜尋..."
+	},
+	"page": {
+		"video": {
+			"play": "播放",
+			"download": "下載",
+			"link": "下載網址"
+		},
+		"text": {
+			"loading": "載入中..."
+		}
+	},
+	"setting": {
+		"clear": {
+			"text": "清理快取",
+			"success": "快取清理成功"
+		}
+	},
+	"checkVersion": {
+		"tips": "檢測到新版本，<a href='${url}'>前往GitHub</a>"
+	},
+	"error": {
+		"shortcut_not_down": "捷徑無法打開/下載",
+		"401": "未授權，請登錄"
+	}
 }
