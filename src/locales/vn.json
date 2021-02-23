@@ -1,0 +1,61 @@
+{
+  "_name": "Vietnamese",
+  "languages": "Ngôn ngữ",
+  "index": "Trang chủ",
+  "folder": "Thư mục",
+  "notify": {
+    "title": "Thông báo"
+  },
+  "copy": {
+    "text": "Sao chép",
+    "success": "Sao chép thành công",
+    "error": "Sao chép thất bại"
+  },
+  "list": {
+    "view": {
+      "gridMode": "Hiện thị theo ô",
+      "listMode": "Hiển thị theo danh sách"
+    },
+    "auth": "Thư mục được mã hóa, vui lòng nhập mật khẩu",
+    "title": {
+      "file": "Tập tin",
+      "moditime": "Thời gian sửa đổi",
+      "size": "Kích thước",
+      "operation": "Hành động"
+    },
+    "loading": "Đang tải...",
+    "opt": {
+      "copy": "Sao chép liên kết",
+      "newTab": "Mở một tab mới",
+      "download": "Tải về"
+    },
+    "total": "Toàn bộ",
+    "item": "mục"
+  },
+  "search": {
+    "placeholder": "Tìm kiếm tài nguyên..."
+  },
+  "page": {
+    "video": {
+      "play": "Play",
+      "download": "Tải về",
+      "link": "Liên kết tải xuống"
+    },
+    "text": {
+      "loading": "Đang tải..."
+    }
+  },
+  "setting": {
+    "clear": {
+      "text": "Dọn dẹp cache",
+      "success": "Dọn dẹp cache thành công"
+    }
+  },
+  "checkVersion": {
+    "tips": "Đã phát hiện phiên bản mới, <a href='${url}'>Đi tới GitHub</a>"
+  },
+  "error": {
+    "shortcut_not_down": "Phím tắt không thể mở/tải xuống",
+    "401": "Không được phép, vui lòng đăng nhập"
+  }
+}
