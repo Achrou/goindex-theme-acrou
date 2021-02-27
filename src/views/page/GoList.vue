@@ -218,29 +218,25 @@ export default {
         });
     },
     buildFiles(files) {
-      var path = this.$route.path;
-      return !files
-        ? []
-        : files
-            .map((item) => {
-              var p = path + checkoutPath(item.name, item);
-              let isFolder =
-                item.mimeType === "application/vnd.google-apps.folder";
-              let size = isFolder ? "-" : formatFileSize(item.size);
-              return {
-                path: p,
-                ...item,
-                modifiedTime: formatDate(item.modifiedTime),
-                size: size,
-                isFolder: isFolder,
-              };
-            })
-            .sort((a, b) => {
-              if (a.isFolder && b.isFolder) {
-                return 0;
-              }
-              return a.isFolder ? -1 : 1;
-            });
+        const path = this.$route.path;
+        if (!files) {
+          return;
+        }
+        const convertedFiles = files.map((item) => {
+          const p = path + checkoutPath(item.name, item);
+          const isFolder = item.mimeType === "application/vnd.google-apps.folder";
+          const size = isFolder ? "-" : formatFileSize(item.size);
+          return {
+            path: p,
+            ...item,
+            modifiedTime: formatDate(item.modifiedTime),
+            size: size,
+            isFolder: isFolder,
+          };
+        });
+        const folders = convertedFiles.filter((file) => file.isFolder);
+        const generalFiles = convertedFiles.filter((file) => !file.isFolder);
+        return [...folders, ...generalFiles];
     },
     checkPassword(path) {
       var pass = prompt(this.$t("list.auth"), "");
