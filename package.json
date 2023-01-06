@@ -45,7 +45,7 @@
     "@vue/cli-plugin-babel": "~4.3.0",
     "@vue/cli-plugin-eslint": "~4.3.0",
     "@vue/cli-plugin-vuex": "^4.3.1",
-    "@vue/cli-service": "~4.3.0",
+    "@vue/cli-service": "~5.0.8",
     "babel-eslint": "^10.1.0",
     "babel-plugin-component": "^1.1.1",
     "compression-webpack-plugin": "^4.0.0",
