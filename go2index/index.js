@@ -35,7 +35,7 @@ var authConfig = {
     },
     {
       id: "",
-      name: "folder1",
+      name: "Kosong",
       pass: "",
     },
   ],
@@ -65,7 +65,7 @@ var authConfig = {
 };
 
 var themeOptions = {
-  cdn: "https://cdn.jsdelivr.net/gh/Aicirou/goindex-theme-acrou",
+  cdn: "https://cdn.jsdelivr.net/gh/erlkim/goindex-theme",
   // 主题版本号
   version: "2.0.8",
   //可选默认系统语言:en/zh-chs/zh-cht
@@ -171,7 +171,7 @@ function html(current_drive_order = 0, model = {}) {
     <div id="app"></div>
     <script src="${themeOptions.cdn}@${
     themeOptions.version
-  }/dist/app.min.js"></script>
+  }/dist/app.js"></script>
 </body>
 </html>
 `;
