@@ -171,7 +171,7 @@ function html(current_drive_order = 0, model = {}) {
     <div id="app"></div>
     <script src="${themeOptions.cdn}@${
     themeOptions.version
-  }/dist/app.min.js"></script>
+  }/dist/app.js"></script>
 </body>
 </html>
 `;
